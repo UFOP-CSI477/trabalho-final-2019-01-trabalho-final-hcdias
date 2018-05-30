@@ -99,7 +99,12 @@ class PesquisaController extends Controller
      */
     public function edit($id)
     {
-        //
+		$pesquisa = Pesquisa::find($id);
+		$result = $pesquisa->professores()->get();
+        return view('templates.pesquisa.edit')->with([
+            'professores' => $result,
+            'pesquisa'    => $pesquisa
+            ]);
     }
 
     /**
