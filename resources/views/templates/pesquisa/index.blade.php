@@ -37,7 +37,7 @@
 											<span class="label label-success">Publicado</span>
 										</td>
 										<td class='text-center'>
-											<a href="/edit/{{ $pesquisa->id }}" title='Editar'>
+											<a href="/editar-pesquisa/{{ $pesquisa->id }}" title='Editar'>
 			                  					<i class="fa fa-edit"></i>
 			                  				</a>
 			                  				
