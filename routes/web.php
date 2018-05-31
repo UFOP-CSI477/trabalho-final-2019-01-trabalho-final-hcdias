@@ -21,4 +21,5 @@ Route::get('/visualizar-pesquisa', 'PesquisaController@index')->name('view');
 Route::get('/criar-pesquisa', 'PesquisaController@create')->name('create');
 Route::get('/detalhar-pesquisa', 'PesquisaController@show')->name('show');
 Route::post('/salvar-pesquisa', 'PesquisaController@store')->name('salvar_pesquisa');
+Route::get('/editar-pesquisa/{id}', 'PesquisaController@edit')->name('editar_pesquisa');
 
