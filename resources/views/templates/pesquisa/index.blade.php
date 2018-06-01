@@ -42,7 +42,7 @@
 			                  				</a>
 			                  				
 			                  				&nbsp;&nbsp;
-			                  				<a href="/view/{{ $pesquisa->id }}" title='Visualizar'>
+			                  				<a href="/detalhar-pesquisa/{{ $pesquisa->id }}" title='Visualizar'>
 			                  					<i class="fa fa-eye"></i>
 			                  				</a>
 
