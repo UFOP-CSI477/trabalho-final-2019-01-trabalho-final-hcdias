@@ -17,9 +17,15 @@ Auth::routes();
 Route::get('/', 'HomeController@index')->name('index');
 Route::get('/home', 'HomeController@index')->name('home');
 
-Route::get('/visualizar-pesquisa', 'PesquisaController@index')->name('view');
+Route::get('/visualizar-pesquisa', [
+	'as'=>'visualizar_pesquisas',
+	'uses'=>'PesquisaController@index',
+	'roles'=>'admin',
+	'middleware'=>'roles'
+	]);
+
 Route::get('/criar-pesquisa', 'PesquisaController@create')->name('create');
-Route::get('/detalhar-pesquisa', 'PesquisaController@show')->name('show');
+Route::get('/detalhar-pesquisa/{id}', 'PesquisaController@show')->name('detalhar_pesquisa');
 Route::post('/salvar-pesquisa', 'PesquisaController@store')->name('salvar_pesquisa');
 Route::get('/editar-pesquisa/{id}', 'PesquisaController@edit')->name('editar_pesquisa');
 
