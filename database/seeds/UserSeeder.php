@@ -15,7 +15,23 @@ class UserSeeder extends Seeder
     {
         // factory(PesquisaProjeto\User::class)->create();
         $role_admin = Role::where('name','admin')->first();
-        $role_user = Role::where('name','user')->first();
+        $role_user = Role::where('name','professor')->first();
+        $role_aluno = Role::where('name','aluno')->first();
+
+        $user = new User();
+        $user->name = "professor";
+        $user->email = "professor@ufop.com";
+        $user->password = password_hash('ufop',PASSWORD_DEFAULT);
+        $user->save();
+        $user->roles()->attach($role_user);
+
+
+        $user = new User();
+        $user->name = "aluno";
+        $user->email = "aluno@ufop.com";
+        $user->password = password_hash('ufop',PASSWORD_DEFAULT);
+        $user->save();
+        $user->roles()->attach($role_aluno);
 
         $admin = new User();
         $admin->name = "admin";
@@ -23,12 +39,7 @@ class UserSeeder extends Seeder
         $admin->password = password_hash('admin',PASSWORD_DEFAULT);
         $admin->save();
         $admin->roles()->attach($role_admin);
-
-        $user = new User();
-        $user->name = "ufop";
-        $user->email = "ufop@ufop.com";
-        $user->password = password_hash('ufop',PASSWORD_DEFAULT);
-        $user->save();
-        $user->roles()->attach($role_user);
+        $admin->roles()->attach($role_user);
+        $admin->roles()->attach($role_aluno);
     }
 }
