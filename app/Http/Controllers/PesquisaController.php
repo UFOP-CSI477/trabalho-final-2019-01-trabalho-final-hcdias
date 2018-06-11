@@ -5,6 +5,7 @@ namespace PesquisaProjeto\Http\Controllers;
 use Illuminate\Http\Request;
 use PesquisaProjeto\Pesquisa;
 use PesquisaProjeto\Professor;
+use PesquisaProjeto\ProfessorPapel;
 use PesquisaProjeto\Aluno;
 
 class PesquisaController extends Controller
@@ -12,8 +13,6 @@ class PesquisaController extends Controller
 
     public function __construct(){
         $this->middleware('auth');
-        define('ORIENTADOR',1);
-        define('COORIENTADOR',2);
     }
     /**
      * Display a listing of the resource.
@@ -23,6 +22,7 @@ class PesquisaController extends Controller
     public function index()
     {
         $pesquisas = Pesquisa::all();
+
         return view('templates.pesquisa.index')->with('pesquisas',$pesquisas);
     }
 
@@ -66,12 +66,12 @@ class PesquisaController extends Controller
         foreach($discentes as $discente){
            $resultPesquisa->professores()->attach($orientador,
             [
-                'professor_papel_id'=>ORIENTADOR,
+                'professor_papel_id'=>ProfessorPapel::ORIENTADOR,
                 'aluno_id'=>$discente
             ]);
            $resultPesquisa->professores()->attach($coorientador,
             [
-                'professor_papel_id'=>COORIENTADOR,
+                'professor_papel_id'=>ProfessorPapel::COORIENTADOR,
                 'aluno_id'=>$discente
             ]);     
         }
