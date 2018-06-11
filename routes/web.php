@@ -24,8 +24,37 @@ Route::get('/visualizar-pesquisa', [
 	'middleware'=>'roles'
 	]);
 
-Route::get('/criar-pesquisa', 'PesquisaController@create')->name('create');
-Route::get('/detalhar-pesquisa/{id}', 'PesquisaController@show')->name('detalhar_pesquisa');
-Route::post('/salvar-pesquisa', 'PesquisaController@store')->name('salvar_pesquisa');
-Route::get('/editar-pesquisa/{id}', 'PesquisaController@edit')->name('editar_pesquisa');
+Route::get('/criar-pesquisa', [
+	'as'=>'criar_pesquisa',
+	'uses'=>'PesquisaController@create',
+	'roles'=>['admin','professor'],
+	'middleware'=>'roles'
+	]);
 
+Route::get('/detalhar-pesquisa/{id}',[
+	'as'=>'detalhar_pesquisa',
+	'uses'=> 'PesquisaController@show',
+	'roles'=>['admin','professor'],
+	'middleware'=>'roles'
+	]);
+
+Route::post('/salvar-pesquisa', [
+	'as'=>'salvar_pesquisa',
+	'uses'=>'PesquisaController@store',
+	'roles'=>['admin','professor'],
+	'middleware'=>'roles'
+	]);
+
+Route::get('/editar-pesquisa/{id}', [
+	'as'=>'editar_pesquisa',
+	'uses'=>'PesquisaController@edit',
+	'roles'=>['admin','professor'],
+	'middleware'=>'roles'
+	]);
+
+Route::get('/visualizar-usuario', [
+	'as'=>'visualizar_usuario',
+	'uses'=>'UserController@index',
+	'roles'=>'admin',
+	'middleware'=>'roles'
+	]);
