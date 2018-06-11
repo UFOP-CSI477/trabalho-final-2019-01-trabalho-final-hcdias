@@ -13,9 +13,14 @@ class RoleSeeder extends Seeder
     public function run()
     {
         $role_user = new PesquisaProjeto\Role();
-        $role_user->name = "user";
+        $role_user->name = "professor";
         $role_user->description = "Normal user,basic permissions";
         $role_user->save();
+
+        $role_aluno = new PesquisaProjeto\Role();
+        $role_aluno->name = "aluno";
+        $role_aluno->description = "Normal user,basic permissions";
+        $role_aluno->save();
 
         $role_admin = new PesquisaProjeto\Role();
         $role_admin->name = "admin";
