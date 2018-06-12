@@ -135,6 +135,23 @@ return [
             'url'         => 'tcc',
             'icon'        => 'quote-left'
         ],
+        [
+            'text'        => 'Usuários',
+            'url'         => '#',
+            'icon'        => 'users',
+            'submenu'     => [
+                [
+                    'text'  => 'Visualizar',
+                    'url'   => 'visualizar-usuario',
+                    'icon'  =>'search'
+                ],
+                [
+                    'text'  => 'Cadastrar novo',
+                    'url'   => 'criar-usuario',
+                    'icon'  => 'plus'
+                ]
+            ]
+        ],
         'OPÇÕES DE CONTA',
         [
             'text' => 'Perfil',
