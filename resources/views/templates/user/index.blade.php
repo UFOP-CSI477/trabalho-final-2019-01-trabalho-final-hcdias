@@ -14,12 +14,19 @@
     </section>
     <section class="content">
 	    <div class="row">
-	        <div class="col-xs-12">
+	        <div class="col-md-12">
 	          	<div class="box">
 		            <div class="box-header">
-		              <!-- <h3 class="box-title">Pesquisas Cadastradas</h3> -->
+		              @if(Session::has('success'))
+		              		<div class="col-md-6 col-md-offset-3">
+				            	<div class="alert alert-success alert-dismissible">
+				                	<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+				                	<h4><i class="icon fa fa-check"></i> Sucesso</h4>
+				                	{{ Session::get('success') }}
+				              </div>
+				           	</div>
+			            @endif
 		            </div>
-		            <!-- /.box-header -->
 		            <div class="box-body">
 		              	<table id="pesquisa" class="table table-bordered table-hover">
 			              <thead>
@@ -42,7 +49,7 @@
 											
 										</td>
 										<td class='text-center'>
-											<a href="/editar-pesquisa/{{ $user->id }}" title='Editar'>
+											<a href="/editar-usuario/{{ $user->id }}" title='Editar'>
 			                  					<i class="fa fa-edit"></i>
 			                  				</a>
 			                  				
@@ -52,7 +59,7 @@
 			                  				</a>
 
 			                  				&nbsp;&nbsp;
-											<a href="/delete/{{ $user->id }}" title='Apagar'>
+											<a href="/remover-usuario/{{ $user->id }}" title='Apagar'>
 			                  					<i class="fa fa-trash"></i>
 			                  				</a>
 			                  			</td>
