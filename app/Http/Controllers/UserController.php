@@ -4,6 +4,7 @@ namespace PesquisaProjeto\Http\Controllers;
 
 use Illuminate\Http\Request;
 use PesquisaProjeto\User;
+use PesquisaProjeto\Role;
 
 class UserController extends Controller
 {
@@ -25,8 +26,10 @@ class UserController extends Controller
      */
     public function create()
     {
-        //
+    	$userTypes = Role::all();
+        return view('templates.user.create')->with('userTypes',$userTypes);
     }
+
 
     /**
      * Store a newly created resource in storage.
@@ -36,7 +39,28 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        //
+    	
+        $user = $this->validate(request(),[
+        	'name'=>'required|string|max:255',
+        	'email'=>'required|string|email|max:255|unique:users',
+        	'password'=>'required|string|min:6|confirmed'
+        	]);
+
+        $roles = $request->input('roles');
+        
+        $resultUser = User::create([
+        	'name'=>$user['name'],
+        	'email'=>$user['email'],
+        	'password'=>$user['password']
+        ]);
+
+        if($roles){
+			foreach($roles as $role){
+    			$resultUser->roles()->attach($role);
+    		}        	
+        }
+
+    	return back()->with('success','Usuário registrado com sucesso');
     }
 
     /**
@@ -47,7 +71,7 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        //
+        
     }
 
     /**
@@ -58,7 +82,15 @@ class UserController extends Controller
      */
     public function edit($id)
     {
-        //
+        $user = User::find($id);
+        $allRoles = Role::all();
+		$userRoles = $user->roles()->get();
+
+        return view('templates.user.edit')->with([
+        	'allRoles'	=> $allRoles,
+            'userRoles' => $userRoles,
+            'user'		=> $user
+            ]);
     }
 
     /**
@@ -70,7 +102,28 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $user = $this->validate(request(),[
+        	'name'=>'required|string|max:255',
+        	'email'=>'required|string|email|max:255|unique:users,email,'.$id,
+        	'password'=>'required|string|min:6|confirmed'
+        	]);
+
+        $roles = $request->input('roles');
+
+        $updateUser = User::findOrFail($id);
+        $updateUser->name = $user['name'];
+        $updateUser->email = $user['email'];
+        $updateUser->password = password_hash($user['password'],PASSWORD_DEFAULT);
+        $updateUser->save();
+
+        $updateUser->roles()->detach();
+        if($roles){
+			foreach($roles as $role){
+    			$updateUser->roles()->attach($role);
+    		}        	
+        }
+
+        return back()->with('success','Usuário alterado com sucesso');
     }
 
     /**
@@ -81,6 +134,10 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $user = User::findOrFail($id);
+        $user->delete();
+        $user->roles()->detach();
+        
+        return back()->with('success','Usuário removido com sucesso');
     }
 }
