@@ -26,8 +26,8 @@ class UserController extends Controller
      */
     public function create()
     {
-    	$userTypes = Role::all();
-        return view('templates.user.create')->with('userTypes',$userTypes);
+    	$roles = Role::all();
+        return view('templates.user.create')->with('roles',$roles);
     }
 
 
@@ -85,10 +85,13 @@ class UserController extends Controller
         $user = User::find($id);
         $allRoles = Role::all();
 		$userRoles = $user->roles()->get();
-
+		$rolesId = [];
+		foreach($userRoles as $userRole){
+			$rolesId[] = $userRole->id;
+		}
         return view('templates.user.edit')->with([
         	'allRoles'	=> $allRoles,
-            'userRoles' => $userRoles,
+        	'rolesId'	=> $rolesId,
             'user'		=> $user
             ]);
     }
