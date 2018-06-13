@@ -17,15 +17,6 @@
 	    {{ csrf_field() }}
 	    	<div class="row">
 		        <div class="col-md-12">
-		        @if ($errors->any())
-			      <div class="alert alert-danger">
-			          <ul>
-			              @foreach ($errors->all() as $error)
-			                  <li>{{ $error }}</li>
-			              @endforeach
-			          </ul>
-			      </div>
-			      @endif
 			      	<div class="box">
 			            <div class="box-header">
 			              <h3 class="box-title">Docentes e discentes engajados</h3>
@@ -36,33 +27,34 @@
 	              				<div class="col-md-4">
 		              				<div class="form-group">
 			              				<label>Professor orientador</label>
-			              				<input type="text" id="orientador" name="orientador" class="form-control select2" 
-			              				 data-placeholder="" value="<?php
-			              				 	foreach($professores as $professor){
-												if ($professor->pivot->professor_papel_id == 1){
-													echo $professor->professor_nome;
-												}
-											}
-										?>"
+			              				<select id="orientador" name="orientador" class="form-control select2" 
+			              				 data-placeholder="Selecione um professor" 
 			              				 >
-			              				 <option></option>
+			              					<option></option>
+			                        		@foreach($professores as $professor)
+			                        			@if(array_key_exists($professor->id,$professorPesquisas) && $professorPesquisas[$professor->id]->pivot->professor_papel_id == ProfessorPapel::ORIENTADOR)
+			                        				<option value="{{ $professor->id }}" selected="selected">{{ $professor->professor_nome }}</option>
+			                        			@else
+			                        				<option value="{{ $professor->id }}">{{ $professor->professor_nome }}</option>
+			                        			@endif
+			                        		@endforeach
 		                        		</select>
 		              				</div>
 		              			</div>
 		              			<div class="col-md-4">
 		              				<div class="form-group">
 			              				<label>Professor coorientador</label>
-			              				<input type="text" id="coorientador" name="coorientador" class="form-control select2" 
-			              				 data-placeholder="" value = "<?php
-			              				 	foreach($professores as $professor){
-												if ($professor->pivot->professor_papel_id == 2){
-													echo $professor->professor_nome;
-												}
-											}
-										?>"
-			              				 >
-			              				 <option></option>
-		                        		</select>
+			              				<select id="coorientador" name="coorientador" class="form-control select2" 
+			              				data-placeholder="Selecione um professor" >
+			              					<option></option>
+			              					@foreach($professores as $professor)
+			                        			@if(array_key_exists($professor->id,$professorPesquisas) && $professorPesquisas[$professor->id]->pivot->professor_papel_id == ProfessorPapel::COORIENTADOR)
+			                        				<option value="{{ $professor->id }}" selected="selected">{{ $professor->professor_nome }}</option>
+			                        			@else
+			                        				<option value="{{ $professor->id }}">{{ $professor->professor_nome }}</option>
+			                        			@endif
+			                        		@endforeach
+			              				</select>
 		              				</div>
 		              			</div>
 		              			<div class="col-md-4">
@@ -72,6 +64,13 @@
 			              				 data-placeholder="" multiple="multiple" 
 			              				 >
 			              				 <option></option>
+			              				 @foreach($alunos as $aluno)
+			              				 	@if(in_array($aluno->id,$alunoPesquisas))
+			              				 		<option value="{{ $aluno->id }}" selected="selected">{{ $aluno->aluno_nome }}</option>
+			              				 	@else
+			              				 		<option value="{{ $aluno->id }}" >{{ $aluno->aluno_nome }}</option>
+			              				 	@endif
+			              				 @endforeach
 		                        		</select>
 		              				</div>
 		              			</div>
@@ -84,7 +83,7 @@
 		        <div class="col-md-6">
 		          	<div class="box box">
 			            <div class="box-header">
-			              <h3 class="box-title">Dados sobre o projeto</h3>
+			              <h3 class="box-title">Dados sobre o projeto</h3> 
 			            </div>
 			            <!-- /.box-header -->
 	              		<div class="box-body">
