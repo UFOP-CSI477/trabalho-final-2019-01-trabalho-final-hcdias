@@ -86,17 +86,16 @@
 		              			<div class="col-md-12">
 		              				<div class="form-group">
 			              				<select id="roles" name="roles[]" class="form-control select2" 
-			              				 data-placeholder="Selecione as permissões" multiple="multiple" 
-			              				 >
+			              				 data-placeholder="Selecione as permissões" 
+			              				 multiple="multiple">
 			              					<option></option>
-
 			              					@foreach($allRoles as $role)
-			                        			@foreach($userRoles as $userRole)
-			                        				@if($role->id == $userRole->id)
-			                        				<option value="{{$role->id}}" title="{{ $role->description }}" selected="selected">{{ $role->name }}</option>
-			                        				@endif
-			                        			@endforeach
-		                        				<option value="{{$role->id}}" title="{{ $role->description }}">{{ $role->name }}</option>
+			                        			@if(in_array($role->id,$rolesId))
+			                        				<option value="{{ $role->id }}" title="{{ $role->description }}" selected="selected">{{ $role->name }}</option>
+			                        			@else
+			                        				<option value="{{ $role->id }}" title="{{ $role->description }}">{{ $role->name }}</option>
+			                        			@endif
+			                        			
 		                        			@endforeach		                        
 		                        		</select>
 		              				</div>
