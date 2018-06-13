@@ -89,8 +89,8 @@
 			              				 data-placeholder="Selecione as permissões" multiple="multiple" 
 			              				 >
 			              				 <option></option>
-		                        		@foreach($userTypes as $userType)
-		                        			<option value="{{$userType->id}}" title="{{ $userType->description }}">{{ $userType->name }}</option>
+		                        		@foreach($roles as $role)
+		                        			<option value="{{$role->id}}" title="{{ $role->description }}">{{ $role->name }}</option>
 		                        		@endforeach
 		                        		</select>
 		                        		@if ($errors->has('roles[]'))
