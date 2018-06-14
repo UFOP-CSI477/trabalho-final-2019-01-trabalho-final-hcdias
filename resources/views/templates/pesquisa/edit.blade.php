@@ -9,7 +9,7 @@
       <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
         <li><a href="#">Projetos de Pesquisa</a></li>
-        <li class="active">Novo</li>
+        <li class="active">Editar</li>
       </ol>
     </section>
     <section class="content">
@@ -162,6 +162,7 @@
 				         			5 => "Projeto publicado",
 				         			6 => "Projeto cancelado",
 				         		];
+
 		          				for ($status = 1; $status < 7; $status++){
 		          					if ($status == $pesquisa->pesquisa_status){
 		          						echo "<div class='radio'>
@@ -208,9 +209,10 @@
 	<script type="text/javascript">
 		$('.select2').select2();
     //iCheck for checkbox and radio inputs
-    $('input[type="checkbox"].minimal, input[type="radio"].minimal').iCheck({
-      checkboxClass: 'icheckbox_minimal-blue',
-      radioClass   : 'iradio_minimal-blue'
+    $('input[type="checkbox"], input[type="radio"]').iCheck({
+      checkboxClass: 'icheckbox_square-blue',
+      radioClass   : 'iradio_square-blue',
+      increaseArea: '20%' 
     })
 	</script>
 	@stop
