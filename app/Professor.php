@@ -8,8 +8,14 @@ class Professor extends Model
 {
 	protected $table = 'professores';
 	
-    public function pesquisas(){
+    public function pesquisas()
+    {
     	return $this->belongsToMany('PesquisaProjeto\Pesquisa','vinculo_pesquisas')
     		->withPivot('professor_papel_id','aluno_id');
+    }
+
+    public function user()
+    {
+    	return $this->hasOne('PesquisaProjeto\VinculoProfessorUser');
     }
 }
