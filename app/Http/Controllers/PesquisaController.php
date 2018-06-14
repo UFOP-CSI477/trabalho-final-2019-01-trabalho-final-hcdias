@@ -7,6 +7,7 @@ use PesquisaProjeto\Pesquisa;
 use PesquisaProjeto\Professor;
 use PesquisaProjeto\ProfessorPapel;
 use PesquisaProjeto\Aluno;
+use PesquisaProjeto\User;
 
 class PesquisaController extends Controller
 {
@@ -19,10 +20,30 @@ class PesquisaController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $pesquisas = Pesquisa::all();
+        
+        if($request->user()->hasRole('admin')){
+            $pesquisas = Pesquisa::all();
 
+        }elseif($request->user()->hasRole('professor')){
+            $professor_id = $request->user()
+            ->professor()
+            ->first()
+            ->professor_id;
+            
+            $professor = Professor::find($professor_id);
+            $pesquisas = $professor->pesquisas()->get();
+        }
+        // }elseif($request->user()->hasRole('aluno')){
+        //     $aluno_id = $request->user()
+        //     ->aluno()
+        //     ->first()
+        //     ->aluno_id;
+            
+        //     $aluno = Aluno::find($aluno_id);
+        //     $pesquisas = $aluno->pesquisas()->get();
+        // }
         return view('templates.pesquisa.index')->with('pesquisas',$pesquisas);
     }
 
@@ -54,14 +75,23 @@ class PesquisaController extends Controller
             'pesquisa_resumo'=>'required',
             'pesquisa_ano_inicio'=>'required',
             'pesquisa_semestre_inicio'=>'required',
-            'pesquisa_status'=>'required'
-            ]);
+            'pesquisa_status'=>'required',
+            'orientador'=>'required',
+            'coorientador'=>'required',
+            'discentes'=>'required'
+        ]);
 
-        $orientador = $request->input('orientador');
-        $coorientador = $request->input('coorientador');
-        $discentes = $request->input('discentes');
+        $orientador = $pesquisa['orientador'];
+        $coorientador = $pesquisa['coorientador'];
+        $discentes = $pesquisa['discentes'];
 
-        $resultPesquisa = Pesquisa::create($pesquisa);
+        $resultPesquisa = Pesquisa::create([
+            'pesquisa_titulo'=>$pesquisa['pesquisa_titulo'],
+            'pesquisa_resumo'=>$pesquisa['pesquisa_resumo'],
+            'pesquisa_ano_inicio'=>$pesquisa['pesquisa_ano_inicio'],
+            'pesquisa_semestre_inicio'=>$pesquisa['pesquisa_semestre_inicio'],
+            'pesquisa_status'=>$pesquisa['pesquisa_status']
+        ]);
 
         foreach($discentes as $discente){
            $resultPesquisa->professores()->attach($orientador,
@@ -97,13 +127,27 @@ class PesquisaController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Request $request,$id)
     {
-		$pesquisa = Pesquisa::find($id);
-		$result = $pesquisa->professores()->get();
+		
+        $pesquisa = Pesquisa::find($id);
+        $professorPesquisas = $pesquisa->professores()->get(['professor_id']);
+        $professores = Professor::all();
+        $alunos = Aluno::all();
+        
+        $professorId = [];
+        $alunoId = [];
+        foreach($professorPesquisas as $professorPesquisa){
+            $professorId[$professorPesquisa['professor_id']] = $professorPesquisa;
+            $alunoId[] = $professorPesquisa['pivot']['aluno_id'];
+        }
+     
         return view('templates.pesquisa.edit')->with([
-            'professores' => $result,
-            'pesquisa'    => $pesquisa
+            'professorPesquisas'=> $professorId,
+            'alunoPesquisas'=>$alunoId,
+            'professores'=>$professores,
+            'pesquisa'=> $pesquisa,
+            'alunos'=>$alunos
             ]);
     }
 
