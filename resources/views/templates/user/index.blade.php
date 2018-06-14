@@ -49,17 +49,17 @@
 											
 										</td>
 										<td class='text-center'>
-											<a href="/editar-usuario/{{ $user->id }}" title='Editar'>
+											<a href="/usuario/editar-usuario/{{ $user->id }}" title='Editar'>
 			                  					<i class="fa fa-edit"></i>
 			                  				</a>
 			                  				
 			                  				&nbsp;&nbsp;
-			                  				<a href="/detalhar-pesquisa/{{ $user->id }}" title='Visualizar'>
+			                  				<a href="/usuario/detalhar-pesquisa/{{ $user->id }}" title='Visualizar'>
 			                  					<i class="fa fa-eye"></i>
 			                  				</a>
 
 			                  				&nbsp;&nbsp;
-											<a href="/remover-usuario/{{ $user->id }}" title='Apagar'>
+											<a href="/usuario/remover-usuario/{{ $user->id }}" title='Apagar'>
 			                  					<i class="fa fa-trash"></i>
 			                  				</a>
 			                  			</td>
@@ -83,7 +83,7 @@
 	      	'ordering'    : true,
 	      	'info'        : true,
 	      	'autoWidth'   : true,
-	      	'columns' : [null,{'width':'10%'},{'width':'10%'}]
+	      	'columns' : [null,{'width':'20%'},{'width':'10%'}]
 	    });
 	</script>
 	@stop
