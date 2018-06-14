@@ -100,6 +100,34 @@
 					                    @endif
 		              				</div>
 		              			</div>
+		              			<div class="col-md-12">
+		              				<div class="form-group">
+										<!-- <div class="radio"> -->
+											<label class="radio-inline">
+											  <input type="radio" name="tipo_vinculo" value="1">
+											  Vincular a professor
+											</label>
+										<!-- </div> -->
+										<!-- <div class="radio"> -->
+											<label class="radio-inline">
+											  <input type="radio" name="tipo_vinculo" value="2">
+											  Vincular a aluno
+											</label>
+										<!-- </div> -->
+									</div>
+		              			</div>
+		              			<div class="col-md-12 col-md-offset-6" id="load_select" style="display:none">
+		              				<div class="form-group">
+		              					<i class="fa fa-refresh fa-spin"></i>
+		              				</div>
+		              			</div>
+		              			<div class="col-md-12" style="display:none" id="vinculo_container">
+		              				<div class="form-group">
+		              					<select class="form-control select2" id="ator_vinculo" name="ator_vinculo">
+		              						
+		              					</select>
+		              				</div>
+		              			</div>
 		              			<div class="col-md-6 col-md-offset-3 ">
 	              					<button type="submit" class="btn btn-primary btn-block btn-flat">Cadastrar</button>
 	              				</div>
@@ -114,10 +142,45 @@
 	@section('js')
 	<script type="text/javascript">
 		$('.select2').select2();
-    //iCheck for checkbox and radio inputs
-    $('input[type="checkbox"].minimal, input[type="radio"].minimal').iCheck({
-      checkboxClass: 'icheckbox_minimal-blue',
-      radioClass   : 'iradio_minimal-blue'
-    })
+
+    	//iCheck for checkbox and radio inputs
+    	$('input[type="radio"]').iCheck({
+	      radioClass   : 'iradio_square-blue'
+	    });
+
+	    $('input[type="radio"]').on('ifChecked',function(event){
+	    	var value = event.target.defaultValue;
+	    	var url = '/usuario/vinculo-usuario/'+value;
+	    	$.ajax({
+	    		url:url,
+	    		type:'GET',
+	    		dataType:'json',
+	    		headers:{
+	    			'X-CSRF-Token':'{{ csrf_token() }}'
+	    		},
+	    		beforeSend:function(){
+	    			$('#vinculo_container').hide();
+	    			$('#load_select').show();
+	    		}
+	    	})
+	    	.done(function(data){
+	    		var html = "";
+	    		for(item in data){
+	    			html += "<option value="+data[item].id+">"+data[item].nome+"</option>";
+	    		}
+
+	    		$('#ator_vinculo').select2('destroy').empty();
+	    		$('#ator_vinculo').html(html).promise().done(function(){
+	    			$('#ator_vinculo').select2({
+	    				width:'100%'
+	    			});
+	    		});
+	    		$('#load_select').hide();
+	    		$('#vinculo_container').show();
+	    	})
+	    	.fail(function(jqXHR,textStatus){
+
+			});  
+	    });
 	</script>
 	@stop
