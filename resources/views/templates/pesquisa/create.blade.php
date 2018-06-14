@@ -143,13 +143,13 @@
 				         	<div class="form-group">
 								<div class="radio">
 									<label>
-									  <input type="radio" name="pesquisa_status" id="pesquisa_status" value="1" checked="">
+									  <input type="radio" name="pesquisa_status" id="" value="1" checked="">
 									  Projeto em fase de concepção
 									</label>
 								</div>
 								<div class="radio">
 									<label>
-									  <input type="radio" name="pesquisa_status" id="" value="2">
+									  <input type="radio" name="pesquisa_status" id="" value="2" checked="true">
 									  Projeto em fase de desenvolvimento
 									</label>
 								</div>
@@ -207,9 +207,10 @@
 	<script type="text/javascript">
 		$('.select2').select2();
     //iCheck for checkbox and radio inputs
-    $('input[type="checkbox"].minimal, input[type="radio"].minimal').iCheck({
-      checkboxClass: 'icheckbox_minimal-blue',
-      radioClass   : 'iradio_minimal-blue'
-    })
+    $('input[type="checkbox"], input[type="radio"]').iCheck({
+      checkboxClass: 'icheckbox_square-blue',
+      radioClass   : 'iradio_square-blue',
+      increaseArea: '20%'
+    });
 	</script>
 	@stop
