@@ -120,12 +120,12 @@ return [
             'submenu'=> [
                 [
                     'text'  =>'Visualizar',
-                    'url'   =>'visualizar-pesquisa',
+                    'url'   =>'pesquisa/visualizar-pesquisa',
                     'icon'  =>'search'
                 ],
                 [
                     'text'  =>'Cadastrar novo',
-                    'url'   =>'criar-pesquisa',
+                    'url'   =>'pesquisa/criar-pesquisa',
                     'icon'  =>'plus'
                 ]
             ]
@@ -142,12 +142,12 @@ return [
             'submenu'     => [
                 [
                     'text'  => 'Visualizar',
-                    'url'   => 'visualizar-usuario',
+                    'url'   => 'usuario/visualizar-usuario',
                     'icon'  =>'search'
                 ],
                 [
                     'text'  => 'Cadastrar novo',
-                    'url'   => 'criar-usuario',
+                    'url'   => 'usuario/criar-usuario',
                     'icon'  => 'plus'
                 ]
             ]
