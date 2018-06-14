@@ -5,6 +5,10 @@ namespace PesquisaProjeto\Http\Controllers;
 use Illuminate\Http\Request;
 use PesquisaProjeto\User;
 use PesquisaProjeto\Role;
+use PesquisaProjeto\Professor;
+use PesquisaProjeto\Aluno;
+use PesquisaProjeto\VinculoProfessorUser;
+use PesquisaProjeto\VinculoAlunoUser;
 
 class UserController extends Controller
 {
@@ -47,17 +51,39 @@ class UserController extends Controller
         	]);
 
         $roles = $request->input('roles');
-        
+        $tipoVinculo = $request->input('tipo_vinculo');
+
         $resultUser = User::create([
         	'name'=>$user['name'],
         	'email'=>$user['email'],
-        	'password'=>$user['password']
+        	'password'=>password_hash($user['password'],PASSWORD_DEFAULT)
         ]);
 
         if($roles){
 			foreach($roles as $role){
     			$resultUser->roles()->attach($role);
     		}        	
+        }
+        
+        if($tipoVinculo !== null){
+        	$ator_vinculo = $request->input('ator_vinculo');
+        	if($tipoVinculo == 1){
+        		$professor = Professor::find($ator_vinculo);
+        		if($professor !== null){
+        			$resultVinculo = VinculoProfessorUser::create([
+        				'user_id'=>$resultUser->id,
+        				'professor_id'=>$ator_vinculo
+        			]);	
+        		}
+        	}else{
+				$aluno = Aluno::find($ator_vinculo);
+				if($aluno !== null){
+					$resultVinculo = VinculoAlunoUser::create([
+						'user_id'=>$resultUser->id,
+						'aluno_id'=>$ator_vinculo
+					]);
+				}
+        	}	
         }
 
     	return back()->with('success','Usuário registrado com sucesso');
@@ -142,5 +168,24 @@ class UserController extends Controller
         $user->roles()->detach();
         
         return back()->with('success','Usuário removido com sucesso');
+    }
+
+
+    /**
+     * Lista os atores do sistema
+     * @param  int $id 
+     * @return array     
+     */
+    public function listaAtores($id)
+    {
+    	if($id == 1){
+    		return Professor::select('id','professor_nome as nome')
+    		->get()
+    		->toArray();
+    	}elseif($id == 2){
+    		return Aluno::select('id','aluno_nome as nome')
+    		->get()
+    		->toArray();
+    	}
     }
 }
