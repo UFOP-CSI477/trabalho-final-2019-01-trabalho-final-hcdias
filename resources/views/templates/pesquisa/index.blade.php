@@ -37,17 +37,17 @@
 											<span class="label label-success">Publicado</span>
 										</td>
 										<td class='text-center'>
-											<a href="/editar-pesquisa/{{ $pesquisa->id }}" title='Editar'>
+											<a href="/pesquisa/editar-pesquisa/{{ $pesquisa->id }}" title='Editar'>
 			                  					<i class="fa fa-edit"></i>
 			                  				</a>
 			                  				
 			                  				&nbsp;&nbsp;
-			                  				<a href="/detalhar-pesquisa/{{ $pesquisa->id }}" title='Visualizar'>
+			                  				<a href="/pesquisa/detalhar-pesquisa/{{ $pesquisa->id }}" title='Visualizar'>
 			                  					<i class="fa fa-eye"></i>
 			                  				</a>
 
 			                  				&nbsp;&nbsp;
-											<a href="/delete/{{ $pesquisa->id }}" title='Apagar'>
+											<a href="/pesquisa/delete/{{ $pesquisa->id }}" title='Apagar'>
 			                  					<i class="fa fa-trash"></i>
 			                  				</a>
 			                  			</td>
@@ -71,7 +71,7 @@
 	      	'ordering'    : true,
 	      	'info'        : true,
 	      	'autoWidth'   : true,
-	      	'columns' : [null,{'width':'10%'},{'width':'10%'}]
+	      	'columns' : [null,{'width':'10%'},{'width':'20%'}]
 	    });
 	</script>
 	@stop
