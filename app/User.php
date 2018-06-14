@@ -27,8 +27,19 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
-    public function roles(){
+    public function roles()
+    {
         return $this->belongsToMany('PesquisaProjeto\Role');
+    }
+
+    public function aluno()
+    {
+        return $this->hasOne('PesquisaProjeto\VinculoAlunoUser');
+    }
+
+    public function professor()
+    {
+        return $this->hasOne('PesquisaProjeto\VinculoProfessorUser');
     }
 
     public function hasAnyRole($roles)
@@ -53,7 +64,7 @@ class User extends Authenticatable
         return false;
     }
 
-    private function hasRole($role)
+    public function hasRole($role)
     {
         if($this->roles()->where('name',$role)->first()){
             return true;
