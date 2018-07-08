@@ -20,7 +20,42 @@ class CreatePesquisasTable extends Migration
             $table->integer('pesquisa_ano_inicio');
             $table->integer('pesquisa_semestre_inicio');
             $table->integer('pesquisa_status');
+            $table->integer('natureza_pesquisa_id')->unsigned();
+            $table->integer('abordagem_pesquisa_id')->unsigned();
+            $table->integer('objetivo_pesquisa_id')->unsigned();
+            $table->integer('procedimentos_pesquisa_id')->unsigned();
+            $table->integer('area_pesquisa_id')->unsigned();
+            $table->integer('agencia_pesquisa_id')->unsigned();
+            $table->integer('sub_area_pesquisa_id')->unsigned();
             $table->timestamps();
+
+             $table->foreign('natureza_pesquisa_id')
+                ->references('id')
+                ->on('natureza_pesquisas');
+
+            $table->foreign('abordagem_pesquisa_id')
+                ->references('id')
+                ->on('abordagem_pesquisas');
+
+            $table->foreign('objetivo_pesquisa_id')
+                ->references('id')
+                ->on('objetivo_pesquisas');
+
+            $table->foreign('procedimentos_pesquisa_id')
+                ->references('id')
+                ->on('procedimentos_pesquisas');
+
+            $table->foreign('area_pesquisa_id')
+                ->references('id')
+                ->on('area_pesquisas');
+
+            $table->foreign('agencia_pesquisa_id')
+                ->references('id')
+                ->on('agencia_pesquisas');
+
+            $table->foreign('sub_area_pesquisa_id')
+                ->references('id')
+                ->on('sub_area_pesquisas');
         });
     }
 
