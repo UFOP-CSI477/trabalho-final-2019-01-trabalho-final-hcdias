@@ -15,6 +15,13 @@ class DatabaseSeeder extends Seeder
          $this->call(CursoSeeder::class);
          $this->call(AlunoSeeder::class);
          $this->call(ProfessorSeeder::class);
+         $this->call(NaturezaPesquisaSeeder::class);
+         $this->call(AbordagemPesquisaSeeder::class);
+         $this->call(ObjetivoPesquisaSeeder::class);
+         $this->call(ProcedimentosPesquisaSeeder::class);
+         $this->call(AreaPesquisaSeeder::class);
+         $this->call(AgenciaPesquisaSeeder::class);
+         $this->call(SubAreaPesquisaSeeder::class);
          $this->call(PesquisaSeeder::class);
          $this->call(ProfessorPapelSeeder::class);
          $this->call(VinculoPesquisaSeeder::class);
