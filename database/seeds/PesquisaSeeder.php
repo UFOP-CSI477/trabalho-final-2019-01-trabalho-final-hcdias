@@ -11,6 +11,6 @@ class PesquisaSeeder extends Seeder
      */
     public function run()
     {
-        factory(PesquisaProjeto\Pesquisa::class,50)->create();
+        // factory(PesquisaProjeto\Pesquisa::class,5)->create();
     }
 }
