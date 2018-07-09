@@ -10,7 +10,7 @@
             <!-- CSRF Token -->
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
-        <title>{{ config('app.name') }}</title>
+        <title>Projetos de Pesquisa</title>
 
         <!-- Bootstrap core CSS -->
         <link href="{{ asset('/vendor/adminlte/vendor/bootstrap/dist/css/bootstrap.min.css') }}" rel="stylesheet">
@@ -69,7 +69,7 @@
 		                    </div>
 		                </form>
 
-		                <form method="POST" action="{{ route('login') }}">
+		                <form method="POST" action="{{ route('exibir') }}">
 		                    {{ csrf_field() }}
 		                    <div class="cont_form_sign_up">
 		                        <a href="#" onclick="ocultar_login_sign_up()"><i class="material-icons">&#xE5C4;</i></a>
@@ -78,7 +78,7 @@
 		                        <input type="text" placeholder="User"/>
 		                        <input type="password" placeholder="Password"/> 
 		                        <button class="btn_sign_up" onclick="window.location.href='index_pic_ufop.php'">INICIAR SEÇÃO</button>
-		                        <button class="btn_sign_up" onclick="window.location.href='index_pic_ufop.php'">ENTRAR COMO ANÔNIMO</button>
+		                        <button class="btn_sign_up" onclick="window.location.href='localhost:8000/exibir'">ENTRAR COMO ANÔNIMO</button>
 		                    </div>
 		                </form>
 		            </div>
