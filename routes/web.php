@@ -16,6 +16,8 @@ Auth::routes();
 
 Route::get('/', 'HomeController@index')->name('index');
 Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/exibir', 'HomeController@exibir')->name('exibir');
+Route::post('/exibir', 'HomeController@exibir')->name('exibir');
 
 Route::group(['prefix'=>'pesquisa'],function(){
 	Route::get('/visualizar-pesquisa', [
@@ -49,6 +51,13 @@ Route::group(['prefix'=>'pesquisa'],function(){
 	Route::get('/editar-pesquisa/{id}', [
 		'as'=>'editar_pesquisa',
 		'uses'=>'PesquisaController@edit',
+		'roles'=>['admin','professor'],
+		'middleware'=>'roles'
+		]);
+
+	Route::post('/atualizar-pesquisa/{id}', [
+		'as'=>'atualizar_pesquisa',
+		'uses'=>'PesquisaController@update',
 		'roles'=>['admin','professor'],
 		'middleware'=>'roles'
 		]);
