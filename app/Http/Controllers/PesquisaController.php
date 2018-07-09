@@ -8,6 +8,7 @@ use PesquisaProjeto\Professor;
 use PesquisaProjeto\ProfessorPapel;
 use PesquisaProjeto\Aluno;
 use PesquisaProjeto\User;
+use Illuminate\Support\Facades\Auth;
 
 class PesquisaController extends Controller
 {
@@ -22,28 +23,20 @@ class PesquisaController extends Controller
      */
     public function index(Request $request)
     {
-        
         if($request->user()->hasRole('admin')){
             $pesquisas = Pesquisa::all();
-
         }elseif($request->user()->hasRole('professor')){
-            $professor_id = $request->user()
-            ->professor()
-            ->first()
-            ->professor_id;
+            if(!($professor = $request->user()->professor()->first()) == null){
+                $professor_id = $professor->professor_id;
             
-            $professor = Professor::find($professor_id);
-            $pesquisas = $professor->pesquisas()->get();
+                $professor = Professor::find($professor_id);
+
+                $pesquisas = $professor->pesquisas()->get();
+                $pesquisas = $pesquisas->merge($pesquisas);
+
+            }
         }
-        // }elseif($request->user()->hasRole('aluno')){
-        //     $aluno_id = $request->user()
-        //     ->aluno()
-        //     ->first()
-        //     ->aluno_id;
-            
-        //     $aluno = Aluno::find($aluno_id);
-        //     $pesquisas = $aluno->pesquisas()->get();
-        // }
+
         return view('templates.pesquisa.index')->with('pesquisas',$pesquisas);
     }
 
@@ -54,10 +47,20 @@ class PesquisaController extends Controller
      */
     public function create()
     {
+        $user = Auth::user();
         $professores = Professor::all();
+        $professorId = null;
+        if($user->hasRole('professor')){
+            if(!($professor = $user->professor()->first()) == null){
+                $professorId = $professor->professor_id;
+            }
+        }
+        
         $alunos = Aluno::all();
+
         return view('templates.pesquisa.create')->with([
             'professores' => $professores,
+            'professorId'=>$professorId,
             'alunos'    => $alunos
             ]);
     }
@@ -118,7 +121,7 @@ class PesquisaController extends Controller
      */
     public function show($id)
     {
-        
+     return view('templates.pesquisa.detail');
     }
 
     /**
@@ -129,15 +132,17 @@ class PesquisaController extends Controller
      */
     public function edit(Request $request,$id)
     {
-		
-        $pesquisa = Pesquisa::find($id);
+
+        $pesquisa = Pesquisa::findOrFail($id);
+
         $professorPesquisas = $pesquisa->professores()->get(['professor_id']);
-        $professores = Professor::all();
+        
+        $professores = Professor::all();        
         $alunos = Aluno::all();
         
         $professorId = [];
         $alunoId = [];
-        foreach($professorPesquisas as $professorPesquisa){
+        foreach( $professorPesquisas as $professorPesquisa ){
             $professorId[$professorPesquisa['professor_id']] = $professorPesquisa;
             $alunoId[] = $professorPesquisa['pivot']['aluno_id'];
         }
@@ -149,6 +154,8 @@ class PesquisaController extends Controller
             'pesquisa'=> $pesquisa,
             'alunos'=>$alunos
             ]);
+
+
     }
 
     /**
@@ -160,7 +167,46 @@ class PesquisaController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $validation = $this->validate(request(),[
+            'pesquisa_titulo'=>'required',
+            'pesquisa_resumo'=>'required',
+            'pesquisa_ano_inicio'=>'required',
+            'pesquisa_semestre_inicio'=>'required',
+            'pesquisa_status'=>'required',
+            'orientador'=>'required',
+            'coorientador'=>'required',
+            'discentes'=>'required'
+        ]);
+
+        $orientador = $validation['orientador'];
+        $coorientador = $validation['coorientador'];
+        $discentes = $validation['discentes'];
+
+        $pesquisa = Pesquisa::find($id);
+        $pesquisa->pesquisa_titulo = $validation['pesquisa_titulo'];
+        $pesquisa->pesquisa_resumo = $validation['pesquisa_resumo'];
+        $pesquisa->pesquisa_ano_inicio = $validation['pesquisa_ano_inicio'];
+        $pesquisa->pesquisa_semestre_inicio = $validation['pesquisa_semestre_inicio'];
+        $pesquisa->pesquisa_status = $validation['pesquisa_status'];
+
+        $pesquisa->save();
+
+        $pesquisa->professores()->detach();
+        foreach($discentes as $discente){
+           $pesquisa->professores()->attach($orientador,
+            [
+                'professor_papel_id'=>ProfessorPapel::ORIENTADOR,
+                'aluno_id'=>$discente
+            ]);
+           $pesquisa->professores()->attach($coorientador,
+            [
+                'professor_papel_id'=>ProfessorPapel::COORIENTADOR,
+                'aluno_id'=>$discente
+            ]);     
+        }
+
+        return back()->with('success','Atualizado com sucesso');
+
     }
 
     /**
