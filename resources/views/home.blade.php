@@ -1,7 +1,8 @@
 @extends('adminlte::page')
 
 @section('content_header')
-    <h1>Dashboard</h1>
+    <h1>Bem vindo, {{Auth::user()->name}}</h1>
+    <small>Acopanhe sua movimentação recente de projetos</small>
 @stop
 
 
