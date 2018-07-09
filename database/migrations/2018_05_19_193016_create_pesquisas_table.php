@@ -20,13 +20,13 @@ class CreatePesquisasTable extends Migration
             $table->integer('pesquisa_ano_inicio');
             $table->integer('pesquisa_semestre_inicio');
             $table->integer('pesquisa_status');
-            $table->integer('natureza_pesquisa_id')->unsigned();
-            $table->integer('abordagem_pesquisa_id')->unsigned();
-            $table->integer('objetivo_pesquisa_id')->unsigned();
-            $table->integer('procedimentos_pesquisa_id')->unsigned();
-            $table->integer('area_pesquisa_id')->unsigned();
-            $table->integer('agencia_pesquisa_id')->unsigned();
-            $table->integer('sub_area_pesquisa_id')->unsigned();
+            $table->integer('natureza_pesquisa_id')->unsigned()->default(1);
+            $table->integer('abordagem_pesquisa_id')->unsigned()->default(1);
+            $table->integer('objetivo_pesquisa_id')->unsigned()->default(1);
+            $table->integer('procedimentos_pesquisa_id')->unsigned()->default(1);
+            $table->integer('area_pesquisa_id')->unsigned()->default(1);
+            $table->integer('agencia_pesquisa_id')->unsigned()->default(1);
+            $table->integer('sub_area_pesquisa_id')->unsigned()->default(1);
             $table->timestamps();
 
              $table->foreign('natureza_pesquisa_id')
