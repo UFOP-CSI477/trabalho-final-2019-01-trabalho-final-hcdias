@@ -13,7 +13,7 @@
       </ol>
     </section>
     <section class="content">
-    	<form method="post" action="{{ route('salvar_pesquisa')}}">
+    	<form method="post" action="{{ route('atualizar_pesquisa',['id'=>$pesquisa->id])}}">
 	    {{ csrf_field() }}
 	    	<div class="row">
 		        <div class="col-md-12">
@@ -21,6 +21,15 @@
 			            <div class="box-header">
 			              <h3 class="box-title">Docentes e discentes engajados</h3>
 			            </div>
+			             @if(Session::has('success'))
+			            	<div class="col-md-6 col-md-offset-3">
+				            	<div class="alert alert-success alert-dismissible">
+				                	<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+				                	<h4><i class="icon fa fa-check"></i> Sucesso</h4>
+				                	{{ Session::get('success') }}
+				              </div>
+				           	</div>
+			            @endif
 			            <!-- /.box-header -->
 	              		<div class="box-body">
 	              			<div class="row">
@@ -31,13 +40,22 @@
 			              				 data-placeholder="Selecione um professor" 
 			              				 >
 			              					<option></option>
-			                        		@foreach($professores as $professor)
-			                        			@if(array_key_exists($professor->id,$professorPesquisas) && $professorPesquisas[$professor->id]->pivot->professor_papel_id == ProfessorPapel::ORIENTADOR)
-			                        				<option value="{{ $professor->id }}" selected="selected">{{ $professor->professor_nome }}</option>
-			                        			@else
-			                        				<option value="{{ $professor->id }}">{{ $professor->professor_nome }}</option>
-			                        			@endif
-			                        		@endforeach
+			              					@if(Auth::user()->hasRole('admin'))
+			              						@foreach($professores as $professor)
+			                        				@if(array_key_exists($professor->id,$professorPesquisas) && $professorPesquisas[$professor->id]->pivot->professor_papel_id == ProfessorPapel::ORIENTADOR)
+			                        					<option value="{{ $professor->id }}" selected="selected">{{ $professor->professor_nome }}</option>
+			                        				@else	
+			                        					<option value="{{ $professor->id }}">{{ $professor->professor_nome }}</option>
+			                        				@endif
+			                        			@endforeach
+			              					@else
+			              						@foreach($professores as $professor)
+			                        				@if(array_key_exists($professor->id,$professorPesquisas) && $professorPesquisas[$professor->id]->pivot->professor_papel_id == ProfessorPapel::ORIENTADOR)
+			                        					<option value="{{ $professor->id }}" selected="selected">{{ $professor->professor_nome }}</option>
+			                        				@endif
+			                        			@endforeach
+			              					@endif
+			                        		
 		                        		</select>
 		              				</div>
 		              			</div>
