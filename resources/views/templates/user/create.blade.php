@@ -123,7 +123,7 @@
 		              			</div>
 		              			<div class="col-md-12" style="display:none" id="vinculo_container">
 		              				<div class="form-group">
-		              					<select class="form-control select2" id="ator_vinculo" name="ator_vinculo">
+		              					<select class="form-control select2" id="vinculo_user_id" name="vinculo_user_id">
 		              						
 		              					</select>
 		              				</div>
@@ -169,9 +169,9 @@
 	    			html += "<option value="+data[item].id+">"+data[item].nome+"</option>";
 	    		}
 
-	    		$('#ator_vinculo').select2('destroy').empty();
-	    		$('#ator_vinculo').html(html).promise().done(function(){
-	    			$('#ator_vinculo').select2({
+	    		$('#vinculo_user_id').select2('destroy').empty();
+	    		$('#vinculo_user_id').html(html).promise().done(function(){
+	    			$('#vinculo_user_id').select2({
 	    				width:'100%'
 	    			});
 	    		});
