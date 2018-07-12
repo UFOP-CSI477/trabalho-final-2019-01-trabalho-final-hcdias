@@ -11,7 +11,15 @@ class Pesquisa extends Model
 		'pesquisa_resumo',
 		'pesquisa_ano_inicio',
 		'pesquisa_semestre_inicio',
-		'pesquisa_status'];
+		'pesquisa_status',
+		'abordagem_pesquisa_id',
+		'agencia_pesquisa_id',
+		'area_pesquisa_id',
+		'natureza_pesquisa_id',
+		'objetivo_pesquisa_id',
+		'procedimentos_pesquisa_id',
+		'sub_area_pesquisa_id'
+		];
 	 
     public function professores(){
     	return $this->belongsToMany('PesquisaProjeto\Professor','vinculo_pesquisas')
