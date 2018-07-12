@@ -80,13 +80,12 @@ class PesquisaController extends Controller
             'pesquisa_semestre_inicio'=>'required',
             'pesquisa_status'=>'required',
             'orientador'=>'required',
-            'coorientador'=>'required',
             'discentes'=>'required'
         ]);
 
         $orientador = $pesquisa['orientador'];
-        $coorientador = $pesquisa['coorientador'];
         $discentes = $pesquisa['discentes'];
+        $coorientador = $request->input('coorientador');
 
         $resultPesquisa = Pesquisa::create([
             'pesquisa_titulo'=>$pesquisa['pesquisa_titulo'],
@@ -102,11 +101,14 @@ class PesquisaController extends Controller
                 'professor_papel_id'=>ProfessorPapel::ORIENTADOR,
                 'aluno_id'=>$discente
             ]);
-           $resultPesquisa->professores()->attach($coorientador,
-            [
-                'professor_papel_id'=>ProfessorPapel::COORIENTADOR,
-                'aluno_id'=>$discente
-            ]);     
+
+            if($coorientador){
+                $resultPesquisa->professores()->attach($coorientador,
+                [
+                    'professor_papel_id'=>ProfessorPapel::COORIENTADOR,
+                    'aluno_id'=>$discente
+                ]);     
+            }
         }
         
 
@@ -174,13 +176,12 @@ class PesquisaController extends Controller
             'pesquisa_semestre_inicio'=>'required',
             'pesquisa_status'=>'required',
             'orientador'=>'required',
-            'coorientador'=>'required',
             'discentes'=>'required'
         ]);
 
         $orientador = $validation['orientador'];
-        $coorientador = $validation['coorientador'];
         $discentes = $validation['discentes'];
+        $coorientador = $request->input('coorientador');
 
         $pesquisa = Pesquisa::find($id);
         $pesquisa->pesquisa_titulo = $validation['pesquisa_titulo'];
@@ -193,16 +194,18 @@ class PesquisaController extends Controller
 
         $pesquisa->professores()->detach();
         foreach($discentes as $discente){
-           $pesquisa->professores()->attach($orientador,
-            [
-                'professor_papel_id'=>ProfessorPapel::ORIENTADOR,
-                'aluno_id'=>$discente
-            ]);
-           $pesquisa->professores()->attach($coorientador,
-            [
-                'professor_papel_id'=>ProfessorPapel::COORIENTADOR,
-                'aluno_id'=>$discente
-            ]);     
+            $pesquisa->professores()->attach($orientador,
+                [
+                    'professor_papel_id'=>ProfessorPapel::ORIENTADOR,
+                    'aluno_id'=>$discente
+                ]);
+                if($coorientador){
+                    $pesquisa->professores()->attach($coorientador,
+                    [
+                        'professor_papel_id'=>ProfessorPapel::COORIENTADOR,
+                        'aluno_id'=>$discente
+                     ]);     
+                }  
         }
 
         return back()->with('success','Atualizado com sucesso');
