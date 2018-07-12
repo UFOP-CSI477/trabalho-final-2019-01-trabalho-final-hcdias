@@ -34,8 +34,8 @@
 	              		<div class="box-body">
 	              			<div class="row">
 	              				<div class="col-md-4">
-		              				<div class="form-group">
-			              				<label>Professor orientador</label>
+	              					<label>Professor orientador</label>
+		              				<div class="form-group has-feedback {{ $errors->has('orientador') ? 'has-error' : '' }}">
 			              				<select id="orientador" name="orientador" class="form-control select2" 
 			              				 data-placeholder="Selecione um professor" 
 			              				 >
@@ -55,8 +55,12 @@
 			                        				@endif
 			                        			@endforeach
 			              					@endif
-			                        		
 		                        		</select>
+		                        		@if ($errors->has('orientador'))
+					                        <span class="help-block">
+					                            <strong>{{ $errors->first('orientador') }}</strong>
+					                        </span>
+					                    @endif
 		              				</div>
 		              			</div>
 		              			<div class="col-md-4">
@@ -76,7 +80,7 @@
 		              				</div>
 		              			</div>
 		              			<div class="col-md-4">
-		              				<div class="form-group">
+		              				<div class="form-group has-feedback {{ $errors->has('discentes') ? 'has-error' : '' }}">
 			              				<label>Alunos envolvidos</label>
 			              				<select id="discentes" name="discentes[]" class="form-control select2" 
 			              				 data-placeholder="" multiple="multiple" 
@@ -90,6 +94,11 @@
 			              				 	@endif
 			              				 @endforeach
 		                        		</select>
+		                        		@if ($errors->has('discentes'))
+					                        <span class="help-block">
+					                            <strong>{{ $errors->first('discentes') }}</strong>
+					                        </span>
+					                    @endif
 		              				</div>
 		              			</div>
 	              			</div>
@@ -107,18 +116,23 @@
 	              		<div class="box-body">
 	              			<div class="row">
 	              				<div class="col-md-12">
-	              					<div class="form-group">
-	          							<label for="pesquisa_titulo">Título</label>
+	              					<label for="pesquisa_titulo">Título</label>
+	              					<div class="form-group has-feedback {{ $errors->has('pesquisa_titulo') ? 'has-error' : '' }}">
 		              					<input type="text" class="form-control" name="pesquisa_titulo" id="pesquisa_titulo" placeholder="" value="<?php
 		              						echo $pesquisa->pesquisa_titulo;
 										?>"
 										>
+										@if ($errors->has('pesquisa_titulo'))
+					                        <span class="help-block">
+					                            <strong>{{ $errors->first('pesquisa_titulo') }}</strong>
+					                        </span>
+					                    @endif
 	          						</div>
 	              				</div>
 	          					
 	          					<div class="col-md-6">
-	          						<div class="form-group">
-	          							<label>Semestre de início</label>
+	          						<label>Semestre de início</label>
+	          						<div class="form-group has-feedback {{ $errors->has('pesquisa_semestre_inicio') ? 'has-error' : '' }}">
 		          						<select class="form-control" id="pesquisa_semestre_inicio" name="pesquisa_semestre_inicio" index = "2">
 		          							<option value="">Selecione</option>
 		          							<?php
@@ -131,11 +145,16 @@
 		          								}
 		          							?>
 		          						</select>
+		          						@if ($errors->has('pesquisa_semestre_inicio'))
+					                        <span class="help-block">
+					                            <strong>{{ $errors->first('pesquisa_semestre_inicio') }}</strong>
+					                        </span>
+					                    @endif
 	          						</div>
 	          					</div>
 	          					<div class="col-md-6">
-	          						<div class="form-group">
-	          							<label>Ano de início</label>
+	          						<label>Ano de início</label>
+	          						<div class="form-group has-feedback {{ $errors->has('pesquisa_ano_inicio') ? 'has-error' : '' }}">
 		          						<select class="form-control" id="pesquisa_ano_inicio" name="pesquisa_ano_inicio">
 		          							<option value="">Selecione</option>
 		          							<?php
@@ -148,6 +167,11 @@
 		          								}
 		          							?>
 		          						</select>
+		          						@if ($errors->has('pesquisa_ano_inicio'))
+					                        <span class="help-block">
+					                            <strong>{{ $errors->first('pesquisa_ano_inicio') }}</strong>
+					                        </span>
+					                    @endif
 	          						</div>
 	          					</div>
 

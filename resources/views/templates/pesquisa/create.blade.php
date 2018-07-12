@@ -17,15 +17,6 @@
 	    {{ csrf_field() }}
 	    	<div class="row">
 		        <div class="col-md-12">
-		        @if ($errors->any())
-			      <div class="alert alert-danger">
-			          <ul>
-			              @foreach ($errors->all() as $error)
-			                  <li>{{ $error }}</li>
-			              @endforeach
-			          </ul>
-			      </div>
-			      @endif
 		          	<div class="box">
 			            <div class="box-header">
 			              <h3 class="box-title">Docentes e discentes engajados</h3>
@@ -43,8 +34,8 @@
 	              		<div class="box-body">
 	              			<div class="row">
 	              				<div class="col-md-4">
-		              				<div class="form-group">
-			              				<label>Professor orientador</label>
+	              					<label>Professor orientador</label>
+		              				<div class="form-group has-feedback {{ $errors->has('orientador') ? 'has-error' : '' }}">
 			              				<select id="orientador" name="orientador" class="form-control select2" 
 			              				 data-placeholder="Selecione um professor" 
 			              				 >
@@ -61,6 +52,11 @@
 			                        		@endforeach
 			                        	@endif
 		                        		</select>
+		                        		@if ($errors->has('orientador'))
+					                        <span class="help-block">
+					                            <strong>{{ $errors->first('orientador') }}</strong>
+					                        </span>
+					                    @endif
 		              				</div>
 		              			</div>
 		              			<div class="col-md-4">
@@ -77,8 +73,8 @@
 		              				</div>
 		              			</div>
 		              			<div class="col-md-4">
-		              				<div class="form-group">
-			              				<label>Alunos envolvidos</label>
+		              				<label>Alunos envolvidos</label>
+		              				<div class="form-group has-feedback {{ $errors->has('discentes') ? 'has-error' : '' }}">
 			              				<select id="discentes" name="discentes[]" class="form-control select2" 
 			              				 data-placeholder="Selecione os alunos envolvidos" multiple="multiple" 
 			              				 >
@@ -87,6 +83,11 @@
 		                        			<option value="{{$aluno->id}}">{{ $aluno->aluno_nome }}</option>
 		                        		@endforeach
 		                        		</select>
+		                        		@if ($errors->has('discentes'))
+					                        <span class="help-block">
+					                            <strong>{{ $errors->first('discentes') }}</strong>
+					                        </span>
+					                    @endif
 		              				</div>
 		              			</div>
 	              			</div>
@@ -104,25 +105,35 @@
 	              		<div class="box-body">
 	              			<div class="row">
 	              				<div class="col-md-12">
-	              					<div class="form-group">
-	          							<label for="pesquisa_titulo">Título</label>
+	              					<label for="pesquisa_titulo">Título</label>
+	              					<div class="form-group has-feedback {{ $errors->has('pesquisa_titulo') ? 'has-error' : '' }}">
 		              					<input type="text" class="form-control" name="pesquisa_titulo" id="pesquisa_titulo" placeholder="Título do Projeto">
+		              					@if ($errors->has('pesquisa_titulo'))
+					                        <span class="help-block">
+					                            <strong>{{ $errors->first('pesquisa_titulo') }}</strong>
+					                        </span>
+					                    @endif
 	          						</div>
 	              				</div>
 	          					
 	          					<div class="col-md-6">
-	          						<div class="form-group">
-	          							<label>Semestre de início</label>
+	          						<label>Semestre de início</label>
+	          						<div class="form-group has-feedback {{ $errors->has('pesquisa_semestre_inicio') ? 'has-error' : '' }}">
 		          						<select class="form-control" id="pesquisa_semestre_inicio" name="pesquisa_semestre_inicio">
 		          							<option></option>
 		          							<option value='1'>1º semestre</option>
 						  					<option value='2'>2º semestre</option>
 		          						</select>
+		          						@if ($errors->has('pesquisa_semestre_inicio'))
+					                        <span class="help-block">
+					                            <strong>{{ $errors->first('pesquisa_semestre_inicio') }}</strong>
+					                        </span>
+					                    @endif
 	          						</div>
 	          					</div>
 	          					<div class="col-md-6">
-	          						<div class="form-group">
-	          							<label>Ano de início</label>
+	          						<label>Ano de início</label>
+	          						<div class="form-group has-feedback {{ $errors->has('pesquisa_ano_inicio') ? 'has-error' : '' }}">
 		          						<select class="form-control" id="pesquisa_ano_inicio" name="pesquisa_ano_inicio">
 		          							<option value="">Selecione</option>
 											<option value='2010'>2010</option>
@@ -138,6 +149,11 @@
 											<option value='2020'>2020</option>
 											<option value='2021'>2021</option>
 		          						</select>
+		          						@if ($errors->has('pesquisa_ano_inicio'))
+					                        <span class="help-block">
+					                            <strong>{{ $errors->first('pesquisa_ano_inicio') }}</strong>
+					                        </span>
+					                    @endif
 	          						</div>
 	          					</div>
 
