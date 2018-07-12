@@ -115,12 +115,11 @@
 					                    @endif
 	          						</div>
 	              				</div>
-	          					
 	          					<div class="col-md-6">
 	          						<label>Semestre de início</label>
 	          						<div class="form-group has-feedback {{ $errors->has('pesquisa_semestre_inicio') ? 'has-error' : '' }}">
 		          						<select class="form-control" id="pesquisa_semestre_inicio" name="pesquisa_semestre_inicio">
-		          							<option></option>
+		          							<option value="">Selecione</option>
 		          							<option value='1'>1º semestre</option>
 						  					<option value='2'>2º semestre</option>
 		          						</select>
@@ -152,6 +151,120 @@
 		          						@if ($errors->has('pesquisa_ano_inicio'))
 					                        <span class="help-block">
 					                            <strong>{{ $errors->first('pesquisa_ano_inicio') }}</strong>
+					                        </span>
+					                    @endif
+	          						</div>
+	          					</div>
+	          					<div class="col-md-6">
+	          						<label>Abordagem</label>
+	          						<div class="form-group has-feedback {{ $errors->has('pesquisa_abordagem') ? 'has-error' : '' }}">
+		          						<select class="form-control" id="pesquisa_abordagem" name="pesquisa_abordagem">
+		          							<option value="">Selecione</option>
+		          							@foreach($abordagem as $item)
+		          								<option value="{{$item->id}}">{{$item->descricao}}</option>
+		          							@endforeach
+		          						</select>
+		          						@if ($errors->has('pesquisa_abordagem'))
+					                        <span class="help-block">
+					                            <strong>{{ $errors->first('pesquisa_abordagem') }}</strong>
+					                        </span>
+					                    @endif
+	          						</div>
+	          					</div>
+	          					<div class="col-md-6">
+	          						<label>Agência</label>
+	          						<div class="form-group has-feedback {{ $errors->has('pesquisa_agencia') ? 'has-error' : '' }}">
+		          						<select class="form-control" id="pesquisa_agencia" name="pesquisa_agencia">
+		          							<option value="">Selecione</option>
+		          							@foreach($agencia as $item)
+		          								<option value="{{$item->id}}">{{$item->descricao}}</option>
+		          							@endforeach
+		          						</select>
+		          						@if ($errors->has('pesquisa_agencia'))
+					                        <span class="help-block">
+					                            <strong>{{ $errors->first('pesquisa_agencia') }}</strong>
+					                        </span>
+					                    @endif
+	          						</div>
+	          					</div>
+
+	          					<div class="col-md-6">
+	          						<label>Area</label>
+	          						<div class="form-group has-feedback {{ $errors->has('pesquisa_area') ? 'has-error' : '' }}">
+		          						<select class="form-control" id="pesquisa_area" name="pesquisa_area">
+		          							<option value="">Selecione</option>
+		          							@foreach($area as $item)
+		          								<option value="{{$item->id}}">{{$item->descricao}}</option>
+		          							@endforeach
+		          						</select>
+		          						@if ($errors->has('pesquisa_area'))
+					                        <span class="help-block">
+					                            <strong>{{ $errors->first('pesquisa_area') }}</strong>
+					                        </span>
+					                    @endif
+	          						</div>
+	          					</div>
+
+	          					<div class="col-md-6">
+	          						<label>Natureza</label>
+	          						<div class="form-group has-feedback {{ $errors->has('pesquisa_natureza') ? 'has-error' : '' }}">
+		          						<select class="form-control" id="pesquisa_natureza" name="pesquisa_natureza">
+		          							<option value="">Selecione</option>
+		          							@foreach($natureza as $item)
+		          								<option value="{{$item->id}}">{{$item->descricao}}</option>
+		          							@endforeach
+		          						</select>
+		          						@if ($errors->has('pesquisa_natureza'))
+					                        <span class="help-block">
+					                            <strong>{{ $errors->first('pesquisa_natureza') }}</strong>
+					                        </span>
+					                    @endif
+	          						</div>
+	          					</div>
+	          					<div class="col-md-6">
+	          						<label>Objetivo</label>
+	          						<div class="form-group has-feedback {{ $errors->has('pesquisa_objetivo') ? 'has-error' : '' }}">
+		          						<select class="form-control" id="pesquisa_objetivo" name="pesquisa_objetivo">
+		          							<option value="">Selecione</option>
+		          							@foreach($objetivo as $item)
+		          								<option value="{{$item->id}}">{{$item->descricao}}</option>
+		          							@endforeach
+		          						</select>
+		          						@if ($errors->has('pesquisa_objetivo'))
+					                        <span class="help-block">
+					                            <strong>{{ $errors->first('pesquisa_objetivo') }}</strong>
+					                        </span>
+					                    @endif
+	          						</div>
+	          					</div>
+	          					<div class="col-md-6">
+	          						<label>Procedimento</label>
+	          						<div class="form-group has-feedback {{ $errors->has('pesquisa_procedimento') ? 'has-error' : '' }}">
+		          						<select class="form-control" id="pesquisa_ano_inicio" name="pesquisa_procedimento">
+		          							<option value="">Selecione</option>
+		          							@foreach($procedimento as $item)
+		          								<option value="{{$item->id}}">{{$item->descricao}}</option>
+		          							@endforeach
+		          						</select>
+		          						@if ($errors->has('pesquisa_procedimento'))
+					                        <span class="help-block">
+					                            <strong>{{ $errors->first('pesquisa_procedimento') }}</strong>
+					                        </span>
+					                    @endif
+	          						</div>
+	          					</div>
+	          					<div class="col-md-6">
+	          						<label>Sub-área</label>
+	          						<div class="form-group has-feedback {{ $errors->has('pesquisa_subarea') ? 'has-error' : '' }}">
+		          						<select class="form-control" id="pesquisa_subarea" name="pesquisa_subarea">
+		          							<option value="">Selecione</option>
+		          								@foreach($subarea as $item)
+		          								<option value="{{$item->id}}">{{$item->descricao}}</option>
+		          							@endforeach
+		          						</select>
+		          						@if ($errors->has('pesquisa_subarea'))
+					                        <span class="help-block">
+					                            <strong>{{ $errors->first('pesquisa_subarea') }}</strong>
 					                        </span>
 					                    @endif
 	          						</div>
