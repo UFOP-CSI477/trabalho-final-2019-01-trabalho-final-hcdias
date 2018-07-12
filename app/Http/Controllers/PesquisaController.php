@@ -8,6 +8,14 @@ use PesquisaProjeto\Professor;
 use PesquisaProjeto\ProfessorPapel;
 use PesquisaProjeto\Aluno;
 use PesquisaProjeto\User;
+use PesquisaProjeto\AbordagemPesquisa;
+use PesquisaProjeto\AgenciaPesquisa;
+use PesquisaProjeto\AreaPesquisa;
+use PesquisaProjeto\NaturezaPesquisa;
+use PesquisaProjeto\ObjetivoPesquisa;
+use PesquisaProjeto\ProcedimentosPesquisa;
+use PesquisaProjeto\SubAreaPesquisa;
+
 use Illuminate\Support\Facades\Auth;
 
 class PesquisaController extends Controller
@@ -55,14 +63,30 @@ class PesquisaController extends Controller
                 $professorId = $professor->professor_id;
             }
         }
+
+        $abordagem =  AbordagemPesquisa::get();
+        $agencia =  AgenciaPesquisa::get();
+        $area =  AreaPesquisa::get();
+        $natureza =  NaturezaPesquisa::get();
+        $objetivo =  ObjetivoPesquisa::get();
+        $procedimento =  ProcedimentosPesquisa::get();
+        $subarea =  SubAreaPesquisa::get();
         
         $alunos = Aluno::all();
 
         return view('templates.pesquisa.create')->with([
             'professores' => $professores,
             'professorId'=>$professorId,
-            'alunos'    => $alunos
+            'alunos'    => $alunos,
+            'abordagem'=>$abordagem,
+            'agencia'=>$agencia,
+            'area'=>$area,
+            'natureza'=>$natureza,
+            'objetivo'=>$objetivo,
+            'procedimento'=>$procedimento,
+            'subarea'=>$subarea
             ]);
+
     }
 
     /**
@@ -80,7 +104,14 @@ class PesquisaController extends Controller
             'pesquisa_semestre_inicio'=>'required',
             'pesquisa_status'=>'required',
             'orientador'=>'required',
-            'discentes'=>'required'
+            'discentes'=>'required',
+            'pesquisa_abordagem'=>'required',
+            'pesquisa_agencia'=>'required',
+            'pesquisa_area'=>'required',
+            'pesquisa_natureza'=>'required',
+            'pesquisa_objetivo'=>'required',
+            'pesquisa_procedimento'=>'required',
+            'pesquisa_subarea'=>'required'
         ]);
 
         $orientador = $pesquisa['orientador'];
@@ -92,7 +123,14 @@ class PesquisaController extends Controller
             'pesquisa_resumo'=>$pesquisa['pesquisa_resumo'],
             'pesquisa_ano_inicio'=>$pesquisa['pesquisa_ano_inicio'],
             'pesquisa_semestre_inicio'=>$pesquisa['pesquisa_semestre_inicio'],
-            'pesquisa_status'=>$pesquisa['pesquisa_status']
+            'pesquisa_status'=>$pesquisa['pesquisa_status'],
+            'abordagem_pesquisa_id'=>$pesquisa['pesquisa_abordagem'],
+            'agencia_pesquisa_id'=>$pesquisa['pesquisa_agencia'],
+            'area_pesquisa_id'=>$pesquisa['pesquisa_area'],
+            'natureza_pesquisa_id'=>$pesquisa['pesquisa_natureza'],
+            'objetivo_pesquisa_id'=>$pesquisa['pesquisa_objetivo'],
+            'procedimentos_pesquisa_id'=>$pesquisa['pesquisa_procedimento'],
+            'sub_area_pesquisa_id'=>$pesquisa['pesquisa_subarea'],
         ]);
 
         foreach($discentes as $discente){
@@ -141,6 +179,14 @@ class PesquisaController extends Controller
         
         $professores = Professor::all();        
         $alunos = Aluno::all();
+
+        $abordagem =  AbordagemPesquisa::get();
+        $agencia =  AgenciaPesquisa::get();
+        $area =  AreaPesquisa::get();
+        $natureza =  NaturezaPesquisa::get();
+        $objetivo =  ObjetivoPesquisa::get();
+        $procedimento =  ProcedimentosPesquisa::get();
+        $subarea =  SubAreaPesquisa::get();
         
         $professorId = [];
         $alunoId = [];
@@ -148,13 +194,21 @@ class PesquisaController extends Controller
             $professorId[$professorPesquisa['professor_id']] = $professorPesquisa;
             $alunoId[] = $professorPesquisa['pivot']['aluno_id'];
         }
-     
+        
+
         return view('templates.pesquisa.edit')->with([
             'professorPesquisas'=> $professorId,
             'alunoPesquisas'=>$alunoId,
             'professores'=>$professores,
             'pesquisa'=> $pesquisa,
-            'alunos'=>$alunos
+            'alunos'=>$alunos,
+            'abordagem'=>$abordagem,
+            'agencia'=>$agencia,
+            'area'=>$area,
+            'natureza'=>$natureza,
+            'objetivo'=>$objetivo,
+            'procedimento'=>$procedimento,
+            'subarea'=>$subarea
             ]);
 
 
@@ -176,7 +230,14 @@ class PesquisaController extends Controller
             'pesquisa_semestre_inicio'=>'required',
             'pesquisa_status'=>'required',
             'orientador'=>'required',
-            'discentes'=>'required'
+            'discentes'=>'required',
+            'pesquisa_abordagem'=>'required',
+            'pesquisa_agencia'=>'required',
+            'pesquisa_area'=>'required',
+            'pesquisa_natureza'=>'required',
+            'pesquisa_objetivo'=>'required',
+            'pesquisa_procedimento'=>'required',
+            'pesquisa_subarea'=>'required'
         ]);
 
         $orientador = $validation['orientador'];
@@ -189,6 +250,13 @@ class PesquisaController extends Controller
         $pesquisa->pesquisa_ano_inicio = $validation['pesquisa_ano_inicio'];
         $pesquisa->pesquisa_semestre_inicio = $validation['pesquisa_semestre_inicio'];
         $pesquisa->pesquisa_status = $validation['pesquisa_status'];
+        $pesquisa->abordagem_pesquisa_id = $validation['pesquisa_abordagem'];
+        $pesquisa->agencia_pesquisa_id = $validation['pesquisa_agencia'];
+        $pesquisa->area_pesquisa_id = $validation['pesquisa_area'];
+        $pesquisa->natureza_pesquisa_id = $validation['pesquisa_natureza'];
+        $pesquisa->objetivo_pesquisa_id = $validation['pesquisa_objetivo'];
+        $pesquisa->procedimentos_pesquisa_id = $validation['pesquisa_procedimento'];
+        $pesquisa->sub_area_pesquisa_id = $validation['pesquisa_subarea'];
 
         $pesquisa->save();
 
