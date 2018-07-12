@@ -29,9 +29,11 @@
           <li class="nav-item active">
             <a class="nav-link" href="#">Projetos de Iniciação Científica <span class="sr-only">(current)</span></a>
           </li>
+<!--
           <li class="nav-item">
             <a class="nav-link" href="#">Trabalhos de Conclusão de Curso</a>
           </li>
+-->
         </ul>
       </div>
     </nav>
@@ -46,7 +48,7 @@
         <p class="lead">Projetos de Iniciação Científica cadastrados e ativos no Departamento de Engenharia de Produção no Instituto de Ciências Exatas e Aplicadas da Universidade Federal de Ouro Preto</p>
       </div>
     </div>
-
+<!--
     <div class="col-md-12 order-md-1">
       <hr class="mb-4">
         <h4 class="mb-3">Filtros de Pesquisa</h4>
@@ -105,7 +107,7 @@
             </div>
 
       </div>
-
+-->
       <hr class="mb-4">
 
       <div id="accordion">
