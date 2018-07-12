@@ -66,21 +66,21 @@ class UserController extends Controller
         }
         
         if($tipoVinculo !== null){
-        	$ator_vinculo = $request->input('ator_vinculo');
+        	$vinculo_user_id = $request->input('vinculo_user_id');
         	if($tipoVinculo == 1){
-        		$professor = Professor::find($ator_vinculo);
+        		$professor = Professor::find($vinculo_user_id);
         		if($professor !== null){
         			$resultVinculo = VinculoProfessorUser::create([
         				'user_id'=>$resultUser->id,
-        				'professor_id'=>$ator_vinculo
+        				'professor_id'=>$vinculo_user_id
         			]);	
         		}
         	}else{
-				$aluno = Aluno::find($ator_vinculo);
+				$aluno = Aluno::find($vinculo_user_id);
 				if($aluno !== null){
 					$resultVinculo = VinculoAlunoUser::create([
 						'user_id'=>$resultUser->id,
-						'aluno_id'=>$ator_vinculo
+						'aluno_id'=>$vinculo_user_id
 					]);
 				}
         	}	
