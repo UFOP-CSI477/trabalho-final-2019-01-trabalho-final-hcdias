@@ -26,6 +26,6 @@ class CheckRole
             return $next($request);
         }
 
-        return response('Insufficent permissions',401);
+        return response(view('403'),403);
     }
 }
