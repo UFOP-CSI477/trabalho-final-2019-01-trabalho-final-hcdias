@@ -33,16 +33,38 @@ class PesquisaController extends Controller
     {
         if($request->user()->hasRole('admin')){
             $pesquisas = Pesquisa::all();
-        }elseif($request->user()->hasRole('professor')){
-            if(!($professor = $request->user()->professor()->first()) == null){
-                $professor_id = $professor->professor_id;
+            return view('templates.pesquisa.index')->with('pesquisas',$pesquisas);
+
+        }
+
+        if( $request->user()->vinculo()->first()  == null ){
+            return response(view('403')->with('error_message','Nao existe ator(professor ou aluno) atrelado ao usuario. Contate o administrador.'),403);
+        }
+
+        if( $request->user()->hasRole('professor') ){
             
-                $professor = Professor::find($professor_id);
+            $professor = $request->user()->vinculo()->first();
+            $professorId = $professor->actor_id;
+        
+            $professorObj = Professor::find($professorId);
 
-                $pesquisas = $professor->pesquisas()->get();
-                $pesquisas = $pesquisas->merge($pesquisas);
+            $pesquisas = $professorObj->pesquisas()
+            ->where('professor_id','=',$request->user()->vinculo()->get()->first()->actor_id)
+            ->get();
 
-            }
+            $pesquisas = $pesquisas->merge($pesquisas);
+            
+
+        }elseif($request->user()->hasRole('aluno')){
+
+            $aluno = $request->user()->vinculo()->first();
+            $alunoId = $aluno->actor_id;
+            $alunoObj = Aluno::find($alunoId);
+            $pesquisas = $alunoObj->pesquisas()
+            ->where('aluno_id','=',$request->user()->vinculo()->get()->first()->actor_id)
+            ->get();
+
+            $pesquisas = $pesquisas->merge($pesquisas);
         }
 
         return view('templates.pesquisa.index')->with('pesquisas',$pesquisas);
@@ -58,9 +80,9 @@ class PesquisaController extends Controller
         $user = Auth::user();
         $professores = Professor::all();
         $professorId = null;
-        if($user->hasRole('professor')){
-            if(!($professor = $user->professor()->first()) == null){
-                $professorId = $professor->professor_id;
+        if( $user->hasRole('professor') ){
+            if(!($professor = $user->vinculo()->first()) == null){
+                $professorId = $professor->actor_id;
             }
         }
 
@@ -173,9 +195,15 @@ class PesquisaController extends Controller
     public function edit(Request $request,$id)
     {
 
-        $pesquisa = Pesquisa::findOrFail($id);
+        
+        $resultPesquisas = $this->getProfessorPesquisas($request,$id);
+        if($resultPesquisas['pesquisa'] == null){
+            return response(view('403'),403);
+        }
 
-        $professorPesquisas = $pesquisa->professores()->get(['professor_id']);
+        $professorPesquisas = $resultPesquisas['professorPesquisas'];
+        $pesquisa = $resultPesquisas['pesquisa'];
+        
         
         $professores = Professor::all();        
         $alunos = Aluno::all();
@@ -223,6 +251,16 @@ class PesquisaController extends Controller
      */
     public function update(Request $request, $id)
     {
+
+        $resultPesquisas = $this->getProfessorPesquisas($request,$id);
+
+        if($resultPesquisas['pesquisa'] == null){
+            return response(view('403'),403);
+        }
+
+        $professorPesquisas = $resultPesquisas['professorPesquisas'];
+        $pesquisa = $resultPesquisas['pesquisa'];
+
         $validation = $this->validate(request(),[
             'pesquisa_titulo'=>'required',
             'pesquisa_resumo'=>'required',
@@ -244,7 +282,6 @@ class PesquisaController extends Controller
         $discentes = $validation['discentes'];
         $coorientador = $request->input('coorientador');
 
-        $pesquisa = Pesquisa::find($id);
         $pesquisa->pesquisa_titulo = $validation['pesquisa_titulo'];
         $pesquisa->pesquisa_resumo = $validation['pesquisa_resumo'];
         $pesquisa->pesquisa_ano_inicio = $validation['pesquisa_ano_inicio'];
@@ -289,5 +326,68 @@ class PesquisaController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+
+    private function getProfessorPesquisas(Request $request,$id)
+    {
+        $professorPesquisas = "";
+        $pesquisa = "";
+        if( $request->user()->hasRole('admin') ){
+            $pesquisa = Pesquisa::findOrFail($id);
+            $professorPesquisas = $pesquisa->professores()->get(['professor_id']);
+
+        }elseif( $request->user()->hasRole('professor') ){
+            if( !($professor = $request->user()->vinculo()->first()) == null ){
+                $professorId = $professor->actor_id;
+            
+                $professorObj = Professor::find($professorId);
+                $actorId = $request->user()
+                ->vinculo()
+                ->get()
+                ->first()
+                ->actor_id;
+
+                $pesquisa = $professorObj->pesquisas()->where([
+                    ['professor_id','=',$actorId],
+                    ['pesquisa_id','=',$id]
+                ])->get()->first();
+
+                if( !is_null($pesquisa) ){
+                    $professorPesquisas = Pesquisa::find($pesquisa['id'])
+                    ->professores()
+                    ->get(['professor_id']);
+                }
+            }
+        }elseif( $request->user()->hasRole('aluno') ){
+            if( !($aluno = $request->user()->vinculo()->first()) == null ){
+                $alunoId = $aluno->actor_id;
+            
+                $alunoObj = Aluno::find($alunoId);
+                $actorId = $request->user()
+                ->vinculo()
+                ->get()
+                ->first()
+                ->actor_id;
+
+                $pesquisa = $alunoObj->pesquisas()->where([
+                    ['professor_id','=',$actorId],
+                    ['pesquisa_id','=',$id]
+                ])->get()->first();
+
+                if( !is_null($pesquisa) ){
+                    $professorPesquisas = Pesquisa::find($pesquisa['id'])
+                    ->professores()
+                    ->get(['professor_id']);
+                }
+            }
+        }
+
+        $result = [
+            'professorPesquisas'=>$professorPesquisas,
+            'pesquisa'=>$pesquisa
+        ];
+
+        return $result;
     }
 }
