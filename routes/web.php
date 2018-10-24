@@ -37,28 +37,28 @@ Route::group(['prefix'=>'pesquisa'],function(){
 	Route::get('/detalhar-pesquisa/{id}',[
 		'as'=>'detalhar_pesquisa',
 		'uses'=> 'PesquisaController@show',
-		'roles'=>['admin','professor'],
+		'roles'=>['admin','professor','aluno'],
 		'middleware'=>'roles'
 		]);
 
 	Route::post('/salvar-pesquisa', [
 		'as'=>'salvar_pesquisa',
 		'uses'=>'PesquisaController@store',
-		'roles'=>['admin','professor'],
+		'roles'=>['admin','professor','aluno'],
 		'middleware'=>'roles'
 		]);
 
 	Route::get('/editar-pesquisa/{id}', [
 		'as'=>'editar_pesquisa',
 		'uses'=>'PesquisaController@edit',
-		'roles'=>['admin','professor'],
+		'roles'=>['admin','professor','aluno'],
 		'middleware'=>'roles'
 		]);
 
 	Route::post('/atualizar-pesquisa/{id}', [
 		'as'=>'atualizar_pesquisa',
 		'uses'=>'PesquisaController@update',
-		'roles'=>['admin','professor'],
+		'roles'=>['admin','professor','aluno'],
 		'middleware'=>'roles'
 		]);
 });
