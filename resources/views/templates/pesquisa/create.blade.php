@@ -42,12 +42,12 @@
 			              				 <option></option>
 			              				@if(Auth::user()->hasRole('admin'))
 			                        		@foreach($professores as $professor)
-			                        			<option value="{{$professor->id}}">{{ $professor->professor_nome }}</option>
+			                        			<option value="{{$professor->id}}">{{ $professor->nome }}</option>
 			                        		@endforeach
 			                        	@else
 			                        		@foreach($professores as $professor)
 			                        			@if($professorId == $professor->id)
-			                        				<option selected="selected" value="{{$professor->id}}">{{ $professor->professor_nome }}</option>
+			                        				<option selected="selected" value="{{$professor->id}}">{{ $professor->nome }}</option>
 			                        			@endif
 			                        		@endforeach
 			                        	@endif
@@ -67,7 +67,7 @@
 			              				 >
 			              				 <option></option>
 		                        		@foreach($professores as $professor)
-		                        			<option value="{{$professor->id}}">{{ $professor->professor_nome }}</option>
+		                        			<option value="{{$professor->id}}">{{ $professor->nome }}</option>
 		                        		@endforeach
 		                        		</select>
 		              				</div>
@@ -80,7 +80,7 @@
 			              				 >
 			              				 <option></option>
 		                        		@foreach($alunos as $aluno)
-		                        			<option value="{{$aluno->id}}">{{ $aluno->aluno_nome }}</option>
+		                        			<option value="{{$aluno->id}}">{{ $aluno->nome }}</option>
 		                        		@endforeach
 		                        		</select>
 		                        		@if ($errors->has('discentes'))
