@@ -32,14 +32,9 @@ class User extends Authenticatable
         return $this->belongsToMany('PesquisaProjeto\Role');
     }
 
-    public function aluno()
+    public function vinculo()
     {
-        return $this->hasOne('PesquisaProjeto\VinculoAlunoUser');
-    }
-
-    public function professor()
-    {
-        return $this->hasOne('PesquisaProjeto\VinculoProfessorUser');
+        return $this->hasOne('PesquisaProjeto\VinculoUser','app_user_id');
     }
 
     public function hasAnyRole($roles)
