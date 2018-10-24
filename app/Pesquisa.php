@@ -25,4 +25,9 @@ class Pesquisa extends Model
     	return $this->belongsToMany('PesquisaProjeto\Professor','vinculo_pesquisas')
     		->withPivot('professor_papel_id','aluno_id');
     }
+
+    public function alunos(){
+    	return $this->belongsToMany('PesquisaProjeto\Aluno','vinculo_pesquisas')
+    		->withPivot('professor_papel_id','aluno_id');
+    }
 }
