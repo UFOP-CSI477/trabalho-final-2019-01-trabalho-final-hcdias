@@ -43,15 +43,15 @@
 			              					@if(Auth::user()->hasRole('admin'))
 			              						@foreach($professores as $professor)
 			                        				@if(array_key_exists($professor->id,$professorPesquisas) && $professorPesquisas[$professor->id]->pivot->professor_papel_id == ProfessorPapel::ORIENTADOR)
-			                        					<option value="{{ $professor->id }}" selected="selected">{{ $professor->professor_nome }}</option>
+			                        					<option value="{{ $professor->id }}" selected="selected">{{ $professor->nome }}</option>
 			                        				@else
-			                        					<option value="{{ $professor->id }}">{{ $professor->professor_nome }}</option>
+			                        					<option value="{{ $professor->id }}">{{ $professor->nome }}</option>
 			                        				@endif
 			                        			@endforeach
 			              					@else
 			              						@foreach($professores as $professor)
 			                        				@if(array_key_exists($professor->id,$professorPesquisas) && $professorPesquisas[$professor->id]->pivot->professor_papel_id == ProfessorPapel::ORIENTADOR)
-			                        					<option value="{{ $professor->id }}" selected="selected">{{ $professor->professor_nome }}</option>
+			                        					<option value="{{ $professor->id }}" selected="selected">{{ $professor->nome }}</option>
 			                        				@endif
 			                        			@endforeach
 			              					@endif
@@ -71,9 +71,9 @@
 			              					<option></option>
 			              					@foreach($professores as $professor)
 			                        			@if(array_key_exists($professor->id,$professorPesquisas) && $professorPesquisas[$professor->id]->pivot->professor_papel_id == ProfessorPapel::COORIENTADOR)
-			                        				<option value="{{ $professor->id }}" selected="selected">{{ $professor->professor_nome }}</option>
+			                        				<option value="{{ $professor->id }}" selected="selected">{{ $professor->nome }}</option>
 			                        			@else
-			                        				<option value="{{ $professor->id }}">{{ $professor->professor_nome }}</option>
+			                        				<option value="{{ $professor->id }}">{{ $professor->nome }}</option>
 			                        			@endif
 			                        		@endforeach
 			              				</select>
@@ -88,9 +88,9 @@
 			              				 <option></option>
 			              				 @foreach($alunos as $aluno)
 			              				 	@if(in_array($aluno->id,$alunoPesquisas))
-			              				 		<option value="{{ $aluno->id }}" selected="selected">{{ $aluno->aluno_nome }}</option>
+			              				 		<option value="{{ $aluno->id }}" selected="selected">{{ $aluno->nome }}</option>
 			              				 	@else
-			              				 		<option value="{{ $aluno->id }}" >{{ $aluno->aluno_nome }}</option>
+			              				 		<option value="{{ $aluno->id }}" >{{ $aluno->nome }}</option>
 			              				 	@endif
 			              				 @endforeach
 		                        		</select>
