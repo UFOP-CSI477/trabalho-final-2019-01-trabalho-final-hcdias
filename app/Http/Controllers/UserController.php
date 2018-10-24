@@ -7,8 +7,8 @@ use PesquisaProjeto\User;
 use PesquisaProjeto\Role;
 use PesquisaProjeto\Professor;
 use PesquisaProjeto\Aluno;
-use PesquisaProjeto\VinculoProfessorUser;
-use PesquisaProjeto\VinculoAlunoUser;
+use PesquisaProjeto\VinculoUser;
+
 
 class UserController extends Controller
 {
@@ -60,27 +60,34 @@ class UserController extends Controller
         ]);
 
         if($roles){
-			foreach($roles as $role){
-    			$resultUser->roles()->attach($role);
-    		}        	
+            foreach($roles as $role){
+                $resultUser->roles()->attach($role);    
+            }
         }
         
+        //verifica se ha vinculo do usuario com aluno ou professor
         if($tipoVinculo !== null){
-        	$vinculo_user_id = $request->input('vinculo_user_id');
+        	$vinculoUserId = $request->input('vinculo_user_id');
+            //vinculo tipo 1 - professor
         	if($tipoVinculo == 1){
-        		$professor = Professor::find($vinculo_user_id);
+               //busca o professor  
+        		$professor = Professor::find($vinculoUserId);
         		if($professor !== null){
-        			$resultVinculo = VinculoProfessorUser::create([
-        				'user_id'=>$resultUser->id,
-        				'professor_id'=>$vinculo_user_id
+                    //se existe o professor, cria o vinculo
+        			$resultVinculo = VinculoUser::create([
+        				'app_user_id'=>$resultUser->id,
+        				'actor_id'=>$vinculoUserId,
+                        'tipo_vinculo'=>$tipoVinculo
         			]);	
         		}
         	}else{
-				$aluno = Aluno::find($vinculo_user_id);
+                //se existe o aluno, cria o vinculo
+				$aluno = Aluno::find($vinculoUserId);
 				if($aluno !== null){
-					$resultVinculo = VinculoAlunoUser::create([
-						'user_id'=>$resultUser->id,
-						'aluno_id'=>$vinculo_user_id
+					$resultVinculo = VinculoUser::create([
+						'app_user_id'=>$resultUser->id,
+						'actor_id'=>$vinculoUserId,
+                        'tipo_vinculo'=>$tipoVinculo
 					]);
 				}
         	}	
@@ -115,10 +122,23 @@ class UserController extends Controller
 		foreach($userRoles as $userRole){
 			$rolesId[] = $userRole->id;
 		}
+
+        $vinculo = $user->vinculo()->get()->first();
+        $actors = [];
+        if(!is_null($vinculo)){
+            if($vinculo->tipo_vinculo == 1){
+                $actors = Professor::all();
+            }else{
+                $actors = Aluno::all();
+            }    
+        }
+        
         return view('templates.user.edit')->with([
         	'allRoles'	=> $allRoles,
         	'rolesId'	=> $rolesId,
-            'user'		=> $user
+            'user'		=> $user,
+            'actors'    => $actors,
+            'vinculo'   => $vinculo
             ]);
     }
 
@@ -138,19 +158,64 @@ class UserController extends Controller
         	]);
 
         $roles = $request->input('roles');
+        $tipoVinculo = $request->input('tipo_vinculo');
 
+        //procura o usuario
         $updateUser = User::findOrFail($id);
         $updateUser->name = $user['name'];
         $updateUser->email = $user['email'];
         $updateUser->password = password_hash($user['password'],PASSWORD_DEFAULT);
-        $updateUser->save();
-
+        
+        //remove as permissões atuais
         $updateUser->roles()->detach();
         if($roles){
-			foreach($roles as $role){
-    			$updateUser->roles()->attach($role);
-    		}        	
+            foreach($roles as $role){
+                $updateUser->roles()->attach($role);        
+            }
         }
+
+        //existe vinculo do usuario aos atores do sistema?
+        if($tipoVinculo !== null){
+            $vinculoUserId = $request->input('vinculo_user_id');
+            //remove o vinculo atual
+            $updateUser->vinculo()->delete();
+
+            //vinculo tipo 1(professor)
+            if($tipoVinculo == 1){
+               //busca o professor  
+                $professor = Professor::find($vinculoUserId);
+                if($professor !== null){
+
+                    //cria um novo vinculo
+                    $vinculo = new VinculoUser();
+                    $vinculo->actor_id = $vinculoUserId;
+                    $vinculo->tipo_vinculo = $tipoVinculo;
+                    $vinculo->user()->associate($updateUser);
+                    $vinculo->save();
+                    
+                    //se existe o professor, cria o vinculo
+                    // $resultVinculo = VinculoUser::create([
+                    //     'app_user_id'=>$updateUser->id,
+                    //     'actor_id'=>$vinculoUserId,
+                    //     'tipo_vinculo'=>$tipoVinculo
+                    // ]); 
+                }
+            }else{
+                //se existe o aluno, cria o vinculo
+                $aluno = Aluno::find($vinculoUserId);
+                if($aluno !== null){
+                    //cria um novo vinculo
+                    $vinculo = new VinculoUser();
+                    $vinculo->actor_id = $vinculoUserId;
+                    $vinculo->tipo_vinculo = $tipoVinculo;
+                    $vinculo->user()->associate($updateUser);
+                    $vinculo->save();
+                    
+                }
+            }   
+        }
+
+        $updateUser->save();
 
         return back()->with('success','Usuário alterado com sucesso');
     }
@@ -167,6 +232,9 @@ class UserController extends Controller
         $user->delete();
         $user->roles()->detach();
         
+        $vinculoUser = VinculoUser::where('app_user_id',$user->id);
+        $vinculoUser->delete();
+
         return back()->with('success','Usuário removido com sucesso');
     }
 
@@ -179,11 +247,11 @@ class UserController extends Controller
     public function listaAtores($id)
     {
     	if($id == 1){
-    		return Professor::select('id','professor_nome as nome')
+    		return Professor::select('id','nome')
     		->get()
     		->toArray();
     	}elseif($id == 2){
-    		return Aluno::select('id','aluno_nome as nome')
+    		return Aluno::select('id','nome')
     		->get()
     		->toArray();
     	}
