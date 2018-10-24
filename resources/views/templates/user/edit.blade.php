@@ -83,21 +83,64 @@
 					                    @endif
 					                </div>
 		              			</div>
-		              			<div class="col-md-12">
+								<div class="col-md-12">
+								<div class="form-group">
+									<select id="roles" name="roles[]" class="form-control select2" 
+									 data-placeholder="Selecione as permissões" 
+									 multiple="multiple">
+										<option></option>
+										@foreach($allRoles as $role)
+										@if(in_array($role->id,$rolesId))
+											<option value="{{ $role->id }}" title="{{ $role->description }}" selected="selected">{{ $role->name }}</option>
+										@else
+											<option value="{{ $role->id }}" title="{{ $role->description }}">{{ $role->name }}</option>
+										@endif
+									@endforeach
+								</select>
+								</div>
+								</div>
+								<div class="col-md-12">
+									<div class="form-group">
+										@if($vinculo)
+											<label class="radio-inline">
+										  <input type="radio" name="tipo_vinculo" value="1" {{ $vinculo->tipo_vinculo == 1 ? "checked='checked'" : "" }}>
+										  Vincular a professor
+										</label>
+
+										<label class="radio-inline">
+										  <input type="radio" name="tipo_vinculo" value="2" {{ $vinculo->tipo_vinculo == 2 ? "checked='checked'" : "" }}>
+										  Vincular a aluno
+										</label>
+									@else
+										<label class="radio-inline">
+										  <input type="radio" name="tipo_vinculo" value="1">
+										  Vincular a professor
+										</label>
+
+										<label class="radio-inline">
+										  <input type="radio" name="tipo_vinculo" value="2">
+										  Vincular a aluno
+										</label>
+									@endif
+								</div>
+								</div>
+		              			<div class="col-md-12 col-md-offset-6" id="load_select" style="display:none">
 		              				<div class="form-group">
-			              				<select id="roles" name="roles[]" class="form-control select2" 
-			              				 data-placeholder="Selecione as permissões" 
-			              				 multiple="multiple">
-			              					<option></option>
-			              					@foreach($allRoles as $role)
-			                        			@if(in_array($role->id,$rolesId))
-			                        				<option value="{{ $role->id }}" title="{{ $role->description }}" selected="selected">{{ $role->name }}</option>
+		              					<i class="fa fa-refresh fa-spin"></i>
+		              				</div>
+		              			</div>
+		              			<div class="col-md-12" id="vinculo_container">
+		              				<div class="form-group">
+		              					<select class="form-control select2" id="vinculo_user_id" name="vinculo_user_id">
+		              						<option></option>
+			              					@foreach($actors as $actor)
+			                        			@if($actor->id == $vinculo->actor_id)
+			                        				<option value="{{ $actor->id }}" title="{{ $actor->nome }}" selected="selected">{{ $actor->nome }}</option>
 			                        			@else
-			                        				<option value="{{ $role->id }}" title="{{ $role->description }}">{{ $role->name }}</option>
+			                        				<option value="{{ $actor->id }}" title="{{ $actor->nome }}">{{ $actor->nome }}</option>
 			                        			@endif
-			                        			
-		                        			@endforeach		                        
-		                        		</select>
+		                        			@endforeach	
+		              					</select>
 		              				</div>
 		              			</div>
 		              			<div class="col-md-6 col-md-offset-3 ">
@@ -114,5 +157,44 @@
 	@section('js')
 	<script type="text/javascript">
 		$('.select2').select2();
+		//iCheck for checkbox and radio inputs
+    	$('input[type="radio"]').iCheck({
+	      radioClass   : 'iradio_square-blue'
+	    });
+
+	    $('input[type="radio"]').on('ifChecked',function(event){
+	    	var value = event.target.defaultValue;
+	    	var url = '/usuario/vinculo-usuario/'+value;
+	    	$.ajax({
+	    		url:url,
+	    		type:'GET',
+	    		dataType:'json',
+	    		headers:{
+	    			'X-CSRF-Token':'{{ csrf_token() }}'
+	    		},
+	    		beforeSend:function(){
+	    			$('#vinculo_container').hide();
+	    			$('#load_select').show();
+	    		}
+	    	})
+	    	.done(function(data){
+	    		var html = "";
+	    		for(item in data){
+	    			html += "<option value="+data[item].id+">"+data[item].nome+"</option>";
+	    		}
+
+	    		$('#vinculo_user_id').select2('destroy').empty();
+	    		$('#vinculo_user_id').html(html).promise().done(function(){
+	    			$('#vinculo_user_id').select2({
+	    				width:'100%'
+	    			});
+	    		});
+	    		$('#load_select').hide();
+	    		$('#vinculo_container').show();
+	    	})
+	    	.fail(function(jqXHR,textStatus){
+
+			});  
+	    });
 	</script>
 	@stop
