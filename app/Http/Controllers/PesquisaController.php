@@ -49,7 +49,7 @@ class PesquisaController extends Controller
             $professorObj = Professor::find($professorId);
 
             $pesquisas = $professorObj->pesquisas()
-            ->where('professor_id','=',$request->user()->vinculo()->get()->first()->actor_id)
+            ->where('professor_id','=',$professorId)
             ->get();
 
             $pesquisas = $pesquisas->merge($pesquisas);
@@ -61,7 +61,7 @@ class PesquisaController extends Controller
             $alunoId = $aluno->actor_id;
             $alunoObj = Aluno::find($alunoId);
             $pesquisas = $alunoObj->pesquisas()
-            ->where('aluno_id','=',$request->user()->vinculo()->get()->first()->actor_id)
+            ->where('aluno_id','=',$alunoId)
             ->get();
 
             $pesquisas = $pesquisas->merge($pesquisas);
