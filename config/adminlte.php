@@ -45,7 +45,7 @@ return [
     |
     */
 
-    'skin' => 'purple-light',
+    'skin' => 'red',
 
     /*
     |--------------------------------------------------------------------------
@@ -132,8 +132,20 @@ return [
         ],
         [
             'text'        => 'TCCs',
-            'url'         => 'tcc',
-            'icon'        => 'quote-left'
+            'url'         => '#',
+            'icon'        => 'quote-left',
+            'submenu'     => [
+                [
+                    'text'  => 'Visualizar',
+                    'url'   => 'tcc/visualizar-tcc',
+                    'icon'  => 'search' 
+                ],
+                [
+                    'text'  => 'Cadastrar novo',
+                    'url'   => 'tcc/criar-tcc',
+                    'icon'  => 'plus' 
+                ]
+            ]
         ],
         [
             'text'        => 'Usuários',
