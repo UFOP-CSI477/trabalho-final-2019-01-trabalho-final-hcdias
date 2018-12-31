@@ -17,11 +17,11 @@
 	    {{ csrf_field() }}
 	    	<div class="row">
 		        <div class="col-md-12">
-		          	<div class="box">
+		          	<div class="box box-primary">
 			            <div class="box-header">
 			              <h3 class="box-title">Docentes e discentes engajados</h3>
 			            </div>
-			             @if(Session::has('success'))
+			            @if(Session::has('success'))
 			            	<div class="col-md-6 col-md-offset-3">
 				            	<div class="alert alert-success alert-dismissible">
 				                	<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
@@ -97,7 +97,7 @@
 			</div>
 			<div class="row">
 		        <div class="col-md-6">
-		          	<div class="box box">
+		          	<div class="box box-primary">
 			            <div class="box-header">
 			              <h3 class="box-title">Dados sobre o projeto</h3>
 			            </div>
@@ -281,48 +281,20 @@
 	              	</div>
 	            </div>
 	            <div class="col-md-6">
-		          	<div class="box">
+		          	<div class="box box-primary">
 			            <div class="box-header">
 			              <h3 class="box-title">Status do projeto</h3>
 			            </div>
 			            <div class="box-body">
 				         	<div class="form-group">
-								<div class="radio">
-									<label>
-									  <input type="radio" name="pesquisa_status" id="" value="1" checked="">
-									  Projeto em fase de concepção
-									</label>
-								</div>
-								<div class="radio">
-									<label>
-									  <input type="radio" name="pesquisa_status" id="" value="2" checked="true">
-									  Projeto em fase de desenvolvimento
-									</label>
-								</div>
-								<div class="radio">
-									<label>
-									  <input type="radio" name="pesquisa_status" id="" value="3" >
-									  Projeto em fase de geração de resultados
-									</label>
-								</div>
-								<div class="radio">
-									<label>
-									  <input type="radio" name="pesquisa_status" id="" value="4" >
-									  Projeto em fase de publicação
-									</label>
-								</div>
-								<div class="radio">
-									<label>
-									  <input type="radio" name="pesquisa_status" id="optionsRadios3" value="5" >
-									  Projeto publicado
-									</label>
-								</div>
-								<div class="radio">
-									<label>
-									  <input type="radio" name="pesquisa_status" id="optionsRadios3" value="6">
-									  Projeto Cancelado
-									</label>
-								</div>
+				         		@foreach($status as $statusItem)
+									<div class="radio">
+										<label>
+										  <input type="radio" name="pesquisa_status"  value="{{$statusItem->id}}" checked="">
+										  Projeto {{$statusItem->descricao}}
+										</label>
+									</div>
+								@endforeach
 	                		</div>
 	                		<div class="form-group">
 	                			<div class="checkbox">
