@@ -15,13 +15,13 @@ class CreateTccsTable extends Migration
     {
        Schema::create('tccs', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('tcc_titulo');
-            $table->string('tcc_resumo');
-            $table->integer('tcc_ano_inicio');
-            $table->integer('tcc_semestre_inicio');
-            $table->integer('tcc_semestre_defesa');
-            $table->string('tcc_sisbin')->default("");
-            $table->integer('tcc_status');
+            $table->string('titulo_tcc');
+            $table->string('resumo_tcc');
+            $table->integer('ano_inicio_tcc');
+            $table->integer('semestre_inicio_tcc');
+            $table->integer('semestre_defesa_tcc');
+            $table->string('sisbin_tcc')->default("");
+            $table->integer('status_tcc')->unsigned()->default(1);
             $table->integer('natureza_tcc_id')->unsigned()->default(1);
             $table->integer('abordagem_tcc_id')->unsigned()->default(1);
             $table->integer('objetivo_tcc_id')->unsigned()->default(1);
@@ -31,6 +31,8 @@ class CreateTccsTable extends Migration
             $table->integer('orientador_tcc_id')->unsigned()->default(null);
             $table->integer('coorientador_tcc_id')->unsigned()->default(null);
             $table->integer('aluno_tcc_id')->unsigned()->default(1);
+            $table->timestamp('banca_data')->nullable();
+            $table->string('banca_evento_id');
             $table->timestamps();
 
              $table->foreign('natureza_tcc_id')
@@ -68,6 +70,10 @@ class CreateTccsTable extends Migration
             $table->foreign('aluno_tcc_id')
                 ->references('id')
                 ->on('alunos');
+
+            $table->foreign('status_tcc')
+                ->references('id')
+                ->on('status_pesquisas');
         });
     }
 
