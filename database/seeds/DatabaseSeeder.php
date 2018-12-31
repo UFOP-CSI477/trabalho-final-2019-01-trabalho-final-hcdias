@@ -22,6 +22,7 @@ class DatabaseSeeder extends Seeder
          $this->call(AreaPesquisaSeeder::class);
          $this->call(AgenciaPesquisaSeeder::class);
          $this->call(SubAreaPesquisaSeeder::class);
+         $this->call(StatusPesquisaSeeder::class);
          $this->call(PesquisaSeeder::class);
          $this->call(ProfessorPapelSeeder::class);
          $this->call(VinculoPesquisaSeeder::class);
