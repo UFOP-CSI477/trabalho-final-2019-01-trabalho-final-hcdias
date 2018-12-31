@@ -17,6 +17,7 @@ class CreateProfessoresTable extends Migration
             $table->increments('id');
             $table->integer('siape')->unique();
             $table->string('nome');
+            $table->string('email');
             $table->integer('departamento_id')->unsigned();
             $table->timestamps();
 
