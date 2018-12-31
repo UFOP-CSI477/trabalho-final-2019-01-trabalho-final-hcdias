@@ -2,6 +2,9 @@
  * Skin: Red
  * ---------
  */
+.box .box-primary{
+  !border-top-color: #962038;
+}
 .skin-red .main-header .navbar {
   background-color: #962038;
 }
