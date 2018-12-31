@@ -34,6 +34,10 @@
         <link rel="stylesheet" href="{{ asset('vendor/adminlte/plugins/iCheck/square/blue.css') }}"></script>
     @endif
 
+    @if(config('adminlte.plugins.datepicker'))
+        <link rel="stylesheet" href="{{ asset('vendor/adminlte/plugins/timerangepicker/css/daterangepicker.css') }}"></script>
+    @endif
+
     @yield('adminlte_css')
 
     <!--[if lt IE 9]>
@@ -71,6 +75,11 @@
 @if(config('adminlte.plugins.icheck'))
     <!-- iCheck -->
     <script src="{{ asset('vendor/adminlte/plugins/iCheck/icheck.min.js') }}"></script>
+@endif
+
+@if(config('adminlte.plugins.datepicker'))
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+    <script src="{{ asset('vendor/adminlte/plugins/timerangepicker/js/daterangepicker.js') }}"></script>
 @endif
 
 @yield('adminlte_js')
