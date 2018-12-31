@@ -15,6 +15,7 @@ use PesquisaProjeto\NaturezaPesquisa;
 use PesquisaProjeto\ObjetivoPesquisa;
 use PesquisaProjeto\ProcedimentosPesquisa;
 use PesquisaProjeto\SubAreaPesquisa;
+use PesquisaProjeto\StatusPesquisa;
 
 use Illuminate\Support\Facades\Auth;
 
@@ -53,7 +54,6 @@ class PesquisaController extends Controller
             ->get();
 
             $pesquisas = $pesquisas->merge($pesquisas);
-            
 
         }elseif($request->user()->hasRole('aluno')){
 
@@ -93,6 +93,7 @@ class PesquisaController extends Controller
         $objetivo =  ObjetivoPesquisa::get();
         $procedimento =  ProcedimentosPesquisa::get();
         $subarea =  SubAreaPesquisa::get();
+        $status =  StatusPesquisa::get();
         
         $alunos = Aluno::all();
 
@@ -106,7 +107,8 @@ class PesquisaController extends Controller
             'natureza'=>$natureza,
             'objetivo'=>$objetivo,
             'procedimento'=>$procedimento,
-            'subarea'=>$subarea
+            'subarea'=>$subarea,
+            'status'=>$status
             ]);
 
     }
@@ -145,7 +147,7 @@ class PesquisaController extends Controller
             'pesquisa_resumo'=>$pesquisa['pesquisa_resumo'],
             'pesquisa_ano_inicio'=>$pesquisa['pesquisa_ano_inicio'],
             'pesquisa_semestre_inicio'=>$pesquisa['pesquisa_semestre_inicio'],
-            'pesquisa_status'=>$pesquisa['pesquisa_status'],
+            'status_pesquisa_id'=>$pesquisa['pesquisa_status'],
             'abordagem_pesquisa_id'=>$pesquisa['pesquisa_abordagem'],
             'agencia_pesquisa_id'=>$pesquisa['pesquisa_agencia'],
             'area_pesquisa_id'=>$pesquisa['pesquisa_area'],
@@ -181,9 +183,25 @@ class PesquisaController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Request $request,$id)
     {
-     return view('templates.pesquisa.detail');
+        
+        $pesquisa = $this->getPesquisaAtores($request,$id);
+        if($pesquisa == null){
+            return response(view('403'),403);
+        }
+
+        $alunos = $pesquisa->alunos()->get();
+        $alunos = $alunos->merge($alunos);
+
+        $professores = $pesquisa->professores()->get();
+        $professores = $professores->merge($professores);        
+        
+        return view('templates.pesquisa.detail')->with([
+            'pesquisa'=>$pesquisa,
+            'alunos'=>$alunos,
+            'professores'=>$professores
+        ]);
     }
 
     /**
@@ -194,19 +212,35 @@ class PesquisaController extends Controller
      */
     public function edit(Request $request,$id)
     {
-
-        
-        $resultPesquisas = $this->getProfessorPesquisas($request,$id);
-        if($resultPesquisas['pesquisa'] == null){
+   
+        $pesquisa = $this->getPesquisaAtores($request,$id);
+        if($pesquisa == null){
             return response(view('403'),403);
         }
 
-        $professorPesquisas = $resultPesquisas['professorPesquisas'];
-        $pesquisa = $resultPesquisas['pesquisa'];
-        
-        
+        $alunosPesquisa = $pesquisa->alunos()->get();
+        $alunosPesquisa = $alunosPesquisa->merge($alunosPesquisa);
+
+        $professoresPesquisa = $pesquisa->professores()->get();
+        $professoresPesquisa = $professoresPesquisa->merge($professoresPesquisa);
+
+
         $professores = Professor::all();        
         $alunos = Aluno::all();
+
+        $professoresKeyed = $professores->keyBy('id');
+        foreach($professoresPesquisa as $professorPesquisa){
+            if($professoresKeyed->contains('id',$professorPesquisa->id)){
+                $professoresKeyed->forget($professorPesquisa->id);
+            }
+        }
+         
+        $alunosKeyed = $alunos->keyBy('id');
+        foreach($alunosPesquisa as $alunoPesquisa){
+            if($alunosKeyed->contains('id',$alunoPesquisa->id)){
+                $alunosKeyed->forget($alunoPesquisa->id);
+            }
+        }
 
         $abordagem =  AbordagemPesquisa::get();
         $agencia =  AgenciaPesquisa::get();
@@ -215,28 +249,23 @@ class PesquisaController extends Controller
         $objetivo =  ObjetivoPesquisa::get();
         $procedimento =  ProcedimentosPesquisa::get();
         $subarea =  SubAreaPesquisa::get();
+        $status = StatusPesquisa::get();
         
-        $professorId = [];
-        $alunoId = [];
-        foreach( $professorPesquisas as $professorPesquisa ){
-            $professorId[$professorPesquisa['professor_id']] = $professorPesquisa;
-            $alunoId[] = $professorPesquisa['pivot']['aluno_id'];
-        }
         
-
         return view('templates.pesquisa.edit')->with([
-            'professorPesquisas'=> $professorId,
-            'alunoPesquisas'=>$alunoId,
-            'professores'=>$professores,
+            'professoresPesquisa'=>$professoresPesquisa,
+            'alunosPesquisa'=>$alunosPesquisa,
+            'professores'=>$professoresKeyed,
             'pesquisa'=> $pesquisa,
-            'alunos'=>$alunos,
+            'alunos'=>$alunosKeyed,
             'abordagem'=>$abordagem,
             'agencia'=>$agencia,
             'area'=>$area,
             'natureza'=>$natureza,
             'objetivo'=>$objetivo,
             'procedimento'=>$procedimento,
-            'subarea'=>$subarea
+            'subarea'=>$subarea,
+            'status'=>$status
             ]);
 
 
@@ -252,14 +281,11 @@ class PesquisaController extends Controller
     public function update(Request $request, $id)
     {
 
-        $resultPesquisas = $this->getProfessorPesquisas($request,$id);
+        $pesquisa = $this->getPesquisaAtores($request,$id);
 
-        if($resultPesquisas['pesquisa'] == null){
+        if($pesquisa == null){
             return response(view('403'),403);
         }
-
-        $professorPesquisas = $resultPesquisas['professorPesquisas'];
-        $pesquisa = $resultPesquisas['pesquisa'];
 
         $validation = $this->validate(request(),[
             'pesquisa_titulo'=>'required',
@@ -277,7 +303,7 @@ class PesquisaController extends Controller
             'pesquisa_procedimento'=>'required',
             'pesquisa_subarea'=>'required'
         ]);
-
+        
         $orientador = $validation['orientador'];
         $discentes = $validation['discentes'];
         $coorientador = $request->input('coorientador');
@@ -286,7 +312,7 @@ class PesquisaController extends Controller
         $pesquisa->pesquisa_resumo = $validation['pesquisa_resumo'];
         $pesquisa->pesquisa_ano_inicio = $validation['pesquisa_ano_inicio'];
         $pesquisa->pesquisa_semestre_inicio = $validation['pesquisa_semestre_inicio'];
-        $pesquisa->pesquisa_status = $validation['pesquisa_status'];
+        $pesquisa->status_pesquisa_id = $validation['pesquisa_status'];
         $pesquisa->abordagem_pesquisa_id = $validation['pesquisa_abordagem'];
         $pesquisa->agencia_pesquisa_id = $validation['pesquisa_agencia'];
         $pesquisa->area_pesquisa_id = $validation['pesquisa_area'];
@@ -323,57 +349,55 @@ class PesquisaController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request,$id)
     {
-        //
+        $pesquisa = $this->getPesquisaAtores($request,$id);
+        if($pesquisa == null){
+            return response(view('403'),403);
+        }
+
+        $pesquisa->professores()->detach();
+        $result = $pesquisa->delete($pesquisa->id);
+
+        if($result){
+            return back()->with('success','Excluido com sucesso');
+        }
+
+        return back()->with('error','Houve um erro ao realizar a operação');
+
     }
 
 
-    private function getProfessorPesquisas(Request $request,$id)
+    private function getPesquisaAtores(Request $request,$id)
     {
-        $professorPesquisas = "";
-        $pesquisa = "";
+
+        $pesquisa = null;
         if( $request->user()->hasRole('admin') ){
             $pesquisa = Pesquisa::findOrFail($id);
-            $professorPesquisas = $pesquisa->professores()->get(['professor_id']);
 
         }elseif( $request->user()->hasRole('professor') ){
+
             if( !($professor = $request->user()->vinculo()->first()) == null ){
                 $professorId = $professor->actor_id;
             
                 $professorObj = Professor::find($professorId);
-                $actorId = $request->user()
-                ->vinculo()
-                ->get()
-                ->first()
-                ->actor_id;
 
                 $pesquisa = $professorObj->pesquisas()->where([
-                    ['professor_id','=',$actorId],
+                    ['professor_id','=',$professorId],
                     ['pesquisa_id','=',$id]
-                ])->get()->first();
-
-                if( !is_null($pesquisa) ){
-                    $professorPesquisas = Pesquisa::find($pesquisa['id'])
-                    ->professores()
-                    ->get(['professor_id']);
-                }
+                ])->first();
             }
         }elseif( $request->user()->hasRole('aluno') ){
+
             if( !($aluno = $request->user()->vinculo()->first()) == null ){
                 $alunoId = $aluno->actor_id;
             
                 $alunoObj = Aluno::find($alunoId);
-                $actorId = $request->user()
-                ->vinculo()
-                ->get()
-                ->first()
-                ->actor_id;
 
                 $pesquisa = $alunoObj->pesquisas()->where([
-                    ['professor_id','=',$actorId],
+                    ['aluno_id','=',$alunoId],
                     ['pesquisa_id','=',$id]
-                ])->get()->first();
+                ])->first();
 
                 if( !is_null($pesquisa) ){
                     $professorPesquisas = Pesquisa::find($pesquisa['id'])
@@ -382,12 +406,7 @@ class PesquisaController extends Controller
                 }
             }
         }
-
-        $result = [
-            'professorPesquisas'=>$professorPesquisas,
-            'pesquisa'=>$pesquisa
-        ];
-
-        return $result;
+        
+        return $pesquisa;
     }
 }
