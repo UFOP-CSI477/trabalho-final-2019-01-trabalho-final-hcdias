@@ -41,7 +41,7 @@ return [
     |
     */
 
-    'debug' => env('APP_DEBUG', false),
+    'debug' => env('APP_DEBUG', true),
 
     /*
     |--------------------------------------------------------------------------
@@ -178,8 +178,8 @@ return [
         // PesquisaProjeto\Providers\BroadcastServiceProvider::class,
         PesquisaProjeto\Providers\EventServiceProvider::class,
         PesquisaProjeto\Providers\RouteServiceProvider::class,
-        JeroenNoten\LaravelAdminLte\ServiceProvider::class
-
+        JeroenNoten\LaravelAdminLte\ServiceProvider::class,
+        Spatie\GoogleCalendar\GoogleCalendarServiceProvider::class,
     ],
 
     /*
@@ -228,7 +228,8 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
-        'ProfessorPapel'=> PesquisaProjeto\ProfessorPapel::class
+        'ProfessorPapel'=> PesquisaProjeto\ProfessorPapel::class,
+        'GoogleCalendar' => Spatie\GoogleCalendar\GoogleCalendarFacade::class,
 
     ],
 
