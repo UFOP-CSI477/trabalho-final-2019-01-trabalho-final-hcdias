@@ -263,6 +263,7 @@ return [
         'datatables' => true,
         'select2'    => true,
         'chartjs'    => true,
-        'icheck'     =>true
+        'icheck'     =>true,
+        'datepicker' =>true
     ],
 ];
