@@ -14,8 +14,19 @@ class Professor extends Model
     		->withPivot('professor_papel_id','aluno_id');
     }
 
+    public function bancaTccs()
+    {
+        return $this->belongsToMany('PesquisaProjeto\Tcc','banca_tccs')
+            ->withPivot('professor_id','aluno_id','status');
+    }
+
     public function user()
     {
     	return $this->hasOne('PesquisaProjeto\VinculoProfessorUser');
     }
+
+    public function tccs(){
+        return $this->hasMany('PesquisaProjeto\Tcc');
+    }
+    
 }
