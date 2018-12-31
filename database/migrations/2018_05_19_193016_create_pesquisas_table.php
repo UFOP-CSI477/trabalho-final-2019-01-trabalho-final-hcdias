@@ -16,10 +16,10 @@ class CreatePesquisasTable extends Migration
         Schema::create('pesquisas', function (Blueprint $table) {
             $table->increments('id');
             $table->string('pesquisa_titulo');
-            $table->string('pesquisa_resumo');
+            $table->longText('pesquisa_resumo');
             $table->integer('pesquisa_ano_inicio');
             $table->integer('pesquisa_semestre_inicio');
-            $table->integer('pesquisa_status');
+            $table->integer('status_pesquisa_id')->unsigned()->default(1);
             $table->integer('natureza_pesquisa_id')->unsigned()->default(1);
             $table->integer('abordagem_pesquisa_id')->unsigned()->default(1);
             $table->integer('objetivo_pesquisa_id')->unsigned()->default(1);
@@ -56,6 +56,10 @@ class CreatePesquisasTable extends Migration
             $table->foreign('sub_area_pesquisa_id')
                 ->references('id')
                 ->on('sub_area_pesquisas');
+
+            $table->foreign('status_pesquisa_id')
+                ->references('id')
+                ->on('status_pesquisas');
         });
     }
 
