@@ -24,7 +24,8 @@ class CreateVinculoPesquisasTable extends Migration
 
             $table->foreign('pesquisa_id')
                 ->references('id')
-                ->on('pesquisas');
+                ->on('pesquisas')
+                ->onDelete('cascade');
 
             $table->foreign('professor_papel_id')
                 ->references('id')
