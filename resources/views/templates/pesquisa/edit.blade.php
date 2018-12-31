@@ -17,7 +17,7 @@
 	    {{ csrf_field() }}
 	    	<div class="row">
 		        <div class="col-md-12">
-			      	<div class="box">
+			      	<div class="box box-primary">
 			            <div class="box-header">
 			              <h3 class="box-title">Docentes e discentes engajados</h3>
 			            </div>
@@ -41,19 +41,22 @@
 			              				 >
 			              					<option></option>
 			              					@if(Auth::user()->hasRole('admin'))
+			              						@foreach($professoresPesquisa as $professorPesquisa)
+			              							@if($professorPesquisa['pivot']['professor_papel_id'] == ProfessorPapel::ORIENTADOR)
+			              								<option value="{{ $professorPesquisa['id'] }}" selected="selected">{{ $professorPesquisa['nome'] }}</option>
+			              							@else
+			              								<option value="{{ $professorPesquisa['id'] }}">{{ $professorPesquisa['nome'] }}</option>
+			              							@endif
+			              						@endforeach
 			              						@foreach($professores as $professor)
-			                        				@if(array_key_exists($professor->id,$professorPesquisas) && $professorPesquisas[$professor->id]->pivot->professor_papel_id == ProfessorPapel::ORIENTADOR)
-			                        					<option value="{{ $professor->id }}" selected="selected">{{ $professor->nome }}</option>
-			                        				@else
-			                        					<option value="{{ $professor->id }}">{{ $professor->nome }}</option>
-			                        				@endif
-			                        			@endforeach
+			                        				<option value="{{ $professor->id }}">{{ $professor->nome }}</option>
+			              						@endforeach
 			              					@else
-			              						@foreach($professores as $professor)
-			                        				@if(array_key_exists($professor->id,$professorPesquisas) && $professorPesquisas[$professor->id]->pivot->professor_papel_id == ProfessorPapel::ORIENTADOR)
-			                        					<option value="{{ $professor->id }}" selected="selected">{{ $professor->nome }}</option>
-			                        				@endif
-			                        			@endforeach
+			              						@foreach($professoresPesquisa as $professorPesquisa)
+			              							@if($professorPesquisa['pivot']['professor_papel_id'] == ProfessorPapel::ORIENTADOR)
+			              								<option value="{{ $professorPesquisa->id }}" selected="selected">{{ $professorPesquisa->nome }}</option>
+			              							@endif
+			              						@endforeach
 			              					@endif
 		                        		</select>
 		                        		@if ($errors->has('orientador'))
@@ -69,12 +72,15 @@
 			              				<select id="coorientador" name="coorientador" class="form-control select2" 
 			              				data-placeholder="Selecione um professor" >
 			              					<option></option>
+			              					@foreach($professoresPesquisa as $professorPesquisa)
+			              							@if($professorPesquisa['pivot']['professor_papel_id'] == ProfessorPapel::COORIENTADOR)
+			              								<option value="{{ $professorPesquisa['id'] }}" selected="selected">{{ $professorPesquisa['nome'] }}</option>
+			              							@else
+			              								<option value="{{ $professorPesquisa['id'] }}">{{ $professorPesquisa['nome'] }}</option>
+			              							@endif
+			              						@endforeach
 			              					@foreach($professores as $professor)
-			                        			@if(array_key_exists($professor->id,$professorPesquisas) && $professorPesquisas[$professor->id]->pivot->professor_papel_id == ProfessorPapel::COORIENTADOR)
-			                        				<option value="{{ $professor->id }}" selected="selected">{{ $professor->nome }}</option>
-			                        			@else
-			                        				<option value="{{ $professor->id }}">{{ $professor->nome }}</option>
-			                        			@endif
+		                        				<option value="{{ $professor->id }}">{{ $professor->nome }}</option>
 			                        		@endforeach
 			              				</select>
 		              				</div>
@@ -86,13 +92,12 @@
 			              				 data-placeholder="" multiple="multiple" 
 			              				 >
 			              				 <option></option>
-			              				 @foreach($alunos as $aluno)
-			              				 	@if(in_array($aluno->id,$alunoPesquisas))
-			              				 		<option value="{{ $aluno->id }}" selected="selected">{{ $aluno->nome }}</option>
-			              				 	@else
+			              					@foreach($alunosPesquisa as $alunoPesquisa)
+			              				 		<option value="{{ $alunoPesquisa->id }}" selected="selected">{{ $alunoPesquisa->nome }}</option>
+			              					@endforeach
+			              				 	@foreach($alunos as $aluno)
 			              				 		<option value="{{ $aluno->id }}" >{{ $aluno->nome }}</option>
-			              				 	@endif
-			              				 @endforeach
+			              				 	@endforeach
 		                        		</select>
 		                        		@if ($errors->has('discentes'))
 					                        <span class="help-block">
@@ -108,7 +113,7 @@
 			</div>
 			<div class="row">
 		        <div class="col-md-6">
-		          	<div class="box box">
+		          	<div class="box box-primary">
 			            <div class="box-header">
 			              <h3 class="box-title">Dados sobre o projeto</h3> 
 			            </div>
@@ -328,39 +333,29 @@
 	              	</div>
 	            </div>
 	            <div class="col-md-6">
-		          	<div class="box">
+		          	<div class="box box-primary">
 			            <div class="box-header">
 			              <h3 class="box-title">Status do projeto</h3>
 			            </div>
 			            <div class="box-body">
 				         	<div class="form-group">
-				         	<?php
-				         		$array = [
-				         			1 => "Projeto em fase de concepção",
-				         			2 => "Projeto em fase de desenvolvimento",
-				         			3 => "Projeto em fase de geração de resultados",
-				         			4 => "Projeto em fase de publicação",
-				         			5 => "Projeto publicado",
-				         			6 => "Projeto cancelado",
-				         		];
-
-		          				for ($status = 1; $status < 7; $status++){
-		          					if ($status == $pesquisa->pesquisa_status){
-		          						echo "<div class='radio'>
-												<label>
-									  				<input type='radio' name='pesquisa_status' id='optionsRadios" . $status . "' value='" . $status . "' checked='checked'>" . $array[$status] . "
-												</label>
-											</div>";
-		          					}else{
-		          						echo "<div class='radio'>
-												<label>
-									  				<input type='radio' name='pesquisa_status' id='optionsRadios" . $status . "' value='" . $status . "'>" . $array[$status] . "
-												</label>
-											</div>";
-		          					}
-		          				}
-				         	?>
-	                		</div>
+				         		@foreach($status as $statusItem)
+				         			@if($pesquisa->status_pesquisa_id == $statusItem->id)
+				         				<div class='radio'>
+											<label>
+								  				<input type='radio' name='pesquisa_status'  value="{{$statusItem->id}}" checked='checked'> Projeto {{$statusItem->descricao}}
+											</label>
+										</div>
+				         			@else
+				         				<div class='radio'>
+											<label>
+								  				<input type='radio' name='pesquisa_status'  value="{{$statusItem->id}}"> Projeto {{$statusItem->descricao}}
+											</label>
+										</div>
+				         			@endif
+				         		@endforeach
+				         	</div>
+				         	
 	                		<div class="form-group">
 	                			<div class="checkbox">
 				                    <label>
