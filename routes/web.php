@@ -18,6 +18,13 @@ Route::get('/', 'HomeController@index')->name('index');
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/exibir', 'HomeController@exibir')->name('exibir');
 Route::post('/exibir', 'HomeController@exibir')->name('exibir');
+Route::post('/notification', function(){
+	return response('ok',200)->header('Content-Type', 'text/plain');
+});
+
+Route::get('/notification', function(){
+	echo 'oi';
+});
 
 Route::group(['prefix'=>'pesquisa'],function(){
 	Route::get('/visualizar-pesquisa', [
@@ -169,4 +176,54 @@ Route::group(['prefix'=>'usuario'],function(){
 		'roles'=>'admin',
 		'middleware'=>'roles'
 		]);
+});
+
+Route::group(['prefix'=>'mestrado'],function(){
+	Route::get('/visualizar-mestrado', [
+		'as'=>'visualizar_mestrado',
+		'uses'=>'MestradoController@index',
+		'roles'=>['admin','professor','aluno'],
+		'middleware'=>'roles'
+	]);
+
+	Route::get('/criar-mestrado', [
+		'as'=>'criar_mestrado',
+		'uses'=>'MestradoController@create',
+		'roles'=>['admin','professor','aluno'],
+		'middleware'=>'roles'
+	]);
+
+	Route::get('/detalhar-mestrado/{id}',[
+		'as'=>'detalhar_mestrado',
+		'uses'=> 'MestradoController@show',
+		'roles'=>['admin','professor','aluno'],
+		'middleware'=>'roles'
+	]);
+
+	Route::post('/salvar-mestrado', [
+		'as'=>'salvar_mestrado',
+		'uses'=>'MestradoController@store',
+		'roles'=>['admin','professor','aluno'],
+		'middleware'=>'roles'
+	]);
+
+	Route::get('/editar-mestrado/{id}', [
+		'as'=>'editar_mestrado',
+		'uses'=>'MestradoController@edit',
+		'roles'=>['admin','professor','aluno'],
+		'middleware'=>'roles'
+	]);
+
+	Route::post('/atualizar-mestrado/{id}', [
+		'as'=>'atualizar_mestrado',
+		'uses'=>'MestradoController@update',
+		'roles'=>['admin','professor','aluno'],
+		'middleware'=>'roles'
+	]);
+	Route::get('/delete/{id}', [
+		'as'=>'deletar_tcc',
+		'uses'=>'MestradoController@destroy',
+		'roles'=>['admin','professor','aluno'],
+		'middleware'=>'roles'
+	]);
 });
