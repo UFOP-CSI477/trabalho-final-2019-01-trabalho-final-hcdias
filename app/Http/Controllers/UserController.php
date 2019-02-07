@@ -8,7 +8,9 @@ use PesquisaProjeto\Role;
 use PesquisaProjeto\Professor;
 use PesquisaProjeto\Aluno;
 use PesquisaProjeto\VinculoUser;
-
+use PesquisaProjeto\Departamento;
+use PesquisaProjeto\Curso;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
@@ -102,9 +104,47 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function visualizarProfessor()
     {
-        
+        $user = Auth::user();     
+
+        $vinculo = $user->vinculo()->first();
+        $id_ator = $vinculo->actor_id;    
+
+        $professorObj = Professor::find($id_ator); 
+        $departamento_id = $professorObj->departamento_id;
+        $departamentoObj = Departamento::find($departamento_id);
+
+        return view('templates.simple_user.detail_professor')->with([
+            'departamentos'=>$departamentoObj,
+            'professores'=>$professorObj
+        ]);
+    }
+
+    public function visualizarAluno() 
+    {
+        $user = Auth::user();
+
+        $vinculo = $user->vinculo()->first();
+        $id_ator = $vinculo->actor_id;
+
+        $alunoObj = Aluno::find($id_ator);
+        $id_curso = $alunoObj->curso_id;
+        $cursoObj = Curso::find($id_curso);
+
+        return view('templates.simple_user.detail_aluno')->with([
+            'alunos'=>$alunoObj,
+            'cursos'=>$cursoObj
+        ]);
+    }
+
+    public function visualizarAdminstrador()
+    {
+        $user = Auth::user();
+
+        return view('templates.simple_user.detail_admin')->with([
+            'usuarios'=>$user
+        ]);
     }
 
     /**
