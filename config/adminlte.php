@@ -167,14 +167,24 @@ return [
         'OPÇÕES DE CONTA',
         [
             'text' => 'Perfil',
-            'url'  => 'admin/settings',
+            'url'  => 'usuario/visualizar-usuario-professor',
             'icon' => 'user',
         ],
         [
-            'text' => 'Alterar Senha',
-            'url'  => 'admin/settings',
-            'icon' => 'lock',
+            'text' => 'Perfil',
+            'url'  => 'usuario/visualizar-usuario-aluno',
+            'icon' => 'user',
         ],
+        [
+            'text' => 'Perfil',
+            'url'  => 'usuario/visualizar-usuario-admin',
+            'icon' => 'user',
+        ],
+        //[
+        //    'text' => 'Alterar Senha',
+        //    'url'  => 'admin/settings',
+        //    'icon' => 'lock',
+        //],
         // [
         //     'text'    => 'Multilevel',
         //     'icon'    => 'share',
