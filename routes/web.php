@@ -169,4 +169,26 @@ Route::group(['prefix'=>'usuario'],function(){
 		'roles'=>'admin',
 		'middleware'=>'roles'
 		]);
+
+	Route::get('/visualizar-usuario-professor/', [
+		'as'=>'visualizar_usuario_professor',
+		'uses'=>'UserController@visualizarProfessor',
+		'roles'=>['professor'],
+		'middleware'=>'roles'
+		]);
+
+	Route::get('/visualizar-usuario-aluno/', [
+		'as'=>'visualizar_usuario_aluno',
+		'uses'=>'UserController@visualizarAluno',
+		'roles'=>['aluno'],
+		'middleware'=>'roles'
+		]);
+
+	Route::get('/visualizar-usuario-admin/', [
+		'as'=>'visualizar_usuario_admin',
+		'uses'=>'UserController@visualizarAdminstrador',
+		'roles'=>['admin'],
+		'middleware'=>'roles'
+		]);
+
 });
