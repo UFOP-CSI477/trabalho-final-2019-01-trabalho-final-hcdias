@@ -148,6 +148,23 @@ return [
             ]
         ],
         [
+            'text'        => 'Mestrado',
+            'url'         => '#',
+            'icon'        => 'book',
+            'submenu'     => [
+                [
+                    'text'  => 'Visualizar',
+                    'url'   => 'mestrado/visualizar-mestrado',
+                    'icon'  => 'search' 
+                ],
+                [
+                    'text'  => 'Cadastrar novo',
+                    'url'   => 'mestrado/criar-mestrado',
+                    'icon'  => 'plus' 
+                ]
+            ]
+        ],
+        [
             'text'        => 'Usuários',
             'url'         => '#',
             'icon'        => 'users',
