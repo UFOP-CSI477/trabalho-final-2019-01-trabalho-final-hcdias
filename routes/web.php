@@ -249,3 +249,10 @@ Route::group(['prefix'=>'mestrado'],function(){
 		'middleware'=>'roles'
 	]);
 });
+
+Route::group(['prefix'=>'exibir'],function(){
+Route::post('/exibir-resultados', [
+		'as'=>'exibir_resultados',
+		'uses'=>'HomeController@pesquisar'
+	]);
+});
