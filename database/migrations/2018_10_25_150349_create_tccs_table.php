@@ -20,7 +20,7 @@ class CreateTccsTable extends Migration
             $table->integer('ano_inicio_tcc');
             $table->integer('semestre_inicio_tcc');
             $table->integer('semestre_defesa_tcc');
-            $table->string('sisbin_tcc')->default("");
+            $table->string('sisbin_tcc')->nullable();
             $table->integer('status_tcc')->unsigned()->default(1);
             $table->integer('natureza_tcc_id')->unsigned()->default(1);
             $table->integer('abordagem_tcc_id')->unsigned()->default(1);
