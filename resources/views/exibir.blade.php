@@ -100,53 +100,57 @@
       <hr class="mb-4">
         <h4 class="mb-3">Filtros de Pesquisa</h4>
 
+    <form method="post" action="{{ route('exibir_resultados')}}">    
+      {{ csrf_field() }}
       <div class="row">
-
           <div class="col-md-3 mb-3">
               <label for="firstName">Professor orientador</label>
-                <select class="form-control" id="country" required>
-                  <option value="">Todos...</option>
-                    <option>Marco Antonio Bonelli Junior</option>
-            <option>Mônica do Amaral</option>
-            <option>Thiago Augusto de Oliveira Silva</option>
+                <select class="form-control" name="professor_id" required>
+                    <option value="">Todos...</option>
+                    @foreach($professores as $professor)
+                      <option value="{{$professor->id}}">{{$professor["nome"]}}</option>
+                    @endforeach
                 </select>
               <div class="invalid-feedback">
                   Favor informar professor válido.
             </div>
             </div>
+    
+      
 
           <div class="col-md-3 mb-3">
               <label for="firstName">Status do projeto</label>
-                <select class="form-control" id="country" required>
+                <select class="form-control" name="status_id" required>
                   <option value="">Todos...</option>
-                    <option>Em concepção</option>
-            <option>Em desenvolvimento</option>
-            <option>Em geração de resultados</option>
+                  @foreach($status as $estado)
+                    <option value="{{$estado->id}}">{{$estado["descricao"]}}</option>
+                  @endforeach
                 </select>
               <div class="invalid-feedback">
                   Favor informar status válido.
             </div>
             </div>
-
+            
           <div class="col-md-3 mb-3">
               <label for="firstName">Área de conhecimento</label>
-                <select class="form-control" id="country" required>
+                <select class="form-control" name="areaPesquisa_id" required>
                   <option value="">Todos...</option>
-                    <option>Logística e cadeia de suprimentos</option>
-            <option>Pesquisa operacional</option>
-            <option>Planejamento e controle da produção</option>
+                  @foreach($areasPesquisa as $areas)
+                    <option value="{{$areas->id}}">{{$areas["descricao"]}}</option>
+                  @endforeach
                 </select>
               <div class="invalid-feedback">
                   Favor informar área válida.
             </div>
             </div>
-
+            
           <div class="col-md-3 mb-3">
               <label for="firstName">Abordagem de pesquisa</label>
-                <select class="form-control" id="country" required>
+                <select class="form-control" name="abordagem_id" required>
                   <option value="">Todos...</option>
-                    <option>Quantitativo</option>
-            <option>Qualitativo</option>
+                  @foreach($abordagens as $abordagem)
+                    <option value="{{$abordagem->id}}">{{$abordagem["descricao"]}}</option>
+                  @endforeach    
                 </select>
               <div class="invalid-feedback">
                   Favor informar abordagem válida.
@@ -154,18 +158,19 @@
             </div>
 
       </div>
-
+      <button type="submit" class="btn btn-block btn-primary btn-lg">Pesquisar</button>
+      </form>
               </div>
 
 </div>
             <div class="row" style="margin-top: 35px">
-              <?php for($cont = 0; $cont < 10; $cont++): ?>
+              @foreach($pesquisas as $pesquisa)
               <div class="col-md-3">
           <div class="box box-solid">
             <div class="box-header with-border">
               <i class="fa fa-text-gear"></i>
 
-              <h3 class="box-title">Descrição do projeto</h3>
+              <h3 class="box-title">{{$pesquisa["pesquisa_titulo"]}}</h3>
             </div>
             <!-- /.box-header -->
             <div class="box-body">
@@ -175,8 +180,7 @@
                     
                     
                 </dt>
-                <dd>Descrição do projeto. Vestibulum id ligula porta felis euismod semper eget lacinia odio sem nec elit.
-                Donec id elit non mi porta gravida at eget metus.</dd>
+                <dd>{{$pesquisa["pesquisa_resumo"]}}</dd>
                 
                 <dt>Contato</dt>
                 <dd>Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo
@@ -188,7 +192,7 @@
           </div>
           <!-- /.box -->
         </div>
-      <?php endfor; ?>
+      @endforeach
 
             </div>
 
