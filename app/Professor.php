@@ -28,5 +28,9 @@ class Professor extends Model
     public function tccs(){
         return $this->hasMany('PesquisaProjeto\Tcc');
     }
+
+    public function mestrados(){
+        return $this->hasMany('PesquisaProjeto\Mestrado');
+    }
     
 }
