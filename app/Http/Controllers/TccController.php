@@ -36,29 +36,9 @@ class TccController extends Controller
     public function index(Request $request)
     {
 
-        if($request->user()->hasRole('admin')) {
+        if ($request->user()->hasRole('admin')) {
             $tccs = Tcc::all();
 
-            foreach($tccs as $singleTcc){
-                $eventStatus = Event::find($singleTcc->banca_evento_id);
-                $profBanca = $singleTcc->professoresBanca()->get();
-
-                foreach($eventStatus->attendees as $attendee){
-                    if($attendee->responseStatus == 'accepted') {
-                        foreach($profBanca as $prof){
-                            if($prof->email == $attendee->email) {
-                                $singleTcc->professoresBanca()->updateExistingPivot($prof->id, ['status'=>1]);
-                            }
-                        }
-                    }elseif($attendee->responseStatus == 'declined') {
-                        foreach($profBanca as $prof){
-                            if($prof->email == $attendee->email) {
-                                $singleTcc->professoresBanca()->updateExistingPivot($prof->id, ['status'=>2]);
-                            }
-                        }
-                    }
-                }
-            }
             return view('templates.tcc.index')->with('tccs', $tccs);
         }
 
@@ -66,7 +46,7 @@ class TccController extends Controller
             return response(view('403')->with('error_message', 'Nao existe ator(professor ou aluno) atrelado ao usuario. Contate o administrador.'), 403);
         }
 
-        if($request->user()->hasRole('professor') ) {
+        if($request->user()->hasRole('professor')) {
             
             $professor = $request->user()->vinculo()->first();
             $professorId = $professor->actor_id;
@@ -409,14 +389,14 @@ class TccController extends Controller
 
         }
 
-        $event = new Event;
-        $event->name = "TCC";
-        $event->startDateTime = Carbon::parse($bancaData, 'UTC');
-        $event->endDateTime = Carbon::parse($bancaData)->addHour();
-        $event->addAttendee(['email'=>'hugo_root@yahoo.com.br']);
-        $event->addAttendee(['email'=>'hugo.dias@aluno.ufop.edu.br']);
-        $event->addAttendee(['email'=>'hugocarvalhodias@hotmail.com']);
-        $eventId = $event->save('insertEvent', ['sendUpdates'=>'all']);
+        // $event = new Event;
+        // $event->name = "TCC";
+        // $event->startDateTime = Carbon::parse($bancaData, 'UTC');
+        // $event->endDateTime = Carbon::parse($bancaData)->addHour();
+        // $event->addAttendee(['email'=>'hugo_root@yahoo.com.br']);
+        // $event->addAttendee(['email'=>'hugo.dias@aluno.ufop.edu.br']);
+        // $event->addAttendee(['email'=>'hugocarvalhodias@hotmail.com']);
+        // $eventId = $event->save('insertEvent', ['sendUpdates'=>'all']);
 
         $tcc->titulo_tcc = $validation['titulo_tcc'];
         $tcc->resumo_tcc = $validation['resumo_tcc'];
