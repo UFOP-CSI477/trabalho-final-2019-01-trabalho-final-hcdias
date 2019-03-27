@@ -5,9 +5,13 @@ Software para a gestão de projetos de pesquisa e trabalhos de conclusao de curs
 
 - VirtualBox 5.2 || VMWare || Parallels || Hyper-V  
 - Vagrant
-
+- Composer
+- PHP7
 
 ## Execução
+
+Instale as dependencias do projeto utilizado o composer
+
 
 Após instalar as dependências, execute o comando abaixo para gerar o Vagrantfile e o arquivo de configuração Homestead.yaml :
 
