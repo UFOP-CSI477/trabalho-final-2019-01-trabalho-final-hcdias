@@ -81,7 +81,7 @@ class PesquisaController extends Controller
         $professores = Professor::all();
         $professorId = null;
         if( $user->hasRole('professor') ){
-            if(!($professor = $user->vinculo()->first()) == null){
+            if( !($professor = $user->vinculo()->first()) == null ){
                 $professorId = $professor->actor_id;
             }
         }
@@ -110,7 +110,6 @@ class PesquisaController extends Controller
             'subarea'=>$subarea,
             'status'=>$status
             ]);
-
     }
 
     /**
