@@ -19,8 +19,7 @@ class CreateMestradosTable extends Migration
             $table->string('resumo_mestrado');
             $table->integer('ano_inicio_mestrado');
             $table->integer('semestre_inicio_mestrado');
-            $table->integer('semestre_defesa_mestrado');
-            $table->string('sisbin_mestrado')->default("");
+            $table->string('sisbin_mestrado')->nullable();
             $table->integer('status_mestrado')->unsigned()->default(1);
             $table->integer('natureza_mestrado_id')->unsigned()->default(1);
             $table->integer('abordagem_mestrado_id')->unsigned()->default(1);
@@ -31,6 +30,7 @@ class CreateMestradosTable extends Migration
             $table->integer('orientador_mestrado_id')->unsigned()->default(null);
             $table->integer('coorientador_mestrado_id')->unsigned()->default(null);
             $table->integer('aluno_mestrado_id')->unsigned()->default(1);
+            
             $table->timestamps();
 
              $table->foreign('natureza_mestrado_id')
