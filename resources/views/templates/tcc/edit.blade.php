@@ -437,14 +437,13 @@
 		                	</div>
 	                		<div class="row" style='margin-top: 65px'>
 	                			<div class="form-group">
-	                			<div class="col-md-12">
-					       			<div class="text-center">
-					          			<button type="submit" class="btn btn-block btn-primary btn-lg">Confirmar cadastro</button>
-						        	</div>
-					       		</div>
-	                		</div>	
+		                			<div class="col-md-12">
+						       			<div class="text-center">
+						          			<button type="submit" class="btn btn-block btn-primary btn-lg">Confirmar cadastro</button>
+							        	</div>
+						       		</div>
+	                			</div>	
 	                		</div>
-	                		
 	                	</div>
             		</div>
 			    </div>
