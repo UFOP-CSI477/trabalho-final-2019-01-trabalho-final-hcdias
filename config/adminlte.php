@@ -112,21 +112,25 @@ return [
         [
             'text' => 'Dashboard',
             'url'  => 'home',
+            'roles'=> ['admin','professor','aluno'],
         ],
         [
             'text'        => 'Projetos de Pesquisa',
             'url'         => '#',
             'icon'        => 'connectdevelop',
+            'roles'       => ['admin','professor','aluno'],
             'submenu'=> [
                 [
                     'text'  =>'Visualizar',
                     'url'   =>'pesquisa/visualizar-pesquisa',
-                    'icon'  =>'search'
+                    'icon'  =>'search',
+                    'roles' =>['admin','professor','aluno']
                 ],
                 [
                     'text'  =>'Cadastrar novo',
                     'url'   =>'pesquisa/criar-pesquisa',
-                    'icon'  =>'plus'
+                    'icon'  =>'plus',
+                    'roles' =>['admin','professor']
                 ]
             ]
         ],
@@ -134,16 +138,19 @@ return [
             'text'        => 'TCCs',
             'url'         => '#',
             'icon'        => 'quote-left',
+            'roles'       => ['admin','professor','aluno'],
             'submenu'     => [
                 [
                     'text'  => 'Visualizar',
                     'url'   => 'tcc/visualizar-tcc',
-                    'icon'  => 'search' 
+                    'icon'  => 'search',
+                    'roles' => ['admin','professor','aluno'],
                 ],
                 [
                     'text'  => 'Cadastrar novo',
                     'url'   => 'tcc/criar-tcc',
-                    'icon'  => 'plus' 
+                    'icon'  => 'plus',
+                    'roles' => ['admin','aluno'],
                 ]
             ]
         ],
@@ -151,16 +158,19 @@ return [
             'text'        => 'Mestrado',
             'url'         => '#',
             'icon'        => 'book',
+            'roles'       => ['admin','professor','aluno'],
             'submenu'     => [
                 [
                     'text'  => 'Visualizar',
                     'url'   => 'mestrado/visualizar-mestrado',
-                    'icon'  => 'search' 
+                    'icon'  => 'search',
+                    'roles' => ['admin','professor','aluno'],
                 ],
                 [
                     'text'  => 'Cadastrar novo',
                     'url'   => 'mestrado/criar-mestrado',
-                    'icon'  => 'plus' 
+                    'icon'  => 'plus',
+                    'roles' => ['admin','professor','aluno'],
                 ]
             ]
         ],
@@ -168,16 +178,19 @@ return [
             'text'        => 'Usuários',
             'url'         => '#',
             'icon'        => 'users',
+            'roles'       => ['admin'],
             'submenu'     => [
                 [
                     'text'  => 'Visualizar',
                     'url'   => 'usuario/visualizar-usuario',
-                    'icon'  =>'search'
+                    'icon'  =>'search',
+                    'roles' => ['admin'],
                 ],
                 [
                     'text'  => 'Cadastrar novo',
                     'url'   => 'usuario/criar-usuario',
-                    'icon'  => 'plus'
+                    'icon'  => 'plus',
+                    'roles' => ['admin'],
                 ]
             ]
         ],
@@ -186,16 +199,19 @@ return [
             'text' => 'Perfil',
             'url'  => 'usuario/visualizar-usuario-professor',
             'icon' => 'user',
+            'roles'=> ['professor'],
         ],
         [
             'text' => 'Perfil',
             'url'  => 'usuario/visualizar-usuario-aluno',
             'icon' => 'user',
+            'roles'=> ['aluno'],
         ],
         [
             'text' => 'Perfil',
             'url'  => 'usuario/visualizar-usuario-admin',
             'icon' => 'user',
+            'roles'=> ['admin'],
         ],
         //[
         //    'text' => 'Alterar Senha',
