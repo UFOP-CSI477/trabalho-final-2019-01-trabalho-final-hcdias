@@ -14,10 +14,10 @@
 
 Auth::routes();
 
-Route::get('/', 'HomeController@index')->name('index');
+Route::get('/', 'HomeController@exibir')->name('index');
+Route::get('/exibir-projetos', 'HomeController@exibir')->name('exibir');
 Route::get('/home', 'HomeController@index')->name('home');
-Route::get('/exibir', 'HomeController@exibir')->name('exibir');
-Route::post('/exibir', 'HomeController@exibir')->name('exibir');
+// Route::post('/exibir', 'HomeController@exibir')->name('exibir');
 Route::post('/notification', function(){
 	return response('ok',200)->header('Content-Type', 'text/plain');
 });
