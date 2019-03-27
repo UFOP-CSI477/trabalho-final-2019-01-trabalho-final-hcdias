@@ -25,6 +25,8 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
-        //
+        Gate::define('show-menu',function($user,$requiredPermission){
+           return in_array($user->roles->first()->name,$requiredPermission);
+        });
     }
 }
