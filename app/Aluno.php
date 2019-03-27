@@ -22,4 +22,8 @@ class Aluno extends Model
     public function user(){
     	return $this->hasOne('PesquisaProjeto\VinculoAlunoUser');
     }
+
+    public function mestrados(){
+        return $this->hasMany('PesquisaProjeto\Mestrados');
+    }
 }
