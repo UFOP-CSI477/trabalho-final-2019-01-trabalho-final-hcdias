@@ -12,19 +12,28 @@
 */
 
 
-Auth::routes();
+Route::group(['prefix' => 'admin'], function () {
+
+    Auth::routes();
+
+});
 
 Route::get('/', 'HomeController@exibir')->name('index');
 Route::get('/exibir-projetos', 'HomeController@exibir')->name('exibir');
 Route::get('/home', 'HomeController@index')->name('home');
-// Route::post('/exibir', 'HomeController@exibir')->name('exibir');
-Route::post('/notification', function(){
-	return response('ok',200)->header('Content-Type', 'text/plain');
-});
 
-Route::get('/notification', function(){
-	echo 'oi';
-});
+
+Route::get('/login', [
+	'as'=>'minhaufop_login',
+	'uses'=>'Auth\MinhaUfopLoginController@showLoginUfop'
+]);
+Route::post('/login', [
+	'as'=>'minhaufop_login_submit',
+	'uses'=>'Auth\MinhaUfopLoginController@login'
+]);
+//Route::post('/login', 'Auth\MinhaUfopLoginController@login')->name('admin.login.submit');
+//Route::get('/home', 'MinhaUfopController@index')->name('admin.home');
+
 
 Route::group(['prefix'=>'pesquisa'],function(){
 	Route::get('/visualizar-pesquisa', [
@@ -88,7 +97,7 @@ Route::group(['prefix'=>'tcc'],function(){
 	Route::get('/criar-tcc', [
 		'as'=>'criar_tcc',
 		'uses'=>'TccController@create',
-		'roles'=>['admin','professor','aluno'],
+		'roles'=>['admin','aluno'],
 		'middleware'=>'roles'
 	]);
 
@@ -299,6 +308,7 @@ Route::group(['prefix'=>'extensao'],function(){
 		'middleware'=>'roles'
 	]);
 });
+
 Route::group(['prefix'=>'exibir'],function(){
 Route::post('/exibir-resultados', [
 		'as'=>'exibir_resultados',
