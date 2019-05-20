@@ -13,21 +13,28 @@
       </ol>
     </section>
     <section class="content">
+    	<div class="row">
+    		<div class="col-md-2">
+    		</div>
+    		<div class="col-md-8">
+    			@if(Session::has('success'))
+	            	<div class="col-md-6 col-md-offset-3">
+		            	<div class="alert alert-success alert-dismissible">
+		                	<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+		                	<h4><i class="icon fa fa-check"></i> Sucesso</h4>
+		                	{{ Session::get('success') }}
+		              </div>
+		           	</div>
+	            @endif
+    		</div>
+    		<div class="col-md-2">
+    		</div>
+    	</div>
 	    <div class="row">
 	        <div class="col-xs-12">
 	          	<div class="box box-primary">
 		            <div class="box-header">
-		              <!-- <h3 class="box-title">Pesquisas Cadastradas</h3> -->
 		            </div>
-		            @if(Session::has('success'))
-		            	<div class="col-md-6 col-md-offset-3">
-			            	<div class="alert alert-success alert-dismissible">
-			                	<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-			                	<h4><i class="icon fa fa-check"></i> Sucesso</h4>
-			                	{{ Session::get('success') }}
-			              </div>
-			           	</div>
-		            @endif
 		            <!-- /.box-header -->
 		            <div class="box-body">
 		              	<table id="pesquisa" class="table table-bordered table-hover">
@@ -41,7 +48,7 @@
 			                <tbody>
 								@foreach($pesquisas as $pesquisa)
 									<tr>
-										<td>{{ $pesquisa->pesquisa_titulo }}</td>
+										<td>{{ $pesquisa->titulo }}</td>
 										<td class='text-center'>
 											<span class="label alert-status-{{$pesquisa->status->id}}">{{$pesquisa->status->descricao}}</span>
 										</td>
