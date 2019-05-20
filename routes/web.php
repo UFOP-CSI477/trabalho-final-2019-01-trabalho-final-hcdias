@@ -21,7 +21,7 @@ Route::group(['prefix' => 'admin'], function () {
 Route::get('/', 'HomeController@exibir')->name('index');
 Route::get('/exibir-projetos', 'HomeController@exibir')->name('exibir');
 Route::get('/home', 'HomeController@index')->name('home');
-
+Route::post('/notification', 'HomeController@notification')->name('not');
 
 Route::get('/login', [
 	'as'=>'minhaufop_login',
@@ -91,6 +91,13 @@ Route::group(['prefix'=>'tcc'],function(){
 		'as'=>'visualizar_tcc',
 		'uses'=>'TccController@index',
 		'roles'=>['admin','professor','aluno'],
+		'middleware'=>'roles'
+	]);
+
+	Route::get('/visualizar-tcc-aluno', [
+		'as'=>'visualizar_tcc_aluno',
+		'uses'=>'TccController@showSingleTcc',
+		'roles'=>['aluno'],
 		'middleware'=>'roles'
 	]);
 
