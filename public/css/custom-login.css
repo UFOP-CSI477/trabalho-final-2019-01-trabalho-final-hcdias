@@ -1,0 +1,36 @@
+.login-page,
+.register-page {
+  background: url('../../vendor/adminlte/dist/img/bk5.jpg') repeat fixed !important;
+}
+
+.login-logo{
+	background-color: #fff;
+	margin-bottom: 0px;
+}
+
+
+.login-logo img{
+	width: 50px;
+	margin-left: -0.5em;
+	margin-right: 1em;
+}
+
+.login-logo a b{
+	color:#8e0d0d;
+}
+
+.login-box-body{
+	background: #8e0d0d;
+	color:#fff;
+}
+.btn{
+	color:#8e0d0d;
+}
+
+a{
+	color:#fff;
+}
+
+a:hover{
+	color:#000;
+}
