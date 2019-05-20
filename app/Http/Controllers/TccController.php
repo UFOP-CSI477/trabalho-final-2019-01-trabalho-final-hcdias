@@ -8,6 +8,7 @@ use PesquisaProjeto\Professor;
 use PesquisaProjeto\ProfessorPapel;
 use PesquisaProjeto\Aluno;
 use PesquisaProjeto\User;
+use PesquisaProjeto\MinhaUfopUser;
 use PesquisaProjeto\AbordagemPesquisa;
 use PesquisaProjeto\Tcc;
 use PesquisaProjeto\AreaPesquisa;
@@ -26,7 +27,7 @@ class TccController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware('auth:minhaufop-guard,web');
     }
     /**
      * Display a listing of the resource.
@@ -35,79 +36,15 @@ class TccController extends Controller
      */
     public function index(Request $request)
     {
-
-        if ($request->user()->hasRole('admin')) {
+        $user = Auth::user();
+        if ($user->hasRole('admin')) {
             $tccs = Tcc::all();
-
             return view('templates.tcc.index')->with('tccs', $tccs);
         }
 
-        if($request->user()->vinculo()->first()  == null ) {
-            return response(view('403')->with('error_message', 'Nao existe ator(professor ou aluno) atrelado ao usuario. Contate o administrador.'), 403);
-        }
-
-        if($request->user()->hasRole('professor')) {
-            
-            $professor = $request->user()->vinculo()->first();
-            $professorId = $professor->actor_id;
-        
-            $tcc = Tcc::where('orientador_tcc_id', '=', $professorId)
-            ->orWhere('coorientador_tcc_id', '=', $professorId)
-            ->get();
-
-            $tccs = $tcc->merge($tcc);
-            foreach($tccs as $singleTcc){
-                $eventStatus = Event::find($singleTcc->banca_evento_id);
-                $profBanca = $singleTcc->professoresBanca()->get();
-
-                foreach($eventStatus->attendees as $attendee){
-                    if($attendee->responseStatus == 'accepted') {
-                        foreach($profBanca as $prof){
-                            if($prof->email == $attendee->email) {
-                                $singleTcc->professoresBanca()->updateExistingPivot($prof->id, ['status'=>1]);
-                            }
-                        }
-                    }elseif($attendee->responseStatus == 'declined') {
-                        foreach($profBanca as $prof){
-                            if($prof->email == $attendee->email) {
-                                $singleTcc->professoresBanca()->updateExistingPivot($prof->id, ['status'=>2]);
-                            }
-                        }
-                    }
-                }
-            }
-            
-        }elseif($request->user()->hasRole('aluno')) {
-
-            $aluno = $request->user()->vinculo()->first();
-            $alunoId = $aluno->actor_id;
-            
-            $tcc = Tcc::where('aluno_tcc_id', '=', $alunoId)
-            ->get();
-
-            $tccs = $tcc->merge($tcc);
-
-            foreach($tccs as $singleTcc){
-                $eventStatus = Event::find($singleTcc->banca_evento_id);
-                $profBanca = $singleTcc->professoresBanca()->get();
-
-                foreach($eventStatus->attendees as $attendee){
-                    if($attendee->responseStatus == 'accepted') {
-                        foreach($profBanca as $prof){
-                            if($prof->email == $attendee->email) {
-                                $singleTcc->professoresBanca()->updateExistingPivot($prof->id, ['status'=>1]);
-                            }
-                        }
-                    }elseif($attendee->responseStatus == 'declined') {
-                        foreach($profBanca as $prof){
-                            if($prof->email == $attendee->email) {
-                                $singleTcc->professoresBanca()->updateExistingPivot($prof->id, ['status'=>2]);
-                            }
-                        }
-                    }
-                }
-            }
-        }
+        $role = $user->roles()->first()->name;
+        $method = $role."Tccs";
+        $tccs = $user->$method()->get();
 
         return view('templates.tcc.index')->with('tccs', $tccs);
     }
@@ -119,35 +56,27 @@ class TccController extends Controller
      */
     public function create()
     {
-        $user = Auth::user();
-        $alunoId = null;
-        if($user->hasRole('aluno') ) {
-            if(!($aluno = $user->vinculo()->first()) == null) {
-                $alunoId = $aluno->actor_id;
-            }
-        }
-        $professorId = null;
-        if($user->hasRole('professor') ) {
-            if(!($professor = $user->vinculo()->first()) == null) {
-                $professorId = $professor->actor_id;
-            }
-        }
+         $user = Auth::user();      
 
-        $professores = Professor::all();
+        $professores = MinhaUfopUser::whereHas('roles', function($query){
+            $query->where('name','professor');
+        })->get();
+
+        $alunos = MinhaUfopUser::whereHas('roles', function($query){
+            $query->where('name','aluno');
+        })->get();  
+
+
         $abordagem =  AbordagemPesquisa::get();
         $area =  AreaPesquisa::get();
         $natureza =  NaturezaPesquisa::get();
         $objetivo =  ObjetivoPesquisa::get();
         $procedimento =  ProcedimentosPesquisa::get();
         $subarea =  SubAreaPesquisa::get();
-        
-        $alunos = Aluno::all();
 
         return view('templates.tcc.create')->with(
             [
             'professores' => $professores,
-            'alunoId'=>$alunoId,
-            'professorId'=>$professorId,
             'alunos'    => $alunos,
             'abordagem'=>$abordagem,
             'area'=>$area,
@@ -195,30 +124,11 @@ class TccController extends Controller
         if(!is_null($bancaData)) {
             $bancaData = substr($bancaData, 6, 4)."-".substr($bancaData, 3, 2)."-".substr($bancaData, 0, 2)." ".substr($bancaData, 10);
         }
-        
-        $user = Auth::user();
-        if($user->hasRole('aluno') ) {
-            if(!($aluno = $user->vinculo()->first()) == null) {
-                $tcc['discente'] = $aluno->actor_id;
-            }
-        }
 
-        $event = new Event;
-        $event->name = "TCC";
-        $event->startDateTime = Carbon::parse($bancaData, 'UTC');
-        $event->endDateTime = Carbon::parse($bancaData)->addHour();
-        $event->addAttendee(['email'=>'hugo_root@yahoo.com.br']);
-        $event->addAttendee(['email'=>'hugo.dias@aluno.ufop.edu.br']);
-        $event->addAttendee(['email'=>'hugocarvalhodias@hotmail.com']);
-        $eventId = $event->save('insertEvent', ['sendUpdates'=>'all']);
-        $event->watch(
-            [
-            'id'=>uniqid(),
-            'type'=>'web_hook',
-            'address'=>'https://de9aa8d2.ngrok.io/notification',
-            'params'=>['ttl'=>3600]
-            ]
-        );
+        $eventId = $this->createEvent($bancaData,$tcc['banca_tcc']);
+
+        if(!$eventId)
+            return back()->with('error', 'Houve um erro na criação do evento');
 
         $resultTcc = Tcc::create(
             [
@@ -247,12 +157,39 @@ class TccController extends Controller
             $resultTcc->professoresBanca()->attach(
                 $professorBanca,
                 [
-                'tcc_id'=>$resultTcc->id,
-                'aluno_id'=>$tcc['discente']
+                'tcc_id' =>$resultTcc->id,
+                'aluno_id' => $tcc['discente']
                 ]
             );
         }
+
         return back()->with('success', 'Cadastro realizado com sucesso');
+    }
+
+    private function createEvent($bancaData,$professores){
+        $user = Auth::user();
+
+        $event = new Event;
+        $event->name = "Banca de TCC - ".$user->name;
+        $event->startDateTime = Carbon::parse($bancaData, 'UTC');
+        $event->endDateTime = Carbon::parse($bancaData)->addHour();
+        
+        foreach($professores as $professor){
+            $professor = MinhaUfopUser::find($professor);
+            $event->addAttendee(['email'=>$professor->email]);
+        }
+
+        $eventId = $event->save('insertEvent', ['sendUpdates'=>'all']);
+        $event->watch(
+            [
+            'id'=>uniqid(),
+            'type'=>'web_hook',
+            'address'=>'https://188760e0.ngrok.io/notification',
+            'params'=>['ttl'=>3600]
+            ]
+        );
+
+        return $eventId;
     }
 
     /**
@@ -267,9 +204,10 @@ class TccController extends Controller
         if($tcc == null) {
             return response(view('403'), 403);
         }
-        $aluno = $tcc->aluno()->get()->first();
 
+        $aluno = $tcc->aluno()->get()->first();
         $professoresBanca = $tcc->professoresBanca()->get();
+
         $orientador = $tcc->orientador()->get()->first();
         $coorientador = $tcc->coorientador()->get()->first();
         
@@ -285,6 +223,39 @@ class TccController extends Controller
     }
 
     /**
+     * Display the specified resource.
+     *
+     * @param  int $id
+     * @return \Illuminate\Http\Response
+     */
+    public function showSingleTcc(Request $request)
+    {
+
+        $user = Auth::user();
+        if(is_null($user->alunoTccs)){
+            return response(view('not_created')->with(['tcc'=>'TCC','title'=>'Vishh...','link'=>'criar-tcc']), 403);
+        }
+  
+        $tcc = $user->alunoTccs;
+        $aluno = $tcc->aluno()->get()->first();
+        $professoresBanca = $tcc->professoresBanca()->get();
+
+        $orientador = $tcc->orientador()->get()->first();
+        $coorientador = $tcc->coorientador()->get()->first();
+        
+        return view('templates.tcc.detail')->with(
+            [
+            'tcc'=>$tcc,
+            'aluno'=>$aluno,
+            'orientador'=>$orientador,
+            'coorientador'=>$coorientador,
+            'professoresBanca'=>$professoresBanca
+            ]
+        );
+    }
+
+
+    /**
      * Show the form for editing the specified resource.
      *
      * @param  int $id
@@ -297,8 +268,15 @@ class TccController extends Controller
             return response(view('403'), 403);
         }
         
-        $professores = Professor::all();        
-        $alunos = Aluno::all();
+        $user = Auth::user();      
+
+        $professores = MinhaUfopUser::whereHas('roles', function($query){
+            $query->where('name','professor');
+        })->get();
+
+        $alunos = MinhaUfopUser::whereHas('roles', function($query){
+            $query->where('name','aluno');
+        })->get();  
 
         $abordagem =  AbordagemPesquisa::get();
         $area =  AreaPesquisa::get();
@@ -308,7 +286,6 @@ class TccController extends Controller
         $subarea =  SubAreaPesquisa::get();
         $status = StatusPesquisa::get();
 
-        $professores = Professor::all();
         $bancaTcc = $resultTcc->professoresBanca()->get(['professor_id']);
         
         $professoresBanca = [];
@@ -327,8 +304,7 @@ class TccController extends Controller
             'objetivo'=>$objetivo,
             'procedimento'=>$procedimento,
             'subarea'=>$subarea,
-            'professoresBanca'=>$professoresBanca,
-            'professores'=>$professores
+            'professoresBanca'=>$professoresBanca
             ]
         );
     }
@@ -458,34 +434,18 @@ class TccController extends Controller
 
     private function getTccs(Request $request,$id)
     {
-        $tcc = null;
-        if($request->user()->hasRole('admin') ) {
-            $tcc = Tcc::findOrFail($id);
-        }elseif($request->user()->hasRole('professor') ) {
-            if(!($professor = $request->user()->vinculo()->first()) == null ) {
-                $professorId = $professor->actor_id;
-
-                $tcc = Tcc::where('id', '=', $id)
-                ->where(
-                    function ($query) use ($professorId) {
-                        $query->where('orientador_tcc_id', '=', $professorId)
-                            ->orWhere('coorientador_tcc_id', '=', $professorId);
-                    }
-                )
-                ->get()
-                ->first();
-            }
-        }elseif($request->user()->hasRole('aluno') ) {
-            if(!($aluno = $request->user()->vinculo()->first()) == null ) {
-                $alunoId = $aluno->actor_id;
-            
-                 $tcc = Tcc::where('aluno_tcc_id', '=', $alunoId)
-                ->where('id', '=', $id)
-                ->get()
-                ->first();
-            }
+        $user = Auth::user();
+        if($user->hasRole('admin') ) {
+            return Tcc::findOrFail($id);
         }
 
-        return $tcc;
+        if($user->hasRole('aluno') ) {
+            return $user->alunoTccs->find($id);
+        }
+
+        $role = $user->roles()->first()->name;
+        $method = $role."Tccs";
+
+        return $user->$method->firstWhere('id','=',$id);        
     }
 }
