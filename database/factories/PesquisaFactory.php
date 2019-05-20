@@ -9,21 +9,24 @@ use PesquisaProjeto\ObjetivoPesquisa;
 use PesquisaProjeto\ProcedimentosPesquisa;
 use PesquisaProjeto\SubAreaPesquisa;
 use PesquisaProjeto\StatusPesquisa;
+use PesquisaProjeto\Professor;
 
 $factory->define(PesquisaProjeto\Pesquisa::class, function (Faker $faker) {
 
     return [
-    	'pesquisa_titulo'=>$faker->text(20),
-    	'pesquisa_resumo'=>$faker->text(200),
-    	'pesquisa_ano_inicio'=>date('Y'),
-    	'pesquisa_semestre_inicio'=>rand(1,2),
-    	'status_pesquisa_id'=>PesquisaProjeto\StatusPesquisa::inRandomOrder()->first()->id,
-    	'natureza_pesquisa_id'=>PesquisaProjeto\NaturezaPesquisa::inRandomOrder()->first()->id,
-    	'abordagem_pesquisa_id'=>PesquisaProjeto\AbordagemPesquisa::inRandomOrder()->first()->id,
-    	'objetivo_pesquisa_id'=>PesquisaProjeto\ObjetivoPesquisa::inRandomOrder()->first()->id,
-    	'procedimentos_pesquisa_id'=>PesquisaProjeto\ProcedimentosPesquisa::inRandomOrder()->first()->id,
-    	'area_pesquisa_id'=>PesquisaProjeto\AreaPesquisa::inRandomOrder()->first()->id,
-    	'agencia_pesquisa_id'=>PesquisaProjeto\AgenciaPesquisa::inRandomOrder()->first()->id,
-    	'sub_area_pesquisa_id'=>PesquisaProjeto\SubAreaPesquisa::inRandomOrder()->first()->id
+    	'titulo'=>$faker->text(20),
+    	'resumo'=>$faker->text(200),
+    	'ano_inicio'=>date('Y'),
+    	'semestre_inicio'=>rand(1,2),
+    	'status_id'=>PesquisaProjeto\StatusPesquisa::inRandomOrder()->first()->id,
+    	'natureza_id'=>PesquisaProjeto\NaturezaPesquisa::inRandomOrder()->first()->id,
+    	'abordagem_id'=>PesquisaProjeto\AbordagemPesquisa::inRandomOrder()->first()->id,
+    	'objetivo_id'=>PesquisaProjeto\ObjetivoPesquisa::inRandomOrder()->first()->id,
+    	'procedimentos_id'=>PesquisaProjeto\ProcedimentosPesquisa::inRandomOrder()->first()->id,
+    	'area_id'=>PesquisaProjeto\AreaPesquisa::inRandomOrder()->first()->id,
+    	'agencia_id'=>PesquisaProjeto\AgenciaPesquisa::inRandomOrder()->first()->id,
+    	'sub_area_id'=>PesquisaProjeto\SubAreaPesquisa::inRandomOrder()->first()->id,
+        'orientador_id'=>PesquisaProjeto\Professor::inRandomOrder()->first()->id,
+        'coorientador_id'=>PesquisaProjeto\Professor::inRandomOrder()->first()->id
     ];
 });
