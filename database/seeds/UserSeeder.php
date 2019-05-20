@@ -17,6 +17,7 @@ class UserSeeder extends Seeder
         $role_admin = Role::where('name','admin')->first();
         $role_user = Role::where('name','professor')->first();
         $role_aluno = Role::where('name','aluno')->first();
+        $role_coordenador = Role::where('name','coordenador')->first();
 
         $user = new User();
         $user->name = "professor";
@@ -38,6 +39,14 @@ class UserSeeder extends Seeder
         $admin->email = "admin@admin.com";
         $admin->password = password_hash('admin',PASSWORD_DEFAULT);
         $admin->save();
+
+        $coordenador = new User();
+        $coordenador->name = "coordenador";
+        $coordenador->email = "coordenador@ufop.com";
+        $coordenador->password = password_hash('ufop',PASSWORD_DEFAULT);
+        $coordenador->save();
+        $user->roles()->attach($role_coordenador);
+
         $admin->roles()->attach($role_admin);
         $admin->roles()->attach($role_user);
         $admin->roles()->attach($role_aluno);
