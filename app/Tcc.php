@@ -28,21 +28,20 @@ class Tcc extends Model
 		];
 
 	public function orientador(){
-		return $this->belongsTo('PesquisaProjeto\Professor','orientador_tcc_id');
+		return $this->belongsTo('PesquisaProjeto\MinhaUfopUser','orientador_tcc_id');
 	}
 
 	public function coorientador(){
-		return $this->belongsTo('PesquisaProjeto\Professor','coorientador_tcc_id');
+		return $this->belongsTo('PesquisaProjeto\MinhaUfopUser','coorientador_tcc_id');
 	}
 
 	public function professoresBanca(){
-    	return $this->belongsToMany('PesquisaProjeto\Professor','banca_tccs')
-    		->withPivot('professor_id','aluno_id','status');
+    	return $this->belongsToMany('PesquisaProjeto\MinhaUfopUser','banca_tccs','tcc_id','professor_id')
+    		->withPivot('aluno_id','status');
     }
 
     public function aluno(){
-    	return $this->belongsToMany('PesquisaProjeto\Aluno','banca_tccs')
-    		->withPivot('aluno_id');
+    	return $this->belongsTo('PesquisaProjeto\MinhaUfopUser','aluno_tcc_id','id');
     }
 
 	public function abordagem(){
