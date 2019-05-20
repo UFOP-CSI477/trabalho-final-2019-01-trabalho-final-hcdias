@@ -16,28 +16,9 @@ class CreateVinculoPesquisasTable extends Migration
         Schema::create('vinculo_pesquisas', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('pesquisa_id')->unsigned();
-            $table->integer('professor_papel_id')->unsigned();
-            $table->integer('aluno_id')->unsigned();
-            $table->integer('professor_id')->unsigned();
+            $table->integer('user_id')->unsigned();
             $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'));
-
-            $table->foreign('pesquisa_id')
-                ->references('id')
-                ->on('pesquisas')
-                ->onDelete('cascade');
-
-            $table->foreign('professor_papel_id')
-                ->references('id')
-                ->on('professor_papeis');
-
-            $table->foreign('aluno_id')
-                ->references('id')
-                ->on('alunos');
-
-            $table->foreign('professor_id')
-                ->references('id')
-                ->on('professores');
         });
     }
 
