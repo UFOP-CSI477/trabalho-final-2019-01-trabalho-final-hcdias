@@ -22,21 +22,26 @@
             <div class="box-body no-padding">
 
                 <ul class="users-list clearfix">
-                  @foreach($professores as $professor)
                     <li>
                       <img src="/media/mario.png">
-                      <a href="#" class="users-list-name">{{$professor->nome}}</a>
-                      <span class="users-list-date">{{ $professor->pivot->professor_papel_id == ProfessorPapel::ORIENTADOR ? "Orientador" : "Coorientador" }}</span>
-                       <span class="users-list-date">{{ $professor->email }}</span>
+                      <a href="#" class="users-list-name">{{$orientador->name}}</a>
+                      <span class="users-list-date">Orientador</span>
+                       <span class="users-list-date">{{ $orientador->email }}</span>
                     </li>  
-                  @endforeach
+                  
+                    <li>
+                      <img src="/media/mario.png">
+                      <a href="#" class="users-list-name">{{$coorientador->name}}</a>
+                      <span class="users-list-date">Coorientador</span>
+                       <span class="users-list-date">{{ $coorientador->email }}</span>
+                    </li>
 
                   @foreach($alunos as $aluno)
                       <li>
                         <img src="/media/mario2.png">
-                        <a href="#" class="users-list-name">{{$aluno->nome}}</a>
+                        <a href="#" class="users-list-name">{{$aluno->name}}</a>
                         <span class="users-list-date">Orientando</span>
-                        <span class="users-list-date">Matricula {{$aluno->matricula}}</span>
+                        <span class="users-list-date">{{$aluno->email}}</span>
                       </li> 
                   @endforeach
                 </ul>
@@ -52,14 +57,14 @@
             <div class="box-body">
               <div class="row">
                 <div class="col-md-6">
-                  <p class="lead text-muted"> Título: {{$pesquisa->pesquisa_titulo}}</p>
+                  <p class="lead text-muted"> Título: {{$pesquisa->titulo}}</p>
                 </div>
                 <div class="col-md-6">
                   <p class="lead text-status-{{$pesquisa->status()->get()->first()->id}}">Status: {{$pesquisa->status()->get()->first()->descricao}}</p>
                 </div>
                 <div class="col-md-6">
-                  <p class="text-muted">Semestre de início: {{$pesquisa->pesquisa_semestre_inicio}}</p>
-                  <p class="text-muted">Ano de início: {{$pesquisa->pesquisa_ano_inicio}}</p>
+                  <p class="text-muted">Semestre de início: {{$pesquisa->semestre_inicio}}</p>
+                  <p class="text-muted">Ano de início: {{$pesquisa->ano_inicio}}</p>
                   <p class="text-muted">Abordagem: {{$pesquisa->abordagem()->get()->first()->descricao}}</p>
                   <p class="text-muted">Agência: {{$pesquisa->agencia()->get()->first()->descricao}}</p>
                   <p class="text-muted">Área: {{$pesquisa->area()->get()->first()->descricao}}</p>
@@ -75,7 +80,7 @@
               <div class="row">
                 <div class="col-md-12">
                   <p class="text-muted">Descrição: </p>
-                  <p class="text-muted"> {{$pesquisa->pesquisa_resumo}}</p>
+                  <p class="text-muted"> {{$pesquisa->resumo}}</p>
                 </div>
               </div>
             </div>
