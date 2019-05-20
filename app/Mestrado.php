@@ -26,15 +26,15 @@ class Mestrado extends Model
 		];
 
 	public function orientador(){
-		return $this->belongsTo('PesquisaProjeto\Professor','orientador_mestrado_id');
+		return $this->belongsTo('PesquisaProjeto\MinhaUfopUser','orientador_mestrado_id');
 	}
 
 	public function coorientador(){
-		return $this->belongsTo('PesquisaProjeto\Professor','coorientador_mestrado_id');
+		return $this->belongsTo('PesquisaProjeto\MinhaUfopUser','coorientador_mestrado_id');
 	}
 
     public function aluno(){
-    	return $this->belongsTo('PesquisaProjeto\Aluno','aluno_mestrado_id');
+    	return $this->belongsTo('PesquisaProjeto\MinhaUfopUser','aluno_mestrado_id');
     }
 
 	public function abordagem(){
