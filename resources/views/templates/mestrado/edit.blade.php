@@ -44,15 +44,15 @@
 			              					@if(Auth::user()->hasRole('admin') || Auth::user()->hasRole('aluno'))
 			              						@foreach($professores as $professor)
 			                        				@if($professor->id == $mestrado->orientador_mestrado_id)
-			                        					<option value="{{ $professor->id }}" selected="selected">{{ $professor->nome }}</option>
+			                        					<option value="{{ $professor->id }}" selected="selected">{{ $professor->name }}</option>
 			                        				@else
-			                        					<option value="{{ $professor->id }}">{{ $professor->nome }}</option>
+			                        					<option value="{{ $professor->id }}">{{ $professor->name }}</option>
 			                        				@endif
 			                        			@endforeach
 			              					@else
 			              						@foreach($professores as $professor)
 			                        				@if($professor->id == $mestrado->orientador_mestrado_id)
-			                        					<option value="{{ $professor->id }}" selected="selected">{{ $professor->nome }}</option>
+			                        					<option value="{{ $professor->id }}" selected="selected">{{ $professor->name }}</option>
 			                        				@endif
 			                        			@endforeach
 			              					@endif
@@ -72,9 +72,9 @@
 			              					<option></option>
 			              					@foreach($professores as $professor)
 			                        			@if($professor->id == $mestrado->coorientador_mestrado_id)
-			                        				<option value="{{ $professor->id }}" selected="selected">{{ $professor->nome }}</option>
+			                        				<option value="{{ $professor->id }}" selected="selected">{{ $professor->name }}</option>
 			                        			@else
-			                        				<option value="{{ $professor->id }}">{{ $professor->nome }}</option>
+			                        				<option value="{{ $professor->id }}">{{ $professor->name }}</option>
 			                        			@endif
 			                        		@endforeach
 			              				</select>
@@ -89,15 +89,15 @@
 			              				 @if(Auth::user()->hasRole('admin'))
 			                        		@foreach($alunos as $aluno)
 			                        			@if($mestrado->aluno_mestrado_id == $aluno->id)
-			                        				<option selected="selected" value="{{$aluno->id}}">{{ $aluno->nome }}</option>
+			                        				<option selected="selected" value="{{$aluno->id}}">{{ $aluno->name }}</option>
 			                        			@else
-			                        			<option value="{{$aluno->id}}">{{ $aluno->nome }}</option>
+			                        			<option value="{{$aluno->id}}">{{ $aluno->name }}</option>
 			                        			@endif
 			                        		@endforeach
 			                        	@else
 			                        		@foreach($alunos as $aluno)
 			                        			@if($aluno->id == $mestrado->aluno_mestrado_id)
-			                        			<option selected="selected" value="{{$aluno->id}}">{{ $aluno->nome }}</option>
+			                        			<option selected="selected" value="{{$aluno->id}}">{{ $aluno->name }}</option>
 			                        			@endif
 			                        		@endforeach
 			                        	@endif
