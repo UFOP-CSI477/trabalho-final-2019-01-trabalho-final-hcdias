@@ -44,15 +44,15 @@
 			              					@if(Auth::user()->hasRole('admin') || Auth::user()->hasRole('aluno'))
 			              						@foreach($professores as $professor)
 			                        				@if($professor->id == $tcc->orientador_tcc_id)
-			                        					<option value="{{ $professor->id }}" selected="selected">{{ $professor->nome }}</option>
+			                        					<option value="{{ $professor->id }}" selected="selected">{{ $professor->name }}</option>
 			                        				@else
-			                        					<option value="{{ $professor->id }}">{{ $professor->nome }}</option>
+			                        					<option value="{{ $professor->id }}">{{ $professor->name }}</option>
 			                        				@endif
 			                        			@endforeach
 			              					@else
 			              						@foreach($professores as $professor)
 			                        				@if($professor->id == $tcc->orientador_tcc_id)
-			                        					<option value="{{ $professor->id }}" selected="selected">{{ $professor->nome }}</option>
+			                        					<option value="{{ $professor->id }}" selected="selected">{{ $professor->name }}</option>
 			                        				@endif
 			                        			@endforeach
 			              					@endif
@@ -72,9 +72,9 @@
 			              					<option></option>
 			              					@foreach($professores as $professor)
 			                        			@if($professor->id == $tcc->coorientador_tcc_id)
-			                        				<option value="{{ $professor->id }}" selected="selected">{{ $professor->nome }}</option>
+			                        				<option value="{{ $professor->id }}" selected="selected">{{ $professor->name }}</option>
 			                        			@else
-			                        				<option value="{{ $professor->id }}">{{ $professor->nome }}</option>
+			                        				<option value="{{ $professor->id }}">{{ $professor->name }}</option>
 			                        			@endif
 			                        		@endforeach
 			              				</select>
@@ -89,15 +89,15 @@
 			              				 @if(Auth::user()->hasRole('admin'))
 			                        		@foreach($alunos as $aluno)
 			                        			@if($tcc->aluno_tcc_id == $aluno->id)
-			                        				<option selected="selected" value="{{$aluno->id}}">{{ $aluno->nome }}</option>
+			                        				<option selected="selected" value="{{$aluno->id}}">{{ $aluno->name }}</option>
 			                        			@else
-			                        			<option value="{{$aluno->id}}">{{ $aluno->nome }}</option>
+			                        			<option value="{{$aluno->id}}">{{ $aluno->name }}</option>
 			                        			@endif
 			                        		@endforeach
 			                        	@else
 			                        		@foreach($alunos as $aluno)
 			                        			@if($aluno->id == $tcc->aluno_tcc_id)
-			                        			<option selected="selected" value="{{$aluno->id}}">{{ $aluno->nome }}</option>
+			                        				<option selected="selected" value="{{$aluno->id}}">{{ $aluno->name }}</option>
 			                        			@endif
 			                        		@endforeach
 			                        	@endif
@@ -116,7 +116,7 @@
 			</div>
 			<div class="row">
 		        <div class="col-md-6">
-		          	<div class="box">
+		          	<div class="box box-primary">
 			            <div class="box-header">
 			              <h3 class="box-title">Dados sobre a tese</h3> 
 			            </div>
@@ -345,7 +345,7 @@
 	              	</div>
 	            </div>
 	            <div class="col-md-6">
-		          	<div class="box">
+		          	<div class="box box-primary">
 			            <div class="box-header">
 			              <h3 class="box-title">Status do projeto</h3>
 			            </div>
@@ -388,7 +388,7 @@
 	                		</div>
 	                	</div>
             		</div>
-            		<div class="box">
+            		<div class="box box-primary">
 			            <div class="box-header">
 			              <h3 class="box-title">Banca de apresentação</h3>
 			            </div>
@@ -419,9 +419,9 @@
 				              				 <option></option>
 			                        		@foreach($professores as $professor)
 			                        			@if(in_array($professor->id,$professoresBanca))
-			                        			<option selected="selected" value="{{$professor->id}}">{{ $professor->nome }}</option>
+			                        			<option selected="selected" value="{{$professor->id}}">{{ $professor->name }}</option>
 			                        			@else
-			                        			<option value="{{$professor->id}}">{{ $professor->nome }}</option>
+			                        			<option value="{{$professor->id}}">{{ $professor->name }}</option>
 			                        			@endif
 			                        		@endforeach
 			                        		</select>
