@@ -16,8 +16,8 @@
     	<form method="post" action="{{ route('salvar_usuario')}}">
 	    {{ csrf_field() }}
 	    	<div class="row">
-		        <div class="col-md-6">
-		          	<div class="box">
+		        <div class="col-md-12">
+		          	<div class="box box-primary">
 			            <div class="box-header">
 			              <h3 class="box-title">Dados do usuário</h3>
 			            </div>
@@ -33,7 +33,7 @@
 			            <!-- /.box-header -->
 	              		<div class="box-body">
 	              			<div class="row">
-	              				<div class="col-md-12">
+	              				<div class="col-md-6">
 	              					<div class="form-group has-feedback {{ $errors->has('name') ? 'has-error' : '' }}">
 					                    <input type="text" name="name" class="form-control" value="{{ old('name') }}"
 					                           placeholder="Nome do usuário">
@@ -45,7 +45,7 @@
 					                    @endif
 					                </div>
 	              				</div>
-	              				<div class="col-md-12">
+	              				<div class="col-md-6">
 	              					<div class="form-group has-feedback {{ $errors->has('email') ? 'has-error' : '' }}">
 					                    <input type="email" name="email" class="form-control" value="{{ old('email') }}"
 					                           placeholder="Email do usuário">
@@ -57,8 +57,9 @@
 					                    @endif
 					                </div>
 	              				</div>
-		              			
-		              			<div class="col-md-12">
+		              		</div>
+		              		<div class="row">	
+		              			<div class="col-md-6">
 		              				<div class="form-group has-feedback {{ $errors->has('password') ? 'has-error' : '' }}">
 					                    <input type="password" name="password" class="form-control"
 					                           placeholder="Digite uma senha">
@@ -71,7 +72,7 @@
 					                </div>
 		              			</div>
 
-		              			<div class="col-md-12">
+		              			<div class="col-md-6">
 		              				<div class="form-group has-feedback {{ $errors->has('password_confirmation') ? 'has-error' : '' }}">
 					                    <input type="password" name="password_confirmation" class="form-control"
 					                           placeholder="Confirme a senha">
