@@ -33,6 +33,7 @@ class CreateTccsTable extends Migration
             $table->integer('aluno_tcc_id')->unsigned()->default(1);
             $table->timestamp('banca_data')->nullable();
             $table->string('banca_evento_id');
+            $table->integer('ocultar')->unsigned()->default(0);
             $table->timestamps();
 
              $table->foreign('natureza_tcc_id')
@@ -61,15 +62,15 @@ class CreateTccsTable extends Migration
 
             $table->foreign('orientador_tcc_id')
                 ->references('id')
-                ->on('professores');
+                ->on('minha_ufop_users');
 
             $table->foreign('coorientador_tcc_id')
                 ->references('id')
-                ->on('professores');
+                ->on('minha_ufop_users');
 
             $table->foreign('aluno_tcc_id')
                 ->references('id')
-                ->on('alunos');
+                ->on('minha_ufop_users');
 
             $table->foreign('status_tcc')
                 ->references('id')
