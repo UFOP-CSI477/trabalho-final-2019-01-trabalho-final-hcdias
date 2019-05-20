@@ -13,6 +13,23 @@
       </ol>
     </section>
     <section class="content">
+    	<div class="row">
+    		<div class="col-md-2">
+    		</div>
+    		<div class="col-md-8">
+    			@if(Session::has('success'))
+	            	<div class="col-md-6 col-md-offset-3">
+		            	<div class="alert alert-success alert-dismissible">
+		                	<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+		                	<h4><i class="icon fa fa-check"></i> Sucesso</h4>
+		                	{{ Session::get('success') }}
+		              </div>
+		           	</div>
+	            @endif
+    		</div>
+    		<div class="col-md-2">
+    		</div>
+    	</div>
     	<form method="post" action="{{ route('atualizar_pesquisa',['id'=>$pesquisa->id])}}">
 	    {{ csrf_field() }}
 	    	<div class="row">
@@ -21,15 +38,6 @@
 			            <div class="box-header">
 			              <h3 class="box-title">Docentes e discentes engajados</h3>
 			            </div>
-			             @if(Session::has('success'))
-			            	<div class="col-md-6 col-md-offset-3">
-				            	<div class="alert alert-success alert-dismissible">
-				                	<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-				                	<h4><i class="icon fa fa-check"></i> Sucesso</h4>
-				                	{{ Session::get('success') }}
-				              </div>
-				           	</div>
-			            @endif
 			            <!-- /.box-header -->
 	              		<div class="box-body">
 	              			<div class="row">
@@ -41,20 +49,17 @@
 			              				 >
 			              					<option></option>
 			              					@if(Auth::user()->hasRole('admin'))
-			              						@foreach($professoresPesquisa as $professorPesquisa)
-			              							@if($professorPesquisa['pivot']['professor_papel_id'] == ProfessorPapel::ORIENTADOR)
-			              								<option value="{{ $professorPesquisa['id'] }}" selected="selected">{{ $professorPesquisa['nome'] }}</option>
-			              							@else
-			              								<option value="{{ $professorPesquisa['id'] }}">{{ $professorPesquisa['nome'] }}</option>
-			              							@endif
-			              						@endforeach
 			              						@foreach($professores as $professor)
-			                        				<option value="{{ $professor->id }}">{{ $professor->nome }}</option>
+			              							@if($pesquisa->orientador_id == $professor->id)
+			              								<option value="{{ $professor->id }}" selected="selected">{{ $professor->name }}</option>
+			              							@else
+			                        					<option value="{{ $professor->id }}">{{ $professor->name }}</option>
+			                        				@endif
 			              						@endforeach
 			              					@else
-			              						@foreach($professoresPesquisa as $professorPesquisa)
-			              							@if($professorPesquisa['pivot']['professor_papel_id'] == ProfessorPapel::ORIENTADOR)
-			              								<option value="{{ $professorPesquisa->id }}" selected="selected">{{ $professorPesquisa->nome }}</option>
+			              						@foreach($professores as $professor)
+			              							@if($pesquisa->orientador_id == $professor->id)
+			              								<option value="{{ $professor->id }}" selected="selected">{{ $professor->name }}</option>
 			              							@endif
 			              						@endforeach
 			              					@endif
@@ -72,16 +77,13 @@
 			              				<select id="coorientador" name="coorientador" class="form-control select2" 
 			              				data-placeholder="Selecione um professor" >
 			              					<option></option>
-			              					@foreach($professoresPesquisa as $professorPesquisa)
-			              							@if($professorPesquisa['pivot']['professor_papel_id'] == ProfessorPapel::COORIENTADOR)
-			              								<option value="{{ $professorPesquisa['id'] }}" selected="selected">{{ $professorPesquisa['nome'] }}</option>
+			              						@foreach($professores as $professor)
+			              							@if($pesquisa->coorientador_id == $professor->id)
+			              								<option value="{{ $professor->id }}" selected="selected">{{ $professor->name }}</option>
 			              							@else
-			              								<option value="{{ $professorPesquisa['id'] }}">{{ $professorPesquisa['nome'] }}</option>
-			              							@endif
+			                        					<option value="{{ $professor->id }}">{{ $professor->name }}</option>
+			                        				@endif
 			              						@endforeach
-			              					@foreach($professores as $professor)
-		                        				<option value="{{ $professor->id }}">{{ $professor->nome }}</option>
-			                        		@endforeach
 			              				</select>
 		              				</div>
 		              			</div>
@@ -93,10 +95,10 @@
 			              				 >
 			              				 <option></option>
 			              					@foreach($alunosPesquisa as $alunoPesquisa)
-			              				 		<option value="{{ $alunoPesquisa->id }}" selected="selected">{{ $alunoPesquisa->nome }}</option>
+			              				 		<option value="{{ $alunoPesquisa->id }}" selected="selected">{{ $alunoPesquisa->name }}</option>
 			              					@endforeach
 			              				 	@foreach($alunos as $aluno)
-			              				 		<option value="{{ $aluno->id }}" >{{ $aluno->nome }}</option>
+			              				 		<option value="{{ $aluno->id }}" >{{ $aluno->name }}</option>
 			              				 	@endforeach
 		                        		</select>
 		                        		@if ($errors->has('discentes'))
@@ -121,12 +123,12 @@
 	              		<div class="box-body">
 	              			<div class="row">
 	              				<div class="col-md-12">
-	              					<label for="pesquisa_titulo">Título</label>
-	              					<div class="form-group has-feedback {{ $errors->has('pesquisa_titulo') ? 'has-error' : '' }}">
-		              					<input type="text" class="form-control" name="pesquisa_titulo" id="pesquisa_titulo" placeholder="" value="{{$pesquisa->pesquisa_titulo}}">
-										@if ($errors->has('pesquisa_titulo'))
+	              					<label for="titulo">Título</label>
+	              					<div class="form-group has-feedback {{ $errors->has('titulo') ? 'has-error' : '' }}">
+		              					<input type="text" class="form-control" name="titulo" id="titulo" placeholder="" value="{{$pesquisa->titulo}}">
+										@if ($errors->has('titulo'))
 					                        <span class="help-block">
-					                            <strong>{{ $errors->first('pesquisa_titulo') }}</strong>
+					                            <strong>{{ $errors->first('titulo') }}</strong>
 					                        </span>
 					                    @endif
 	          						</div>
@@ -134,12 +136,12 @@
 	          					
 	          					<div class="col-md-6">
 	          						<label>Semestre de início</label>
-	          						<div class="form-group has-feedback {{ $errors->has('pesquisa_semestre_inicio') ? 'has-error' : '' }}">
-		          						<select class="form-control" id="pesquisa_semestre_inicio" name="pesquisa_semestre_inicio">
+	          						<div class="form-group has-feedback {{ $errors->has('semestre_inicio') ? 'has-error' : '' }}">
+		          						<select class="form-control" id="semestre_inicio" name="semestre_inicio">
 		          							<option value="">Selecione</option>
 		          							<?php
 		          								for ($semester = 1; $semester < 3; $semester++){
-		          									if ($semester == $pesquisa->pesquisa_semestre_inicio){
+		          									if ($semester == $pesquisa->semestre_inicio){
 		          										echo "<option value='" . $semester . "' selected = 'selected'>" . $semester . "º semestre</option>";
 		          									}else{
 		          										echo "<option value='" . $semester . "'>" . $semester . "º semestre</option>";
@@ -147,21 +149,21 @@
 		          								}
 		          							?>
 		          						</select>
-		          						@if ($errors->has('pesquisa_semestre_inicio'))
+		          						@if ($errors->has('semestre_inicio'))
 					                        <span class="help-block">
-					                            <strong>{{ $errors->first('pesquisa_semestre_inicio') }}</strong>
+					                            <strong>{{ $errors->first('semestre_inicio') }}</strong>
 					                        </span>
 					                    @endif
 	          						</div>
 	          					</div>
 	          					<div class="col-md-6">
 	          						<label>Ano de início</label>
-	          						<div class="form-group has-feedback {{ $errors->has('pesquisa_ano_inicio') ? 'has-error' : '' }}">
-		          						<select class="form-control" id="pesquisa_ano_inicio" name="pesquisa_ano_inicio">
+	          						<div class="form-group has-feedback {{ $errors->has('ano_inicio') ? 'has-error' : '' }}">
+		          						<select class="form-control" id="ano_inicio" name="ano_inicio">
 		          							<option value="">Selecione</option>
 		          							<?php
 		          								for ($year = 2010; $year < 2022; $year++){
-		          									if ($year == $pesquisa->pesquisa_ano_inicio){
+		          									if ($year == $pesquisa->ano_inicio){
 		          										echo "<option value='" . $year . "' selected = 'selected'>" . $year . "</option>";
 		          									}else{
 		          										echo "<option value='" . $year . "'>" . $year . "</option>";
@@ -169,49 +171,49 @@
 		          								}
 		          							?>
 		          						</select>
-		          						@if ($errors->has('pesquisa_ano_inicio'))
+		          						@if ($errors->has('ano_inicio'))
 					                        <span class="help-block">
-					                            <strong>{{ $errors->first('pesquisa_ano_inicio') }}</strong>
+					                            <strong>{{ $errors->first('ano_inicio') }}</strong>
 					                        </span>
 					                    @endif
 	          						</div>
 	          					</div>
 	          					<div class="col-md-6">
 	          						<label>Abordagem</label>
-	          						<div class="form-group has-feedback {{ $errors->has('pesquisa_abordagem') ? 'has-error' : '' }}">
-		          						<select class="form-control" id="pesquisa_abordagem" name="pesquisa_abordagem">
+	          						<div class="form-group has-feedback {{ $errors->has('abordagem') ? 'has-error' : '' }}">
+		          						<select class="form-control" id="abordagem" name="abordagem">
 		          							<option value="">Selecione</option>
 		          							@foreach($abordagem as $item)
-		          								@if($item->id == $pesquisa->abordagem_pesquisa_id)
+		          								@if($item->id == $pesquisa->abordagem_id)
 		          									<option value="{{$item->id}}" selected="selected">{{$item->descricao}}</option>
 		          								@else
 		          									<option value="{{$item->id}}">{{$item->descricao}}</option>
 		          								@endif
 		          							@endforeach
 		          						</select>
-		          						@if ($errors->has('pesquisa_abordagem'))
+		          						@if ($errors->has('abordagem'))
 					                        <span class="help-block">
-					                            <strong>{{ $errors->first('pesquisa_abordagem') }}</strong>
+					                            <strong>{{ $errors->first('abordagem') }}</strong>
 					                        </span>
 					                    @endif
 	          						</div>
 	          					</div>
 	          					<div class="col-md-6">
 	          						<label>Agência</label>
-	          						<div class="form-group has-feedback {{ $errors->has('pesquisa_agencia') ? 'has-error' : '' }}">
-		          						<select class="form-control" id="pesquisa_agencia" name="pesquisa_agencia">
+	          						<div class="form-group has-feedback {{ $errors->has('agencia') ? 'has-error' : '' }}">
+		          						<select class="form-control" id="agencia" name="agencia">
 		          							<option value="">Selecione</option>
 		          							@foreach($agencia as $item)
-		          								@if($item->id == $pesquisa->agencia_pesquisa_id)
+		          								@if($item->id == $pesquisa->agencia_id)
 		          									<option value="{{$item->id}}" selected="selected">{{$item->descricao}}</option>
 		          								@else
 		          									<option value="{{$item->id}}">{{$item->descricao}}</option>
 		          								@endif
 		          							@endforeach
 		          						</select>
-		          						@if ($errors->has('pesquisa_agencia'))
+		          						@if ($errors->has('agencia'))
 					                        <span class="help-block">
-					                            <strong>{{ $errors->first('pesquisa_agencia') }}</strong>
+					                            <strong>{{ $errors->first('agencia') }}</strong>
 					                        </span>
 					                    @endif
 	          						</div>
@@ -219,20 +221,20 @@
 
 	          					<div class="col-md-6">
 	          						<label>Area</label>
-	          						<div class="form-group has-feedback {{ $errors->has('pesquisa_area') ? 'has-error' : '' }}">
-		          						<select class="form-control" id="pesquisa_area" name="pesquisa_area">
+	          						<div class="form-group has-feedback {{ $errors->has('area') ? 'has-error' : '' }}">
+		          						<select class="form-control" id="area" name="area">
 		          							<option value="">Selecione</option>
 		          							@foreach($area as $item)
-		          								@if($item->id == $pesquisa->area_pesquisa_id)
+		          								@if($item->id == $pesquisa->area_id)
 		          									<option value="{{$item->id}}" selected="selected">{{$item->descricao}}</option>
 		          								@else
 		          									<option value="{{$item->id}}">{{$item->descricao}}</option>
 		          								@endif
 		          							@endforeach
 		          						</select>
-		          						@if ($errors->has('pesquisa_area'))
+		          						@if ($errors->has('area'))
 					                        <span class="help-block">
-					                            <strong>{{ $errors->first('pesquisa_area') }}</strong>
+					                            <strong>{{ $errors->first('area') }}</strong>
 					                        </span>
 					                    @endif
 	          						</div>
@@ -240,80 +242,80 @@
 
 	          					<div class="col-md-6">
 	          						<label>Natureza</label>
-	          						<div class="form-group has-feedback {{ $errors->has('pesquisa_natureza') ? 'has-error' : '' }}">
-		          						<select class="form-control" id="pesquisa_natureza" name="pesquisa_natureza">
+	          						<div class="form-group has-feedback {{ $errors->has('natureza') ? 'has-error' : '' }}">
+		          						<select class="form-control" id="natureza" name="natureza">
 		          							<option value="">Selecione</option>
 		          							@foreach($natureza as $item)
-		          								@if($item->id == $pesquisa->natureza_pesquisa_id)
+		          								@if($item->id == $pesquisa->natureza_id)
 		          									<option value="{{$item->id}}" selected="selected">{{$item->descricao}}</option>
 		          								@else
 		          									<option value="{{$item->id}}">{{$item->descricao}}</option>
 		          								@endif
 		          							@endforeach
 		          						</select>
-		          						@if ($errors->has('pesquisa_natureza'))
+		          						@if ($errors->has('natureza'))
 					                        <span class="help-block">
-					                            <strong>{{ $errors->first('pesquisa_natureza') }}</strong>
+					                            <strong>{{ $errors->first('natureza') }}</strong>
 					                        </span>
 					                    @endif
 	          						</div>
 	          					</div>
 	          					<div class="col-md-6">
 	          						<label>Objetivo</label>
-	          						<div class="form-group has-feedback {{ $errors->has('pesquisa_objetivo') ? 'has-error' : '' }}">
-		          						<select class="form-control" id="pesquisa_objetivo" name="pesquisa_objetivo">
+	          						<div class="form-group has-feedback {{ $errors->has('objetivo') ? 'has-error' : '' }}">
+		          						<select class="form-control" id="objetivo" name="objetivo">
 		          							<option value="">Selecione</option>
 		          							@foreach($objetivo as $item)
-		          								@if($item->id == $pesquisa->objetivo_pesquisa_id)
+		          								@if($item->id == $pesquisa->objetivo_id)
 		          									<option value="{{$item->id}}" selected="selected">{{$item->descricao}}</option>
 		          								@else
 		          									<option value="{{$item->id}}">{{$item->descricao}}</option>
 		          								@endif
 		          							@endforeach
 		          						</select>
-		          						@if ($errors->has('pesquisa_objetivo'))
+		          						@if ($errors->has('objetivo'))
 					                        <span class="help-block">
-					                            <strong>{{ $errors->first('pesquisa_objetivo') }}</strong>
+					                            <strong>{{ $errors->first('objetivo') }}</strong>
 					                        </span>
 					                    @endif
 	          						</div>
 	          					</div>
 	          					<div class="col-md-6">
 	          						<label>Procedimento</label>
-	          						<div class="form-group has-feedback {{ $errors->has('pesquisa_procedimento') ? 'has-error' : '' }}">
-		          						<select class="form-control" id="pesquisa_procedimento" name="pesquisa_procedimento">
+	          						<div class="form-group has-feedback {{ $errors->has('procedimento') ? 'has-error' : '' }}">
+		          						<select class="form-control" id="procedimento" name="procedimento">
 		          							<option value="">Selecione</option>
 		          							@foreach($procedimento as $item)
-		          								@if($item->id == $pesquisa->procedimentos_pesquisa_id)
+		          								@if($item->id == $pesquisa->procedimentos_id)
 		          									<option value="{{$item->id}}" selected="selected">{{$item->descricao}}</option>
 		          								@else
 		          									<option value="{{$item->id}}">{{$item->descricao}}</option>
 		          								@endif
 		          							@endforeach
 		          						</select>
-		          						@if ($errors->has('pesquisa_procedimento'))
+		          						@if ($errors->has('procedimento'))
 					                        <span class="help-block">
-					                            <strong>{{ $errors->first('pesquisa_procedimento') }}</strong>
+					                            <strong>{{ $errors->first('procedimento') }}</strong>
 					                        </span>
 					                    @endif
 	          						</div>
 	          					</div>
 	          					<div class="col-md-6">
 	          						<label>Sub-área</label>
-	          						<div class="form-group has-feedback {{ $errors->has('pesquisa_subarea') ? 'has-error' : '' }}">
-		          						<select class="form-control" id="pesquisa_subarea" name="pesquisa_subarea">
+	          						<div class="form-group has-feedback {{ $errors->has('subarea') ? 'has-error' : '' }}">
+		          						<select class="form-control" id="subarea" name="subarea">
 		          							<option value="">Selecione</option>
 		          								@foreach($subarea as $item)
-			          								@if($item->id == $pesquisa->sub_area_pesquisa_id)
+			          								@if($item->id == $pesquisa->sub_area_id)
 			          									<option value="{{$item->id}}" selected="selected">{{$item->descricao}}</option>
 			          								@else
 		          										<option value="{{$item->id}}">{{$item->descricao}}</option>
 		          									@endif
 		          								@endforeach
 		          						</select>
-		          						@if ($errors->has('pesquisa_subarea'))
+		          						@if ($errors->has('subarea'))
 					                        <span class="help-block">
-					                            <strong>{{ $errors->first('pesquisa_subarea') }}</strong>
+					                            <strong>{{ $errors->first('subarea') }}</strong>
 					                        </span>
 					                    @endif
 	          						</div>
@@ -322,8 +324,8 @@
 	          					<div class="col-md-12">
 	          						<div class="form-group">
 			                  		<label>Resumo do projeto</label>
-			                  		<textarea class="form-control" id="pesquisa_resumo" name="pesquisa_resumo" rows="5" placeholder=""><?php
-		              						echo $pesquisa->pesquisa_resumo;
+			                  		<textarea class="form-control" id="resumo" name="resumo" rows="5" placeholder=""><?php
+		              						echo $pesquisa->resumo;
 										?>
 			                  		</textarea>
 			                	</div>
@@ -340,16 +342,16 @@
 			            <div class="box-body">
 				         	<div class="form-group">
 				         		@foreach($status as $statusItem)
-				         			@if($pesquisa->status_pesquisa_id == $statusItem->id)
+				         			@if($pesquisa->status_id == $statusItem->id)
 				         				<div class='radio'>
 											<label>
-								  				<input type='radio' name='pesquisa_status'  value="{{$statusItem->id}}" checked='checked'> Projeto {{$statusItem->descricao}}
+								  				<input type='radio' name='status'  value="{{$statusItem->id}}" checked='checked'> Projeto {{$statusItem->descricao}}
 											</label>
 										</div>
 				         			@else
 				         				<div class='radio'>
 											<label>
-								  				<input type='radio' name='pesquisa_status'  value="{{$statusItem->id}}"> Projeto {{$statusItem->descricao}}
+								  				<input type='radio' name='status'  value="{{$statusItem->id}}"> Projeto {{$statusItem->descricao}}
 											</label>
 										</div>
 				         			@endif
