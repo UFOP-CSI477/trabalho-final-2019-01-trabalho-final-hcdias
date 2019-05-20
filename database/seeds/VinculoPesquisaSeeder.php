@@ -12,7 +12,7 @@ class VinculoPesquisaSeeder extends Seeder
      */
     public function run()
     {
-        // factory(PesquisaProjeto\VinculoPesquisa::class,5)->create();
+        factory(PesquisaProjeto\VinculoPesquisa::class,5)->create();
          
         // $pesquisa = new VinculoPesquisa();
         // $pesquisa->pesquisa_id = 1;
