@@ -3,16 +3,40 @@
 	<!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        Teses de conclusão de curso
-        <small>criar nova tese de conclusão de curso</small>
+        Trabalho de conclusão de curso
+        <small>criar novo tcc</small>
       </h1>
       <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-        <li><a href="#">Teses de conclusão de curso</a></li>
+        <li><a href="#">Trabalho de conclusão de curso</a></li>
         <li class="active">Novo</li>
       </ol>
     </section>
     <section class="content">
+    	<div class="row">
+    		<div class="col-md-2">
+    		</div>
+    		<div class="col-md-8">
+    			 @if(Session::has('success'))
+	            	<div class="col-md-6 col-md-offset-3">
+		            	<div class="alert alert-success alert-dismissible">
+		                	<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+		                	<h4><i class="icon fa fa-check"></i> Sucesso</h4>
+		                	{{ Session::get('success') }}
+		              </div>
+		           	</div>
+	            @endif
+	            @if(Session::has('error'))
+	            	<div class="col-md-6 col-md-offset-3">
+		            	<div class="alert alert-error alert-dismissible">
+		                	<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+		                	<h4><i class="icon fa fa-check"></i> Erro</h4>
+		                	{{ Session::get('error') }}
+		              </div>
+		           	</div>
+	            @endif
+    		</div>
+    	</div>
     	<form method="post" action="{{ route('salvar_tcc')}}">
 	    {{ csrf_field() }}
 	    	<div class="row">
@@ -21,24 +45,6 @@
 			            <div class="box-header">
 			              <h3 class="box-title">Docentes e discentes engajados</h3>
 			            </div>
-			             @if(Session::has('success'))
-			            	<div class="col-md-6 col-md-offset-3">
-				            	<div class="alert alert-success alert-dismissible">
-				                	<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-				                	<h4><i class="icon fa fa-check"></i> Sucesso</h4>
-				                	{{ Session::get('success') }}
-				              </div>
-				           	</div>
-			            @endif
-			            @if(Session::has('error'))
-			            	<div class="col-md-6 col-md-offset-3">
-				            	<div class="alert alert-error alert-dismissible">
-				                	<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-				                	<h4><i class="icon fa fa-check"></i> Erro</h4>
-				                	{{ Session::get('error') }}
-				              </div>
-				           	</div>
-			            @endif
 			            <!-- /.box-header -->
 	              		<div class="box-body">
 	              			<div class="row">
@@ -49,18 +55,9 @@
 			              				 data-placeholder="Selecione um professor" 
 			              				 >
 			              				 <option></option>
-										@if(Auth::user()->hasRole('admin') || Auth::user()->hasRole('aluno'))
 			                        		@foreach($professores as $professor)
-			                        			<option value="{{$professor->id}}">{{ $professor->nome }}</option>
+			                        			<option value="{{$professor->id}}">{{ $professor->name }}</option>
 			                        		@endforeach
-			                        	@else
-			                        		@foreach($professores as $professor)
-			                        			@if($professorId == $professor->id)
-			                        				<option selected="selected" value="{{$professor->id}}">{{ $professor->nome }}</option>
-			                        			@endif
-			                        		@endforeach
-			                        	@endif
-			                        	
 		                        		</select>
 		                        		@if ($errors->has('orientador'))
 					                        <span class="help-block">
@@ -78,7 +75,7 @@
 			              				 >
 				              				 <option></option>
 			                        		@foreach($professores as $professor)
-			                        			<option value="{{$professor->id}}">{{ $professor->nome }}</option>
+			                        			<option value="{{$professor->id}}">{{ $professor->name }}</option>
 			                        		@endforeach
 			                        		</select>
 			                        		@if ($errors->has('coorientador'))
@@ -96,14 +93,14 @@
 			              				 data-placeholder="Selecione os alunos envolvidos" 
 			              				 >
 			              				 <option></option>
-			              				@if(Auth::user()->hasRole('admin') || Auth::user()->hasRole('professor'))
+			              				@if(Auth::user()->hasRole('admin'))
 			                        		@foreach($alunos as $aluno)
-			                        			<option value="{{$aluno->id}}">{{ $aluno->nome }}</option>
+			                        			<option value="{{$aluno->id}}">{{ $aluno->name }}</option>
 			                        		@endforeach
 			                        	@else
 			                        		@foreach($alunos as $aluno)
-			                        			@if($alunoId == $aluno->id)
-			                        				<option selected="selected" value="{{$aluno->id}}">{{ $aluno->nome }}</option>
+			                        			@if(Auth::user()->id == $aluno->id)
+			                        				<option selected="selected" value="{{$aluno->id}}">{{ $aluno->name }}</option>
 			                        			@endif
 			                        		@endforeach
 			                        	@endif
@@ -123,9 +120,9 @@
 			</div>
 			<div class="row">
 		        <div class="col-md-6">
-		          	<div class="box">
+		          	<div class="box box-primary">
 			            <div class="box-header">
-			              <h3 class="box-title">Dados sobre a tese</h3>
+			              <h3 class="box-title">Dados sobre o trabalho</h3>
 			            </div>
 			            <!-- /.box-header -->
 	              		<div class="box-body">
@@ -133,7 +130,7 @@
 	              				<div class="col-md-12">
 	              					<label for="titulo_tcc">Título</label>
 	              					<div class="form-group has-feedback {{ $errors->has('titulo_tcc') ? 'has-error' : '' }}">
-		              					<input type="text" class="form-control" name="titulo_tcc" id="titulo_tcc" placeholder="Título da Tese">
+		              					<input type="text" class="form-control" name="titulo_tcc" id="titulo_tcc" placeholder="Título do trabalho">
 		              					@if ($errors->has('titulo_tcc'))
 					                        <span class="help-block">
 					                            <strong>{{ $errors->first('titulo_tcc') }}</strong>
@@ -320,70 +317,60 @@
 	              	</div>
 	            </div>
 	            <div class="col-md-6">
-		          	<div class="box">
+		          	<div class="box box-primary">
 			            <div class="box-header">
-			              <h3 class="box-title">Status da tese</h3>
+			              <h3 class="box-title">Status do trabalho</h3>
 			            </div>
 			            <div class="box-body">
 				         	<div class="form-group">
 								<div class="radio">
 									<label>
 									  <input type="radio" name="status_tcc" id="" value="1" checked="">
-									  Tese em fase de concepção
+									  Trabalho em fase de concepção
 									</label>
 								</div>
 								<div class="radio">
 									<label>
 									  <input type="radio" name="status_tcc" id="" value="2" checked="true">
-									  Tese em fase de desenvolvimento
+									  Trabalho em fase de desenvolvimento
 									</label>
 								</div>
 								<div class="radio">
 									<label>
 									  <input type="radio" name="status_tcc" id="" value="3" >
-									  Tese em fase de geração de resultados
+									  Trabalho em fase de geração de resultados
 									</label>
 								</div>
 								<div class="radio">
 									<label>
 									  <input type="radio" name="status_tcc" id="" value="4" >
-									  Tese em fase de publicação
+									  Trabalho em fase de publicação
 									</label>
 								</div>
 								<div class="radio">
 									<label>
 									  <input type="radio" name="status_tcc" id="optionsRadios3" value="5" >
-									  Tese publicada
+									  Trabalho publicado
 									</label>
 								</div>
 								<div class="radio">
 									<label>
 									  <input type="radio" name="status_tcc" id="optionsRadios3" value="6">
-									  Tese Cancelada
+									  Trabalho cancelado
 									</label>
 								</div>
 	                		</div>
 	                		<div class="form-group">
 	                			<div class="checkbox">
 				                    <label>
-				                      <input type="checkbox">
+				                      <input type="checkbox" name="ocultar">
 				                      Ocultar em consultas realizadas por usuários não cadastrados
 				                    </label>
 				                  </div>
 	                		</div>
-	                		<!-- <div class="row" style='margin-top: 65px'>
-	                			<div class="form-group">
-	                			<div class="col-md-12">
-					       			<div class="text-center">
-					          			<button type="submit" class="btn btn-block btn-primary btn-lg">Confirmar cadastro</button>
-						        	</div>
-					       		</div>
-	                		</div>	
-	                		</div> -->
-	                		
 	                	</div>
             		</div>
-            		<div class="box">
+            		<div class="box box-primary">
 			            <div class="box-header">
 			              <h3 class="box-title">Banca de apresentação</h3>
 			            </div>
@@ -405,14 +392,14 @@
 	                		<div class="row">
 	                			<div class="col-md-9">
 	                				<div class="form-group">
-			              				<label>Selecione 5 professores</label>
+			              				<label>Selecione até 5 professores</label>
 			              				<div class="form-group has-feedback {{ $errors->has('banca_tcc') ? 'has-error' : '' }}">
 			              					<select id="banca_tcc" name="banca_tcc[]" class="form-control select2" 
 			              				 data-placeholder="Selecione um professor" multiple="multiple" 
 			              				 >
 				              				 <option></option>
 			                        		@foreach($professores as $professor)
-			                        			<option value="{{$professor->id}}">{{ $professor->nome }}</option>
+			                        			<option value="{{$professor->id}}">{{ $professor->name }}</option>
 			                        		@endforeach
 			                        		</select>
 			                        		@if ($errors->has('banca_tcc'))
