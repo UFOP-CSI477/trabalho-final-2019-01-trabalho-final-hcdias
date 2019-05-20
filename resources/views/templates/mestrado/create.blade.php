@@ -51,12 +51,12 @@
 			              				 <option></option>
 										@if(Auth::user()->hasRole('admin') || Auth::user()->hasRole('aluno'))
 			                        		@foreach($professores as $professor)
-			                        			<option value="{{$professor->id}}">{{ $professor->nome }}</option>
+			                        			<option value="{{$professor->id}}">{{ $professor->name }}</option>
 			                        		@endforeach
 			                        	@else
 			                        		@foreach($professores as $professor)
-			                        			@if($professorId == $professor->id)
-			                        				<option selected="selected" value="{{$professor->id}}">{{ $professor->nome }}</option>
+			                        			@if(Auth::user()->id == $professor->id)
+			                        				<option selected="selected" value="{{$professor->id}}">{{ $professor->name }}</option>
 			                        			@endif
 			                        		@endforeach
 			                        	@endif
@@ -78,7 +78,7 @@
 			              				 >
 				              				 <option></option>
 			                        		@foreach($professores as $professor)
-			                        			<option value="{{$professor->id}}">{{ $professor->nome }}</option>
+			                        			<option value="{{$professor->id}}">{{ $professor->name }}</option>
 			                        		@endforeach
 			                        		</select>
 			                        		@if ($errors->has('coorientador'))
@@ -98,12 +98,12 @@
 			              				 <option></option>
 			              				@if(Auth::user()->hasRole('admin') || Auth::user()->hasRole('professor'))
 			                        		@foreach($alunos as $aluno)
-			                        			<option value="{{$aluno->id}}">{{ $aluno->nome }}</option>
+			                        			<option value="{{$aluno->id}}">{{ $aluno->name }}</option>
 			                        		@endforeach
 			                        	@else
 			                        		@foreach($alunos as $aluno)
-			                        			@if($alunoId == $aluno->id)
-			                        				<option selected="selected" value="{{$aluno->id}}">{{ $aluno->nome }}</option>
+			                        			@if(Auth::user()->id == $aluno->id)
+			                        				<option selected="selected" value="{{$aluno->id}}">{{ $aluno->name }}</option>
 			                        			@endif
 			                        		@endforeach
 			                        	@endif
