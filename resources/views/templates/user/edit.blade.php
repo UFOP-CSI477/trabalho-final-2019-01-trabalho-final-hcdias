@@ -17,7 +17,7 @@
 	    {{ csrf_field() }}
 	    	<div class="row">
 		        <div class="col-md-6">
-		          	<div class="box">
+		          	<div class="box box-primary">
 			            <div class="box-header">
 			              <h3 class="box-title">Dados do usuário</h3>
 			            </div>
