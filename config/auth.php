@@ -40,7 +40,10 @@ return [
             'driver' => 'session',
             'provider' => 'users',
         ],
-
+        'minhaufop-guard'=>[
+            'driver' => 'session',
+            'provider' => 'minhaufop'
+        ],
         'api' => [
             'driver' => 'token',
             'provider' => 'users',
@@ -66,9 +69,14 @@ return [
 
     'providers' => [
         'users' => [
-            'driver' => 'eloquent',
-            'model' => PesquisaProjeto\User::class,
+            'driver'=> 'eloquent',
+            'model' => PesquisaProjeto\User::class
         ],
+
+        'minhaufop' => [
+            'driver'=>'minhaufopuserprovider',
+            'model' =>PesquisaProjeto\MinhaUfopUser::class
+        ]
 
         // 'users' => [
         //     'driver' => 'database',
