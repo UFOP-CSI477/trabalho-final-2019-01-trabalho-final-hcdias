@@ -25,14 +25,6 @@ class CreateBancaTccsTable extends Migration
             $table->foreign('tcc_id')
                 ->references('id')
                 ->on('tccs');
-
-            $table->foreign('professor_id')
-                ->references('id')
-                ->on('professores');
-
-            $table->foreign('aluno_id')
-                ->references('id')
-                ->on('alunos');
         });
     }
 
