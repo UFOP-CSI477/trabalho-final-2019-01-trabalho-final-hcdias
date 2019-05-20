@@ -87,13 +87,15 @@ return [
 
     'dashboard_url' => 'home',
 
-    'logout_url' => 'logout',
+    'logout_url' => 'admin/logout',
 
     'logout_method' => null,
 
-    'login_url' => 'login',
+    'login_url' => 'admin/login',
 
-    'register_url' => 'register',
+    'register_url' => null,
+
+    'login_message' => 'Faça login para iniciar sua sessão',
 
     /*
     |--------------------------------------------------------------------------
@@ -144,7 +146,13 @@ return [
                     'text'  => 'Visualizar',
                     'url'   => 'tcc/visualizar-tcc',
                     'icon'  => 'search',
-                    'roles' => ['admin','professor','aluno'],
+                    'roles' => ['admin','professor'],
+                ],
+                [
+                    'text'  =>'Visualizar',
+                    'url'   =>'tcc/visualizar-tcc-aluno',
+                    'icon'  =>'search',
+                    'roles' =>['aluno']
                 ],
                 [
                     'text'  => 'Cadastrar novo',
@@ -169,6 +177,26 @@ return [
                 [
                     'text'  => 'Cadastrar novo',
                     'url'   => 'mestrado/criar-mestrado',
+                    'icon'  => 'plus',
+                    'roles' => ['admin','professor','aluno'],
+                ]
+            ]
+        ],
+        [
+            'text'        => 'Extensão',
+            'url'         => '#',
+            'icon'        => 'book',
+            'roles'       => ['admin','professor','aluno'],
+            'submenu'     => [
+                [
+                    'text'  => 'Visualizar',
+                    'url'   => 'extensao/visualizar-extensao',
+                    'icon'  => 'search',
+                    'roles' => ['admin','professor','aluno'],
+                ],
+                [
+                    'text'  => 'Cadastrar novo',
+                    'url'   => 'extensao/criar-extensao',
                     'icon'  => 'plus',
                     'roles' => ['admin','professor','aluno'],
                 ]
