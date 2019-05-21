@@ -30,7 +30,7 @@ return [
     |
     */
 
-    'logo' => '<b>UFOP</b>-DEENP',
+    'logo' => '<b>UFOP</b>-SISDEENP',
 
     'logo_mini' => '<b>D</b>NP',
 
