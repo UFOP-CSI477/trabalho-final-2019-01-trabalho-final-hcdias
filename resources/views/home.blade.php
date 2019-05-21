@@ -2,7 +2,7 @@
 
 @section('content_header')
     <h1>Bem vindo, {{Auth::user()->name}}</h1>
-    <small>Acopanhe sua movimentação recente de projetos</small>
+    <small>Acompanhe sua movimentação recente de projetos</small>
 @stop
 
 
