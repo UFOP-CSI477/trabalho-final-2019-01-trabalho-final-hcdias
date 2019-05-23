@@ -45,7 +45,7 @@ class TccController extends Controller
         $role = $user->roles()->first()->name;
         $method = $role."Tccs";
         $tccs = $user->$method()->get();
-
+        
         return view('templates.tcc.index')->with('tccs', $tccs);
     }
 
@@ -56,7 +56,6 @@ class TccController extends Controller
      */
     public function create()
     {
-         $user = Auth::user();      
 
         $professores = MinhaUfopUser::whereHas('roles', function($query){
             $query->where('name','professor');
@@ -125,7 +124,7 @@ class TccController extends Controller
             $bancaData = substr($bancaData, 6, 4)."-".substr($bancaData, 3, 2)."-".substr($bancaData, 0, 2)." ".substr($bancaData, 10);
         }
 
-        $eventId = $this->createEvent($bancaData,$tcc['banca_tcc']);
+        $eventId = $this->createEvent($bancaData,$tcc['banca_tcc'],$tcc['discente']);
 
         if(!$eventId)
             return back()->with('error', 'Houve um erro na criação do evento');
@@ -166,11 +165,12 @@ class TccController extends Controller
         return back()->with('success', 'Cadastro realizado com sucesso');
     }
 
-    private function createEvent($bancaData,$professores){
-        $user = Auth::user();
+    private function createEvent($bancaData,$professores,$discente){
+
+        $aluno = MinhaUfopUser::find($discente);
 
         $event = new Event;
-        $event->name = "Banca de TCC - ".$user->name;
+        $event->name = "Banca de TCC - ".$aluno->name;
         $event->startDateTime = Carbon::parse($bancaData, 'UTC');
         $event->endDateTime = Carbon::parse($bancaData)->addHour();
         
@@ -190,6 +190,45 @@ class TccController extends Controller
         );
 
         return $eventId;
+    }
+
+    private function updateEvent($bancaData,$professores,$discente,$idEvento){
+        $aluno = MinhaUfopUser::find($discente);
+
+        $event = Event::find($idEvento);
+        $event->name = "Banca de TCC - ".$aluno->name;
+
+        $event->startDateTime = $bancaData;
+        $event->endDateTime = $event->startDateTime->addHour();
+
+        foreach($professores as $professor){
+            $professor = MinhaUfopUser::find($professor);
+            $event->addAttendee(['email'=>$professor->email]);
+        }
+
+        $event->save();
+
+    }
+
+    private function checkEventStatus($tcc){
+        
+        $event = Event::find($tcc->banca_evento_id);
+
+        if(!$event) { return false; }
+
+        $attendees = $event->googleEvent->attendees;
+
+        $profBanca = $tcc->professoresBanca;
+        foreach($attendees as $attendee){
+            if($attendee->responseStatus == 'accepted') {
+                $prof = $profBanca->where('email',$attendee->email)->first();
+                $tcc->professoresBanca()->updateExistingPivot($prof->id, ['status'=>1]);
+
+            }elseif($attendee->responseStatus == 'declined') {
+                $prof = $profBanca->where('email',$attendee->email)->first();
+                $tcc->professoresBanca()->updateExistingPivot($prof->id, ['status'=>2]);
+            }
+        }
     }
 
     /**
@@ -232,24 +271,30 @@ class TccController extends Controller
     {
 
         $user = Auth::user();
-        if(is_null($user->alunoTccs)){
+        $tcc = $user->alunoTccs;
+        if(!$tcc){
             return response(view('not_created')->with(['tcc'=>'TCC','title'=>'Vishh...','link'=>'criar-tcc']), 403);
         }
-  
-        $tcc = $user->alunoTccs;
+        
+        $eventStatus = $this->checkEventStatus($tcc);
+
+        if(!$eventStatus)
+            $warningEvent = "Houve um problema ao consultar o status dos eventos";
+
         $aluno = $tcc->aluno()->get()->first();
         $professoresBanca = $tcc->professoresBanca()->get();
 
         $orientador = $tcc->orientador()->get()->first();
         $coorientador = $tcc->coorientador()->get()->first();
-        
+
         return view('templates.tcc.detail')->with(
             [
             'tcc'=>$tcc,
             'aluno'=>$aluno,
             'orientador'=>$orientador,
             'coorientador'=>$coorientador,
-            'professoresBanca'=>$professoresBanca
+            'professoresBanca'=>$professoresBanca,
+            'eventStatus'=>$eventStatus
             ]
         );
     }
@@ -348,31 +393,18 @@ class TccController extends Controller
 
         $sisbin = $request->input('sisbin_tcc');
         $bancaData = $request->input('banca_data');
+
+        $professores = $validation['banca_tcc'];
+        $discente = $validation['discente'];
+        $idEvento = $tcc->banca_evento_id;
+
         if(!is_null($bancaData)) {
             $bancaData = substr($bancaData, 6, 4)."-".substr($bancaData, 3, 2)."-".substr($bancaData, 0, 2)." ".substr($bancaData, 10);
         }
+
         $bancaData = Carbon::parse($bancaData);
-        $event = Event::find($tcc->banca_evento_id);
-
-        if(!$bancaData->equalTo(Carbon::parse($tcc->banca_data))) {
-            $event->startDateTime = $bancaData;
-            $event->endDateTime = $bancaData->addHour();
-            $event->save();
-        }
-
-        $professoresKeyed = $tcc->professoresBanca()->get()->keyBy('id');
-        if(!$professoresKeyed->contains($validation['banca_tcc'])) {
-
-        }
-
-        // $event = new Event;
-        // $event->name = "TCC";
-        // $event->startDateTime = Carbon::parse($bancaData, 'UTC');
-        // $event->endDateTime = Carbon::parse($bancaData)->addHour();
-        // $event->addAttendee(['email'=>'hugo_root@yahoo.com.br']);
-        // $event->addAttendee(['email'=>'hugo.dias@aluno.ufop.edu.br']);
-        // $event->addAttendee(['email'=>'hugocarvalhodias@hotmail.com']);
-        // $eventId = $event->save('insertEvent', ['sendUpdates'=>'all']);
+        //dd($bancaData);
+        $this->updateEvent($bancaData,$professores,$discente,$idEvento);
 
         $tcc->titulo_tcc = $validation['titulo_tcc'];
         $tcc->resumo_tcc = $validation['resumo_tcc'];
@@ -404,6 +436,7 @@ class TccController extends Controller
                 ]
             );
         }
+
         return back()->with('success', 'Atualizado com sucesso');
 
     }
@@ -440,7 +473,7 @@ class TccController extends Controller
         }
 
         if($user->hasRole('aluno') ) {
-            return $user->alunoTccs->find($id);
+            return $user->alunoTccs;
         }
 
         $role = $user->roles()->first()->name;
