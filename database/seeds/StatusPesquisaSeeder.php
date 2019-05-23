@@ -14,10 +14,10 @@ class StatusPesquisaSeeder extends Seeder
     {
 
         $arr = [
-            'em fase de concepção',
-            'em fase de desenvolvimento',
-            'em fase de de geração de resultados',
-            'em fase de publicação',
+            'Em fase de concepção',
+            'Em fase de desenvolvimento',
+            'Em fase de de geração de resultados',
+            'Em fase de publicação',
             'Publicado',
             'Cancelado'
         ];
