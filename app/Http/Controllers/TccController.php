@@ -165,7 +165,8 @@ class TccController extends Controller
         return back()->with('success', 'Cadastro realizado com sucesso');
     }
 
-    private function createEvent($bancaData,$professores,$discente){
+    private function createEvent($bancaData,$professores,$discente)
+    {
 
         $aluno = MinhaUfopUser::find($discente);
 
@@ -192,7 +193,8 @@ class TccController extends Controller
         return $eventId;
     }
 
-    private function updateEvent($bancaData,$professores,$discente,$idEvento){
+    private function updateEvent($bancaData,$professores,$discente,$idEvento)
+    {
         $aluno = MinhaUfopUser::find($discente);
 
         $event = Event::find($idEvento);
@@ -222,11 +224,15 @@ class TccController extends Controller
         foreach($attendees as $attendee){
             if($attendee->responseStatus == 'accepted') {
                 $prof = $profBanca->where('email',$attendee->email)->first();
-                $tcc->professoresBanca()->updateExistingPivot($prof->id, ['status'=>1]);
+                if($prof){
+                    $tcc->professoresBanca()->updateExistingPivot($prof->id, ['status'=>1]);
+                }
 
             }elseif($attendee->responseStatus == 'declined') {
                 $prof = $profBanca->where('email',$attendee->email)->first();
-                $tcc->professoresBanca()->updateExistingPivot($prof->id, ['status'=>2]);
+                if($prof){
+                    $tcc->professoresBanca()->updateExistingPivot($prof->id, ['status'=>2]);    
+                }
             }
         }
     }
@@ -403,7 +409,6 @@ class TccController extends Controller
         }
 
         $bancaData = Carbon::parse($bancaData);
-        //dd($bancaData);
         $this->updateEvent($bancaData,$professores,$discente,$idEvento);
 
         $tcc->titulo_tcc = $validation['titulo_tcc'];
