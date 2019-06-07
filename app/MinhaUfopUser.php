@@ -16,7 +16,7 @@ class MinhaUfopUser extends User
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'cpf','id_grupo',
+        'name', 'email', 'cpf','group_id',
     ];
 
     /**
@@ -25,6 +25,6 @@ class MinhaUfopUser extends User
      * @var array
      */
     protected $hidden = [
-        'remember_token','cpf','id_grupo'
+        'remember_token','cpf','group_id'
     ];
 }
