@@ -7,6 +7,7 @@ use PesquisaProjeto\Professor;
 use PesquisaProjeto\ProfessorPapel;
 use PesquisaProjeto\Aluno;
 use PesquisaProjeto\User;
+use PesquisaProjeto\MinhaUfopUser;
 use PesquisaProjeto\AbordagemPesquisa;
 use PesquisaProjeto\AgenciaPesquisa;
 use PesquisaProjeto\AreaPesquisa;
@@ -23,57 +24,36 @@ class MestradoController extends Controller
 {
     public function __construct()
     {
-    	$this->middleware('auth');
+    	$this->middleware('auth:minhaufop-guard,web');
     }
 
     public function index(Request $request)
     {
-    	if ($request->user()->hasRole('admin')) {
+    	$user = Auth::user();
+        if ($user->hasRole('admin')) {
             $mestrados = Mestrado::all();
-
-            return view('templates.mestrado.index')->with('mestrados', $mestrados);
+            return view('templates.tcc.index')->with('mestrados', $mestrados);
         }
 
-        if($request->user()->vinculo()->first()  == null ) {
-            return response(view('403')->with('error_message', 'Nao existe ator(professor ou aluno) atrelado ao usuario. Contate o administrador.'), 403);
-        }
-
-        if($request->user()->hasRole('professor')) {
-            
-            $professor = $request->user()->vinculo()->first();
-            $professorId = $professor->actor_id;
-        
-            $mestrado = Mestrado::where('orientador_mestrado_id', '=', $professorId)
-            ->orWhere('coorientador_mestrado_id', '=', $professorId)
-            ->get();
-
-            $mestrados = $mestrado->merge($mestrado);
-            
-        }elseif($request->user()->hasRole('aluno')) {
-
-            $aluno = $request->user()->vinculo()->first();
-            $alunoId = $aluno->actor_id;
-            
-            $mestrado = Mestrado::where('aluno_mestrado_id', '=', $alunoId)
-            ->get();
-
-            $mestrados = $mestrado->merge($mestrado);
-        }
+        $role = $user->roles()->first()->name;
+        $method = $role."Mestrados";
+        $mestrados = $user->$method()->get();
 
         return view('templates.mestrado.index')->with('mestrados', $mestrados);
-
     }
+
 
     public function create()
     {
-    	$user = Auth::user();
-        $professores = Professor::all();
-        $professorId = null;
-        if( $user->hasRole('professor') ){
-            if( !($professor = $user->vinculo()->first()) == null ){
-                $professorId = $professor->actor_id;
-            }
-        }
+        $user = Auth::user();
+
+        $professores = MinhaUfopUser::whereHas('roles', function($query){
+            $query->where('name','professor');
+        })->get();
+
+        $alunos = MinhaUfopUser::whereHas('roles', function($query){
+            $query->where('name','aluno');
+        })->get();   
 
         $abordagem =  AbordagemPesquisa::get();
         $agencia =  AgenciaPesquisa::get();
@@ -83,12 +63,9 @@ class MestradoController extends Controller
         $procedimento =  ProcedimentosPesquisa::get();
         $subarea =  SubAreaPesquisa::get();
         $status =  StatusPesquisa::get();
-        
-        $alunos = Aluno::all();
 
         return view('templates.mestrado.create')->with([
             'professores' => $professores,
-            'professorId'=>$professorId,
             'alunos'    => $alunos,
             'abordagem'=>$abordagem,
             'agencia'=>$agencia,
@@ -123,13 +100,6 @@ class MestradoController extends Controller
         );
         
         $sisbin = $request->input('sisbin_mestrado');
-        
-        $user = Auth::user();
-        if($user->hasRole('aluno') ) {
-            if(!($aluno = $user->vinculo()->first()) == null) {
-                $mestrado['discente'] = $aluno->actor_id;
-            }
-        }
 
 
         $resultMestrado = Mestrado::create(
@@ -241,8 +211,13 @@ class MestradoController extends Controller
             return response(view('403'), 403);
         }
         
-        $professores = Professor::all();        
-        $alunos = Aluno::all();
+        $professores = MinhaUfopUser::whereHas('roles', function($query){
+            $query->where('name','professor');
+        })->get();
+
+        $alunos = MinhaUfopUser::whereHas('roles', function($query){
+            $query->where('name','aluno');
+        })->get(); 
 
         $abordagem =  AbordagemPesquisa::get();
         $area =  AreaPesquisa::get();
@@ -251,8 +226,6 @@ class MestradoController extends Controller
         $procedimento =  ProcedimentosPesquisa::get();
         $subarea =  SubAreaPesquisa::get();
         $status = StatusPesquisa::get();
-
-        $professores = Professor::all();
         
         return view('templates.mestrado.edit')->with(
             [
@@ -272,34 +245,15 @@ class MestradoController extends Controller
 
     private function getMestrados(Request $request,$id)
     {
-        $mestrado = null;
-        if($request->user()->hasRole('admin') ) {
-            $mestrado = Mestrado::findOrFail($id);
-        }elseif($request->user()->hasRole('professor') ) {
-            if(!($professor = $request->user()->vinculo()->first()) == null ) {
-                $professorId = $professor->actor_id;
-
-                $mestrado = Mestrado::where('id', '=', $id)
-                ->where(
-                    function ($query) use ($professorId) {
-                        $query->where('orientador_mestrado_id', '=', $professorId)
-                            ->orWhere('coorientador_mestrado_id', '=', $professorId);
-                    }
-                )
-                ->get()
-                ->first();
-            }
-        }elseif($request->user()->hasRole('aluno') ) {
-            if(!($aluno = $request->user()->vinculo()->first()) == null ) {
-                $alunoId = $aluno->actor_id;
-            
-                 $mestrado = Mestrado::where('aluno_mestrado_id', '=', $alunoId)
-                ->where('id', '=', $id)
-                ->get()
-                ->first();
-            }
+        $user = Auth::user();
+        
+        if( $user->hasRole('admin') ){
+            return Mestrado::findOrFail($id);
         }
 
-        return $mestrado;
+        $role = $user->roles()->first()->name;
+        $method = $role."Mestrados";
+
+        return $user->$method->firstWhere('id','=',$id);
     }
 }
