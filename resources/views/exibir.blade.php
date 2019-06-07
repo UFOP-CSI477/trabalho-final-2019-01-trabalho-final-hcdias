@@ -40,39 +40,22 @@
 <body class="hold-transition skin-red sidebar-mini ">
 
     <div class="wrapper">
-
-        <!-- Main Header -->
         <header class="main-header">
-                        <!-- Logo -->
             <a href="http://localhost:8000/home" class="logo">
-                <!-- mini logo for sidebar mini 50x50 pixels -->
                 <span class="logo-mini"><b>D</b>NP</span>
-                <!-- logo for regular state and mobile devices -->
                 <span class="logo-lg">{!! config('adminlte.logo', '<b>Admin</b>LTE') !!}</span>
             </a>
 
             <!-- Header Navbar -->
             <nav class="navbar navbar-static-top" role="navigation">
-                <!-- Sidebar toggle button-->
-                <!-- <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button"> -->
-                    <!-- <span class="sr-only">Toggle navigation</span> -->
-                <!-- </a> -->
-                            <!-- Navbar Right Menu -->
                 <div class="navbar-custom-menu">
-
                 </div>
               </nav>
         </header>
         <div class="content-wrapper" style="margin-left:0px">
             
-            <!-- Content Header (Page header) -->
-            <!-- <section class="content-header">
-                    <h1>Bem vindo, admin</h1>
-    <small>Acopanhe sua movimentação recente de projetos</small>
-            </section> -->
 
-            <!-- Main content -->
-            <section class="content">
+        <section class="content">
               <div class="row">
                 <div class="container">
                   <div class="py-5 text-center">
@@ -84,67 +67,52 @@
               </div>
               <div class="row">
                 <div class="col-md-12 order-md-1">
-      <hr class="mb-4">
-        <h4 class="mb-3">Filtros de Pesquisa</h4>
+                    <hr class="mb-4">
+                    <h4 class="mb-3">Filtros de Pesquisa</h4>
 
-    <form method="post" action="{{ route('exibir_resultados')}}">    
-      {{ csrf_field() }}
-      <div class="row">
-          <div class="col-md-3 mb-3">
-              <label for="firstName">Professor orientador</label>
-                <select class="form-control" name="professor_id" >
-                    <option value="">Todos...</option>
-                    @foreach($professores as $professor)
-                      <option value="{{$professor->id}}">{{$professor->name}}</option>
-                    @endforeach
-                </select>
-              <div class="invalid-feedback">
-                  
-            </div>
-            </div>
-    
-      
-
-          <div class="col-md-3 mb-3">
-              <label for="firstName">Status do projeto</label>
-                <select class="form-control" name="status_id" >
-                  <option value="">Todos...</option>
-                  @foreach($status as $estado)
-                    <option value="{{$estado->id}}">{{$estado["descricao"]}}</option>
-                  @endforeach
-                </select>
-              <div class="invalid-feedback">
-                  
-            </div>
-            </div>
+                <form method="post" action="{{ route('exibir_resultados')}}">    
+                  {{ csrf_field() }}
+                    <div class="row">
+                        <div class="col-md-3 mb-3">
+                          <label for="firstName">Professor orientador ou coorientador</label>
+                            <select class="form-control" name="professor_id" >
+                                <option value="">Todos...</option>
+                                @foreach($professores as $professor)
+                                <?php //dd(old("professor_id")); ?>
+                                  <option value="{{$professor->id}}" {{ old("professor_id") == $professor->id ? "selected" : "" }}>{{$professor->name}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <label for="firstName">Status do projeto</label>
+                                <select class="form-control" name="status_id" >
+                                  <option value="">Todos...</option>
+                                  @foreach($status as $estado)
+                                    <option value="{{$estado->id}}">{{$estado["descricao"]}}</option>
+                                  @endforeach
+                                </select>
+                        </div>
             
-          <div class="col-md-3 mb-3">
-              <label for="firstName">Área de conhecimento</label>
-                <select class="form-control" name="areaPesquisa_id" >
-                  <option value="">Todos...</option>
-                  @foreach($areasPesquisa as $areas)
-                    <option value="{{$areas->id}}">{{$areas["descricao"]}}</option>
-                  @endforeach
-                </select>
-              <div class="invalid-feedback">
-                  
-            </div>
-            </div>
+                        <div class="col-md-3 mb-3">
+                            <label for="firstName">Área de conhecimento</label>
+                                <select class="form-control" name="areaPesquisa_id" >
+                                  <option value="">Todos...</option>
+                                  @foreach($areasPesquisa as $areas)
+                                    <option value="{{$areas->id}}">{{$areas["descricao"]}}</option>
+                                  @endforeach
+                                </select>
+                        </div>
             
-          <div class="col-md-3 mb-3">
-              <label for="firstName">Abordagem de pesquisa</label>
-                <select class="form-control" name="abordagem_id" >
-                  <option value="">Todos...</option>
-                  @foreach($abordagens as $abordagem)
-                    <option value="{{$abordagem->id}}">{{$abordagem["descricao"]}}</option>
-                  @endforeach    
-                </select>
-              <div class="invalid-feedback">
-                  
-            </div>
-            </div>
-
-      </div>
+                        <div class="col-md-3 mb-3">
+                            <label for="firstName">Abordagem de pesquisa</label>
+                            <select class="form-control" name="abordagem_id" >
+                              <option value="">Todos...</option>
+                              @foreach($abordagens as $abordagem)
+                                <option value="{{$abordagem->id}}">{{$abordagem["descricao"]}}</option>
+                              @endforeach    
+                            </select>
+                        </div>
+                    </div>
       <div class="row" style="margin-top: 10px">
         <div class="col-md-4"></div>
         
@@ -154,46 +122,43 @@
       <div class="col-md-4"></div>
       </div>
       </form>
-              </div>
+    </div>
 
-</div>
-            <div class="row" style="margin-top: 35px">
-              @foreach($pesquisas as $pesquisa)
-              <div class="col-md-3">
-          <div class="box box-solid">
-            <div class="box-header with-border">
-              <i class="fa fa-text-gear"></i>
-
-              <h3 class="box-title">{{$pesquisa["pesquisa_titulo"]}}</h3>
-            </div>
-            <!-- /.box-header -->
-            <div class="box-body">
-              <dl class="dl-horizontal">
-                <dt>
-                      <img src="/media/mario.png">
-                    
-                    
-                </dt>
-                <dd>{{$pesquisa["pesquisa_resumo"]}}</dd>
-                
-                <dt>Contato</dt>
-                <dd>Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo
-                  sit amet risus.
-                </dd>
-              </dl>
-            </div>
-            <!-- /.box-body -->
-          </div>
-          <!-- /.box -->
-        </div>
-      @endforeach
-
-            </div>
-
-            </section>
-            <!-- /.content -->
+    </div>
+        <div class="row" style="margin-top: 35px">
+            @foreach($pesquisas as $pesquisa)
+                @if($loop->iteration % 5 == 0)
                     </div>
-        <!-- /.content-wrapper -->
+                    <div class="row" style="margin-top: 35px">
+                @endif
+                    <div class="col-md-3">
+                        <div class="box box-primary">
+                          <div class="box-body box-profile">
+                            <img class="profile-user-img img-responsive img-circle" src="/media/mario.png" alt="User profile picture">
+
+                            <h3 class="profile-username text-center">{{$pesquisa->orientador->name}}</h3>
+
+                            <p class="text-muted text-center">{{$pesquisa->titulo}}</p>
+
+                            <ul class="list-group list-group-unbordered">
+                              <li class="list-group-item">
+                                 <b>Coorientador : </b>{{$pesquisa->coorientador->name}}
+                              </li>
+                              <li class="list-group-item">
+                                <b>Resumo : </b> {{$pesquisa->resumo}}
+                              </li>
+                            </ul>
+
+                            <a href="mailto:{{$pesquisa->orientador->email}}" class="btn btn-primary btn-block"><b>Entrar em contato</b></a>
+                          </div>
+                        </div>
+                    </div>
+            @endforeach
+        </div>
+
+</section>
+
+                    </div>
 
     </div>
     <!-- ./wrapper -->
