@@ -6,18 +6,13 @@ use Illuminate\Database\Eloquent\Model;
 
 class Role extends Model
 {
-    public function users()
+    public function groups()
     {
-    	return $this->belongsToMany('PesquisaProjeto\User');
+    	return $this->hasOne('PesquisaProjeto\Group');
     }
 
     public function ufopUsers()
     {
     	return $this->belongsToMany('PesquisaProjeto\MinhaUfopUser');
-    }
-
-    public function groups()
-    {
-    	return $this->hasMany('PesquisaProjeto\Group');
     }
 }
