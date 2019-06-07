@@ -27,9 +27,9 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
-    public function roles()
+    public function group()
     {
-        return $this->belongsToMany('PesquisaProjeto\Role');
+        return $this->belongsTo('PesquisaProjeto\Group');
     }
 
     public function vinculo()
@@ -101,7 +101,7 @@ class User extends Authenticatable
 
     public function hasRole($role)
     {
-        if($this->roles()->where('name',$role)->first()){
+        if($this->group->roles()->where('name',$role)->first()){
             return true;
         }
 
