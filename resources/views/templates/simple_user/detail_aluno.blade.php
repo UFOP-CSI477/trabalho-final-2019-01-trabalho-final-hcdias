@@ -14,9 +14,8 @@
         	<div class="col-md-6">
         		<div class="box box-primary">
             		<div class="box-body">
-    					<p>Nome: {{$alunos["nome"]}}</p>
-    					<p>Matricula: {{$alunos["matricula"]}}</p>
-    					<p>Curso: {{$cursos["descricao"]}}</p>
+    					<p>Nome: {{$aluno->name}}</p>
+    					<p>Curso: {{$aluno->group->descricao}}</p>
     				</div>
     			</div>
     		</div>
