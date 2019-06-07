@@ -38,7 +38,7 @@ class PesquisaController extends Controller
             return view('templates.pesquisa.index')->with('pesquisas',$pesquisas);
         }
         
-        $role = $user->roles()->first()->name;
+        $role = $user->group->roles->name;
         $method = $role."Pesquisas";
         $pesquisas = $user->$method()->orderBy('pesquisas.id','desc')->get();
 
@@ -54,12 +54,12 @@ class PesquisaController extends Controller
     {
         $user = Auth::user();
 
-        $professores = MinhaUfopUser::whereHas('roles', function($query){
-            $query->where('name','professor');
+        $professores = MinhaUfopUser::whereHas('group', function($query){
+            $query->where('roles_id',1);
         })->get();
 
-        $alunos = MinhaUfopUser::whereHas('roles', function($query){
-            $query->where('name','aluno');
+        $alunos = MinhaUfopUser::whereHas('group', function($query){
+            $query->where('roles_id',2);
         })->get();        
 
         $abordagem =  AbordagemPesquisa::get();
@@ -185,12 +185,12 @@ class PesquisaController extends Controller
 
        $alunosPesquisa = $pesquisa->alunos()->get();
 
-        $professores = MinhaUfopUser::whereHas('roles', function($query){
-            $query->where('name','professor');
+        $professores = MinhaUfopUser::whereHas('group', function($query){
+            $query->where('roles_id',1);
         })->get();
 
-        $alunos = MinhaUfopUser::whereHas('roles', function($query){
-            $query->where('name','aluno');
+        $alunos = MinhaUfopUser::whereHas('group', function($query){
+            $query->where('roles_id',2);
         })->get(); 
 
          
@@ -326,7 +326,7 @@ class PesquisaController extends Controller
             return Pesquisa::findOrFail($id);
         }
 
-        $role = $user->roles()->first()->name;
+        $role = $user->group->roles->name;
         $method = $role."Pesquisas";
 
         return $user->$method->firstWhere('id','=',$id);
