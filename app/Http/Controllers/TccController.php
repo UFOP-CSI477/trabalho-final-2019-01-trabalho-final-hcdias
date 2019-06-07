@@ -42,7 +42,7 @@ class TccController extends Controller
             return view('templates.tcc.index')->with('tccs', $tccs);
         }
 
-        $role = $user->roles()->first()->name;
+        $role = $user->group->roles->name;
         $method = $role."Tccs";
         $tccs = $user->$method()->get();
         
@@ -57,12 +57,12 @@ class TccController extends Controller
     public function create()
     {
 
-        $professores = MinhaUfopUser::whereHas('roles', function($query){
-            $query->where('name','professor');
+        $professores = MinhaUfopUser::whereHas('group', function($query){
+            $query->where('roles_id',1);
         })->get();
 
-        $alunos = MinhaUfopUser::whereHas('roles', function($query){
-            $query->where('name','aluno');
+        $alunos = MinhaUfopUser::whereHas('group', function($query){
+            $query->where('roles_id',2);
         })->get();  
 
 
@@ -321,12 +321,12 @@ class TccController extends Controller
         
         $user = Auth::user();      
 
-        $professores = MinhaUfopUser::whereHas('roles', function($query){
-            $query->where('name','professor');
+        $professores = MinhaUfopUser::whereHas('group', function($query){
+            $query->where('roles_id',1);
         })->get();
 
-        $alunos = MinhaUfopUser::whereHas('roles', function($query){
-            $query->where('name','aluno');
+        $alunos = MinhaUfopUser::whereHas('group', function($query){
+            $query->where('roles_id',2);
         })->get();  
 
         $abordagem =  AbordagemPesquisa::get();
@@ -481,7 +481,7 @@ class TccController extends Controller
             return $user->alunoTccs;
         }
 
-        $role = $user->roles()->first()->name;
+        $role = $user->group->roles->name;
         $method = $role."Tccs";
 
         return $user->$method->firstWhere('id','=',$id);        
