@@ -8,6 +8,9 @@ use PesquisaProjeto\AreaPesquisa;
 use PesquisaProjeto\AbordagemPesquisa;
 use PesquisaProjeto\StatusPesquisa;
 use PesquisaProjeto\Pesquisa;
+use PesquisaProjeto\MinhaUfopUser;
+use Illuminate\Support\Facades\Auth;
+
 
 class HomeController extends Controller
 {
@@ -18,7 +21,7 @@ class HomeController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth',['except'=>'exibir']);
+        $this->middleware('auth:minhaufop-guard,web',['except'=>['exibir','pesquisar']]);
     }
 
     /**
@@ -26,14 +29,72 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
+        $user = Auth::user();
+        if($user->hasRole('admin')){
+            //$this->indexAdmin($user);
+        }elseif($user->hasRole('professor')){
+            return $this->indexProfessor($user);
+        }elseif($user->hasRole('aluno')){
+            return $this->indexAluno($user);
+        }
+
+        return view('home');
+    }
+
+    protected function indexAluno(MinhaUfopUser $user){
+        $pesquisas = $user->alunoPesquisas;
+
+        if($pesquisas){
+            $pesquisas = $pesquisas->groupBy('status_id');
+            $pesquisasCompact = [];
+            $closurePesquisas = function($item,$key) use (&$pesquisasCompact){
+                $pesquisasCompact[$item->first()->status->descricao] = $item->count();
+            };
+
+            $pesquisas->each($closurePesquisas);
+        }
+
+        $tcc = $user->alunoTccs;     
+
+        return view('home_aluno')->with(['pesquisas'=>$pesquisasCompact,'tcc'=>$tcc]);
+    }
+
+    protected function indexProfessor( $user){
+        $pesquisas = $user->professorPesquisas;
+
+        if($pesquisas){
+            $pesquisas = $pesquisas->groupBy('status_id');
+            $pesquisasCompact = [];
+            $closurePesquisas = function($item,$key) use (&$pesquisasCompact){
+                $pesquisasCompact[$item->first()->status->descricao] = $item->count();
+            };
+
+            $pesquisas->each($closurePesquisas);
+        }
+
+
+        $tccs = $user->professorTccs;
+        if($tccs){
+            $tccs = $tccs->groupBy('status_tcc');
+            $tccsCompact = [];
+            $closureTccs = function($item,$key) use (&$tccsCompact){
+                $tccsCompact[$item->first()->status->descricao] = $item->count();
+            };
+
+            $tccs->each($closureTccs);
+        }        
+
         return view('home');
     }
 
     public function exibir()
     {  
-        $professores = Professor::all();
+        $professores = MinhaUfopUser::whereHas('group', function($query){
+            $query->where('roles_id',1);
+        })->get();
+        
         $areasPesquisa = AreaPesquisa::all();
         $status = StatusPesquisa::all();
         $abordagens = AbordagemPesquisa::all();
@@ -50,24 +111,52 @@ class HomeController extends Controller
 
     public function pesquisar(Request $request)
     {
-
+        
         $id_professor = $request->input("professor_id");
         $id_status = $request->input("status_id");
         $id_areaPesquisa = $request->input("areaPesquisa_id");
         $id_abordagem = $request->input("abordagem_id");
 
-        $professorObj = Professor::find($id_professor);
 
-        $pesquisas = $professorObj->pesquisas()
-            ->where([
-                ['professor_id','=',$id_professor],
-                ['status_pesquisa_id', '=' ,$id_status],
-                ['agencia_pesquisa_id', '=', $id_areaPesquisa],
-                ['abordagem_pesquisa_id', '=', $id_abordagem]
-            ])
-            ->get();  
+        if( isset($id_professor) ){
+            $professorObj = MinhaUfopUser::find($id_professor);
+            $query = $professorObj->professorPesquisas();
 
-        $professores = Professor::all();
+            if(isset($id_status)){ 
+                $query->where('status_id','=',$id_status);
+            }
+
+            if( isset($id_areaPesquisa) ){
+                $query->where('agencia_id','=',$id_areaPesquisa);   
+            }
+
+            if( isset($id_abordagem) ){
+                $query->where('abordagem_id','=',$id_abordagem);
+            }
+
+            $pesquisas = $query->get();
+        }else{
+
+           $query = Pesquisa::query();
+            if(isset($id_status)){ 
+                $query->where('status_id','=',$id_status);
+            }
+
+            if(isset($id_areaPesquisa)){
+                $query->where('agencia_id','=',$id_areaPesquisa);   
+            }
+
+            if(isset($id_abordagem)){
+                $query->where('abordagem_id','=',$id_abordagem);
+            }
+
+            $pesquisas = $query->get();
+        }
+
+        $professores = MinhaUfopUser::whereHas('group', function($query){
+            $query->where('roles_id',1);
+        })->get();
+        
         $status = StatusPesquisa::all();
         $areasPesquisa = AreaPesquisa::all();
         $abordagens = AbordagemPesquisa::all();
