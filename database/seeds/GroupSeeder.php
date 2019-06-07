@@ -14,13 +14,13 @@ class GroupSeeder extends Seeder
     {
         $np0 = new Group();
         $np0->codigo = 1;
-        $np0->descricao = 'Admin';
+        $np0->descricao = 'admin';
         $np0->roles_id = 3;
         $np0->save();
 
         $np00 = new Group();
         $np00->codigo = 2;
-        $np00->descricao = 'Coordenador';
+        $np00->descricao = 'coordenador';
         $np00->roles_id = 4;
         $np00->save();        
 
