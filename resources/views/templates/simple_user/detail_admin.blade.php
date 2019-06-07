@@ -14,8 +14,8 @@
         	<div class="col-md-6">
         		<div class="box box-primary">
             		<div class="box-body">
-    					<p>Nome: {{$usuarios["name"]}}</p>
-    					<p>Email: {{$usuarios["email"]}}</p>
+    					<p>Nome: {{$user->name}}</p>
+    					<p>Email: {{$user->email}}</p>
     				</div>
     			</div>
     		</div>
