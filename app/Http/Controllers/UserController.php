@@ -14,6 +14,12 @@ use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('auth:minhaufop-guard,web');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -121,20 +127,11 @@ class UserController extends Controller
         ]);
     }
 
-    public function visualizarAluno() 
+    public function visualizarAluno(Request $request) 
     {
         $user = Auth::user();
-
-        $vinculo = $user->vinculo()->first();
-        $id_ator = $vinculo->actor_id;
-
-        $alunoObj = Aluno::find($id_ator);
-        $id_curso = $alunoObj->curso_id;
-        $cursoObj = Curso::find($id_curso);
-
         return view('templates.simple_user.detail_aluno')->with([
-            'alunos'=>$alunoObj,
-            'cursos'=>$cursoObj
+            'aluno'=>$user
         ]);
     }
 
@@ -143,7 +140,7 @@ class UserController extends Controller
         $user = Auth::user();
 
         return view('templates.simple_user.detail_admin')->with([
-            'usuarios'=>$user
+            'user'=>$user
         ]);
     }
 
@@ -157,11 +154,7 @@ class UserController extends Controller
     {
         $user = User::find($id);
         $allRoles = Role::all();
-		$userRoles = $user->roles()->get();
-		$rolesId = [];
-		foreach($userRoles as $userRole){
-			$rolesId[] = $userRole->id;
-		}
+		$userRole = $user->group->roles;
 
         $vinculo = $user->vinculo()->get()->first();
         $actors = [];
@@ -175,7 +168,7 @@ class UserController extends Controller
         
         return view('templates.user.edit')->with([
         	'allRoles'	=> $allRoles,
-        	'rolesId'	=> $rolesId,
+        	'userRole'	=> $userRole,
             'user'		=> $user,
             'actors'    => $actors,
             'vinculo'   => $vinculo
