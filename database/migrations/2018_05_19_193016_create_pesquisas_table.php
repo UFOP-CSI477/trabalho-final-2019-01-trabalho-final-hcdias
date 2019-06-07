@@ -28,7 +28,7 @@ class CreatePesquisasTable extends Migration
             $table->integer('agencia_id')->unsigned()->default(1);
             $table->integer('sub_area_id')->unsigned()->default(1);
             $table->integer('orientador_id')->unsigned();
-            $table->integer('coorientador_id')->unsigned();
+            $table->integer('coorientador_id')->unsigned()->default(null);
             $table->integer('ocultar')->unsigned()->default(0);
             $table->timestamps();
 
