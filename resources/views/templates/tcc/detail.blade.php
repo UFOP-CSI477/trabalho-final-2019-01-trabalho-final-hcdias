@@ -13,40 +13,38 @@
       </ol>
     </section>
       <section class="content">
-          <div class="box box-primary">
-              <div class="box-header">
-                <h3 class="box-title">Integrantes</h3>
-              </div>
-              <div class="box-body no-padding">
-                  <div class="row">
-                    <div class="col-md-2"></div>
-                    <div class="col-md-8">
-                      <ul class="users-list clearfix">
-                          <li>
-                            <img src="/media/mario.png">
-                            <a href="#" class="users-list-name">{{$orientador->nome}}</a>
-                            <span class="users-list-date">Orientador</span>
-                             <span class="users-list-date">{{ $orientador->email }}</span>
-                          </li>  
-                          <li>
-                            <img src="/media/mario.png">
-                            <a href="#" class="users-list-name">{{$coorientador->nome}}</a>
-                            <span class="users-list-date">Coorientador</span>
-                             <span class="users-list-date">{{ $coorientador->email }}</span>
-                          </li>  
-                       
-                          <li>
-                            <img src="/media/mario2.png">
-                            <a href="#" class="users-list-name">{{$aluno->nome}}</a>
-                            <span class="users-list-date">Orientando</span>
-                            <span class="users-list-date">{{$aluno->email}}</span>
-                          </li> 
-                      </ul>
-                    </div>
-                  </div>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="box box-primary">
+                <div class="box-header">
+                  <h3 class="box-title">Integrantes</h3>
+                </div>
+                <div class="box-body no-padding">
+                  <ul class="users-list clearfix">
+                      <li>
+                        <img src="/media/user.jpg">
+                        <a href="#" class="users-list-name">{{$orientador->nome}}</a>
+                        <span class="users-list-date">Orientador</span>
+                         <span class="users-list-date">{{ $orientador->email }}</span>
+                      </li>  
+                      <li>
+                        <img src="/media/user3.jpg">
+                        <a href="#" class="users-list-name">{{$coorientador->nome}}</a>
+                        <span class="users-list-date">Coorientador</span>
+                         <span class="users-list-date">{{ $coorientador->email }}</span>
+                      </li>  
+                   
+                      <li>
+                        <img src="/media/user2.jpg">
+                        <a href="#" class="users-list-name">{{$aluno->nome}}</a>
+                        <span class="users-list-date">Orientando</span>
+                        <span class="users-list-date">{{$aluno->email}}</span>
+                      </li> 
+                  </ul>
+                </div>
               </div>
             </div>
-
+        </div>
             <div class="box box-primary">
               <div class="box-header">
                 <h3 class="box-title">Banca de Avaliação</h3>
@@ -58,7 +56,7 @@
                     <ul class="users-list clearfix">
                       @foreach($professoresBanca as $professorBanca)
                         <li>
-                          <img src="/media/mario.png" title="{{ $professorBanca->email }}">
+                          <img src="/media/user.jpg" title="{{ $professorBanca->email }}">
                           <a href="#" class="users-list-name">{{$professorBanca->name}}</a>
                             @if($professorBanca->pivot->status == 1)
                               <span class="label-alert-status-banca-{{$professorBanca->pivot->status}}" title="Confirmado">
