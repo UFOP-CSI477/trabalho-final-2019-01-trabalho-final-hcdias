@@ -31,12 +31,10 @@ class AuthServiceProvider extends ServiceProvider
         });       
 
         Gate::define('show-menu',function($user,$requiredPermission){
-           $roles = $user->roles;
-           foreach($roles as $role){
+           $role = $user->group->roles;
             if(in_array($role->name,$requiredPermission)){
                 return true;
             }
-           }
            
            return false;
         });
