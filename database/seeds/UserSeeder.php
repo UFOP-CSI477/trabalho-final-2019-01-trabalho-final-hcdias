@@ -2,7 +2,7 @@
 
 use Illuminate\Database\Seeder;
 use PesquisaProjeto\User;
-use PesquisaProjeto\Role;
+use PesquisaProjeto\Group;
 
 class UserSeeder extends Seeder
 {
@@ -14,41 +14,39 @@ class UserSeeder extends Seeder
     public function run()
     {
         // factory(PesquisaProjeto\User::class)->create();
-        $role_admin = Role::where('name','admin')->first();
-        $role_user = Role::where('name','professor')->first();
-        $role_aluno = Role::where('name','aluno')->first();
-        $role_coordenador = Role::where('name','coordenador')->first();
+        $role_admin = Group::where('descricao','admin')->first();
+        $role_user = Group::where('descricao','DEENP')->first();
+        $role_aluno = Group::where('descricao','Sistemas de Informação')->first();
+        $role_coordenador = Group::where('descricao','coordenador')->first();
 
         $user = new User();
         $user->name = "professor";
         $user->email = "professor@ufop.com";
         $user->password = password_hash('ufop',PASSWORD_DEFAULT);
+        $user->group_id = $role_user->id;
         $user->save();
-        $user->roles()->attach($role_user);
 
 
         $user = new User();
         $user->name = "aluno";
         $user->email = "aluno@ufop.com";
         $user->password = password_hash('ufop',PASSWORD_DEFAULT);
+        $user->group_id = $role_aluno->id;
         $user->save();
-        $user->roles()->attach($role_aluno);
+
 
         $admin = new User();
         $admin->name = "admin";
         $admin->email = "admin@admin.com";
         $admin->password = password_hash('admin',PASSWORD_DEFAULT);
+        $admin->group_id = $role_admin->id;
         $admin->save();
 
         $coordenador = new User();
         $coordenador->name = "coordenador";
         $coordenador->email = "coordenador@ufop.com";
         $coordenador->password = password_hash('ufop',PASSWORD_DEFAULT);
+        $coordenador->group_id = $role_coordenador->id;
         $coordenador->save();
-        $user->roles()->attach($role_coordenador);
-
-        $admin->roles()->attach($role_admin);
-        $admin->roles()->attach($role_user);
-        $admin->roles()->attach($role_aluno);
     }
 }
