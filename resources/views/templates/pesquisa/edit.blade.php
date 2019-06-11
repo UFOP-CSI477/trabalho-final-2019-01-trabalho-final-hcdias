@@ -385,12 +385,14 @@
 	@stop
 	@section('js')
 	<script type="text/javascript">
-		$('.select2').select2();
-    //iCheck for checkbox and radio inputs
-    $('input[type="checkbox"], input[type="radio"]').iCheck({
-      checkboxClass: 'icheckbox_square-blue',
-      radioClass   : 'iradio_square-blue',
-      increaseArea: '20%' 
-    })
+        $('.select2').select2({
+            width:'100%'
+        });
+	    //iCheck for checkbox and radio inputs
+	    $('input[type="checkbox"], input[type="radio"]').iCheck({
+	      checkboxClass: 'icheckbox_square-blue',
+	      radioClass   : 'iradio_square-blue',
+	      increaseArea: '20%' 
+	    })
 	</script>
 	@stop
