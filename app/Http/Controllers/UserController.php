@@ -164,7 +164,8 @@ class UserController extends Controller
 
         $extraGroup = null;
         if($request->input('extraRole')){
-            $extraGroup = Role::find($userRole['extraRole'])->groups->first()->id;
+            $userRole = $request->input('extraRole');
+            $extraGroup = Role::find($userRole)->groups->first()->id;
         }
 
         //procura o usuario
@@ -191,7 +192,12 @@ class UserController extends Controller
         return back()->with('success','Usuário removido com sucesso');
     }
 
+    public function storeProfilePicture(Request $request)
+    {
 
+        $path = $request->file('profilePicture')->store('pictures');
+        
+    }
     /**
      * Lista os usuarios da api ldapi pelo cpf
      * @param  int $cpf
