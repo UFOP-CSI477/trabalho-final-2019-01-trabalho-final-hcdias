@@ -21,21 +21,20 @@
                 </div>
                 <div class="box-body no-padding">
                   <ul class="users-list clearfix">
-                      <li>
-                        <img src="/media/user.jpg">
+                      <li style="width:30%">
+                        <img src="{{ $orientador->profile_picture ? asset('storage/'.$orientador->profile_picture) : '/media/mario.png'}}">
                         <a href="#" class="users-list-name">{{$orientador->nome}}</a>
                         <span class="users-list-date">Orientador</span>
                          <span class="users-list-date">{{ $orientador->email }}</span>
                       </li>  
-                      <li>
-                        <img src="/media/user3.jpg">
+                      <li style="width:30%">
+                        <img src="{{ $coorientador->profile_picture ? asset('storage/'.$coorientador->profile_picture) : '/media/mario.png'}}">
                         <a href="#" class="users-list-name">{{$coorientador->nome}}</a>
                         <span class="users-list-date">Coorientador</span>
                          <span class="users-list-date">{{ $coorientador->email }}</span>
                       </li>  
-                   
-                      <li>
-                        <img src="/media/user2.jpg">
+                      <li style="width:30%">
+                        <img src="{{ $aluno->profile_picture ? asset('storage/'.$aluno->profile_picture) : '/media/mario.png'}}">
                         <a href="#" class="users-list-name">{{$aluno->nome}}</a>
                         <span class="users-list-date">Orientando</span>
                         <span class="users-list-date">{{$aluno->email}}</span>
@@ -56,7 +55,7 @@
                     <ul class="users-list clearfix">
                       @foreach($professoresBanca as $professorBanca)
                         <li>
-                          <img src="/media/user.jpg" title="{{ $professorBanca->email }}">
+                          <img src="{{ $professorBanca->profile_picture ? asset('storage/'.$professorBanca->profile_picture) : '/media/mario.png'}}" title="{{ $professorBanca->email }}">
                           <a href="#" class="users-list-name">{{$professorBanca->name}}</a>
                             @if($professorBanca->pivot->status == 1)
                               <span class="label-alert-status-banca-{{$professorBanca->pivot->status}}" title="Confirmado">

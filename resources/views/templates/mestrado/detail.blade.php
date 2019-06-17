@@ -21,24 +21,24 @@
             </div>
             <div class="box-body no-padding">
                 <ul class="users-list clearfix">
-                    <li>
-                      <img src="/media/mario.png">
+                    <li style="width:30%">
+                      <img src="{{ $orientador->profile_picture ? asset('storage/'.$orientador->profile_picture) : '/media/mario.png'}}">
                       <a href="#" class="users-list-name">{{$orientador->nome}}</a>
                       <span class="users-list-date">Orientador</span>
                        <span class="users-list-date">{{ $orientador->email }}</span>
                     </li>  
-                    <li>
-                      <img src="/media/mario.png">
+                    <li style="width:30%">
+                      <img src="{{ $coorientador->profile_picture ? asset('storage/'.$coorientador->profile_picture) : '/media/mario.png'}}">
                       <a href="#" class="users-list-name">{{$coorientador->nome}}</a>
                       <span class="users-list-date">Coorientador</span>
                        <span class="users-list-date">{{ $coorientador->email }}</span>
                     </li>  
                  
-                    <li>
-                      <img src="/media/mario2.png">
+                    <li style="width:30%">
+                      <img src="{{ $aluno->profile_picture ? asset('storage/'.$aluno->profile_picture) : '/media/mario.png'}}">
                       <a href="#" class="users-list-name">{{$aluno->nome}}</a>
                       <span class="users-list-date">Orientando</span>
-                      <span class="users-list-date">Matricula {{$aluno->matricula}}</span>
+                      <span class="users-list-date">{{$aluno->email}}</span>
                     </li> 
                 </ul>
               </div>

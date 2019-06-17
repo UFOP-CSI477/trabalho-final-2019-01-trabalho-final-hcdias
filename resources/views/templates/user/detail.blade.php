@@ -12,10 +12,11 @@
     </section>
     <section class="content">
         <div class="row">
-            <div class="col-md-6">
+            <div class="col-md-6" style="text-align: center">
                 <div class="box box-primary">
                   <div class="box-body box-profile">
                     <img class="profile-user-img img-responsive img-circle" id="previewPicture" src="{{ $user->profile_picture ? asset('storage/'.$user->profile_picture) : '/media/mario.png'}}" alt="User profile picture" style="cursor:pointer" title="Clique para alterar a foto">
+                    <small>Tamanho recomendado:128x128</small>
 
                     <h3 class="profile-username text-center">{{$user->name}}</h3>
 
