@@ -38,6 +38,7 @@ class TccController extends Controller
     {
         $user = Auth::user();
         if ($user->hasRole('admin')) {
+
             $tccs = Tcc::all();
             return view('templates.tcc.index')->with('tccs', $tccs);
         }
@@ -98,61 +99,61 @@ class TccController extends Controller
 
         $tcc = $this->validate(
             request(), [
-            'titulo_tcc'=>'required',
-            'resumo_tcc'=>'required',
-            'ano_inicio_tcc'=>'required',
-            'semestre_inicio_tcc'=>'required',
-            'semestre_defesa_tcc'=>'required',
-            'status_tcc'=>'required',
+            'titulo'=>'required',
+            'resumo'=>'required',
+            'ano_inicio'=>'required',
+            'semestre_inicio'=>'required',
+            'semestre_defesa'=>'required',
+            'status'=>'required',
             'orientador'=>'required',
             'coorientador'=>'required',
             'discente'=>'required',
-            'abordagem_tcc'=>'required',
-            'area_tcc'=>'required',
-            'natureza_tcc'=>'required',
-            'objetivo_tcc'=>'required',
-            'procedimento_tcc'=>'required',
-            'subarea_tcc'=>'required',
-            'banca_tcc'=>'required'
+            'abordagem'=>'required',
+            'area'=>'required',
+            'natureza'=>'required',
+            'objetivo'=>'required',
+            'procedimento'=>'required',
+            'subarea'=>'required',
+            'banca'=>'required'
             ]
         );
         
-        $sisbin = $request->input('sisbin_tcc');
+        $sisbin = $request->input('sisbin');
         $bancaData = $request->input('banca_data');
         
         if(!is_null($bancaData)) {
             $bancaData = substr($bancaData, 6, 4)."-".substr($bancaData, 3, 2)."-".substr($bancaData, 0, 2)." ".substr($bancaData, 10);
         }
 
-        $eventId = $this->createEvent($bancaData,$tcc['banca_tcc'],$tcc['discente']);
+        $eventId = $this->createEvent($bancaData,$tcc['banca'],$tcc['discente']);
 
         if(!$eventId)
             return back()->with('error', 'Houve um erro na criação do evento');
 
         $resultTcc = Tcc::create(
             [
-            'titulo_tcc'=>$tcc['titulo_tcc'],
-            'resumo_tcc'=>$tcc['resumo_tcc'],
-            'ano_inicio_tcc'=>$tcc['ano_inicio_tcc'],
-            'semestre_inicio_tcc'=>$tcc['semestre_inicio_tcc'],
-            'semestre_defesa_tcc'=>$tcc['semestre_defesa_tcc'],
-            'status_tcc'=>$tcc['status_tcc'],
-            'sisbin_tcc'=>$sisbin,
-            'orientador_tcc_id'=>$tcc['orientador'],
-            'coorientador_tcc_id'=>$tcc['coorientador'],
-            'aluno_tcc_id'=>$tcc['discente'],
-            'abordagem_tcc_id'=>$tcc['abordagem_tcc'],
-            'area_tcc_id'=>$tcc['area_tcc'],
-            'natureza_tcc_id'=>$tcc['natureza_tcc'],
-            'objetivo_tcc_id'=>$tcc['objetivo_tcc'],
-            'procedimentos_tcc_id'=>$tcc['procedimento_tcc'],
-            'sub_area_tcc_id'=>$tcc['subarea_tcc'],
+            'titulo'=>$tcc['titulo'],
+            'resumo'=>$tcc['resumo'],
+            'ano_inicio'=>$tcc['ano_inicio'],
+            'semestre_inicio'=>$tcc['semestre_inicio'],
+            'semestre_defesa'=>$tcc['semestre_defesa'],
+            'status_id'=>$tcc['status'],
+            'sisbin'=>$sisbin,
+            'orientador_id'=>$tcc['orientador'],
+            'coorientador_id'=>$tcc['coorientador'],
+            'aluno_id'=>$tcc['discente'],
+            'abordagem_id'=>$tcc['abordagem'],
+            'area_id'=>$tcc['area'],
+            'natureza_id'=>$tcc['natureza'],
+            'objetivo_id'=>$tcc['objetivo'],
+            'procedimentos_id'=>$tcc['procedimento'],
+            'sub_area_id'=>$tcc['subarea'],
             'banca_data'=>$bancaData,
             'banca_evento_id'=>$eventId->id
             ]
         );
 
-        foreach($tcc['banca_tcc'] as $professorBanca){
+        foreach($tcc['banca'] as $professorBanca){
             $resultTcc->professoresBanca()->attach(
                 $professorBanca,
                 [
@@ -355,7 +356,8 @@ class TccController extends Controller
             'objetivo'=>$objetivo,
             'procedimento'=>$procedimento,
             'subarea'=>$subarea,
-            'professoresBanca'=>$professoresBanca
+            'professoresBanca'=>$professoresBanca,
+            'status'=>$status
             ]
         );
     }
@@ -378,29 +380,29 @@ class TccController extends Controller
 
         $validation = $this->validate(
             request(), [
-            'titulo_tcc'=>'required',
-            'resumo_tcc'=>'required',
-            'ano_inicio_tcc'=>'required',
-            'semestre_inicio_tcc'=>'required',
-            'semestre_defesa_tcc'=>'required',
-            'status_tcc'=>'required',
+            'titulo'=>'required',
+            'resumo'=>'required',
+            'ano_inicio'=>'required',
+            'semestre_inicio'=>'required',
+            'semestre_defesa'=>'required',
+            'status'=>'required',
             'orientador'=>'required',
             'coorientador'=>'required',
             'discente'=>'required',
-            'abordagem_tcc'=>'required',
-            'area_tcc'=>'required',
-            'natureza_tcc'=>'required',
-            'objetivo_tcc'=>'required',
-            'procedimento_tcc'=>'required',
-            'subarea_tcc'=>'required',
-            'banca_tcc'=>'required'
+            'abordagem'=>'required',
+            'area'=>'required',
+            'natureza'=>'required',
+            'objetivo'=>'required',
+            'procedimento'=>'required',
+            'subarea'=>'required',
+            'banca'=>'required'
             ]
         );
 
-        $sisbin = $request->input('sisbin_tcc');
+        $sisbin = $request->input('sisbin');
         $bancaData = $request->input('banca_data');
 
-        $professores = $validation['banca_tcc'];
+        $professores = $validation['banca'];
         $discente = $validation['discente'];
         $idEvento = $tcc->banca_evento_id;
 
@@ -411,28 +413,28 @@ class TccController extends Controller
         $bancaData = Carbon::parse($bancaData);
         $this->updateEvent($bancaData,$professores,$discente,$idEvento);
 
-        $tcc->titulo_tcc = $validation['titulo_tcc'];
-        $tcc->resumo_tcc = $validation['resumo_tcc'];
-        $tcc->ano_inicio_tcc = $validation['ano_inicio_tcc'];
-        $tcc->semestre_inicio_tcc = $validation['semestre_inicio_tcc'];
-        $tcc->semestre_defesa_tcc = $validation['semestre_defesa_tcc'];
-        $tcc->status_tcc = $validation['status_tcc'];
-        $tcc->sisbin_tcc = $sisbin;
-        $tcc->abordagem_tcc_id = $validation['abordagem_tcc'];
-        $tcc->area_tcc_id = $validation['area_tcc'];
-        $tcc->natureza_tcc_id = $validation['natureza_tcc'];
-        $tcc->objetivo_tcc_id = $validation['objetivo_tcc'];
-        $tcc->procedimentos_tcc_id = $validation['procedimento_tcc'];
-        $tcc->sub_area_tcc_id = $validation['subarea_tcc'];
-        $tcc->orientador_tcc_id = $validation['orientador'];
-        $tcc->coorientador_tcc_id = $validation['coorientador'];
-        $tcc->aluno_tcc_id = $validation['discente'];
+        $tcc->titulo = $validation['titulo'];
+        $tcc->resumo = $validation['resumo'];
+        $tcc->ano_inicio = $validation['ano_inicio'];
+        $tcc->semestre_inicio = $validation['semestre_inicio'];
+        $tcc->semestre_defesa = $validation['semestre_defesa'];
+        $tcc->status_id = $validation['status'];
+        $tcc->sisbin = $sisbin;
+        $tcc->abordagem_id = $validation['abordagem'];
+        $tcc->area_id = $validation['area'];
+        $tcc->natureza_id = $validation['natureza'];
+        $tcc->objetivo_id = $validation['objetivo'];
+        $tcc->procedimentos_id = $validation['procedimento'];
+        $tcc->sub_area_id = $validation['subarea'];
+        $tcc->orientador_id = $validation['orientador'];
+        $tcc->coorientador_id = $validation['coorientador'];
+        $tcc->aluno_id = $validation['discente'];
         $tcc->banca_data = $bancaData;
 
         $tcc->save();
 
         $tcc->professoresBanca()->detach();
-        foreach($validation['banca_tcc'] as $professorBanca){
+        foreach($validation['banca'] as $professorBanca){
             $tcc->professoresBanca()->attach(
                 $professorBanca,
                 [
