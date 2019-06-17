@@ -13,8 +13,6 @@ class DatabaseSeeder extends Seeder
     {
         $this->call(DepartamentosSeeder::class);
         $this->call(CursoSeeder::class);
-        $this->call(AlunoSeeder::class);
-        $this->call(ProfessorSeeder::class);
         $this->call(NaturezaPesquisaSeeder::class);
         $this->call(AbordagemPesquisaSeeder::class);
         $this->call(ObjetivoPesquisaSeeder::class);
@@ -23,12 +21,11 @@ class DatabaseSeeder extends Seeder
         $this->call(AgenciaPesquisaSeeder::class);
         $this->call(SubAreaPesquisaSeeder::class);
         $this->call(StatusPesquisaSeeder::class);
-        $this->call(PesquisaSeeder::class);
-        $this->call(ProfessorPapelSeeder::class);
-        $this->call(VinculoPesquisaSeeder::class);
         $this->call(RoleSeeder::class);
         $this->call(GroupSeeder::class);
         $this->call(UserSeeder::class);
         $this->call(MinhaUfopUserSeeder::class);
+        $this->call(PesquisaSeeder::class);        
+        $this->call(VinculoPesquisaSeeder::class);
     }
 }
