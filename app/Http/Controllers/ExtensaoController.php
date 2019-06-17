@@ -249,6 +249,30 @@ class ExtensaoController extends Controller
         );
     }
 
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy(Request $request,$id)
+    {
+        $extensao = $this->getExtensoes($request,$id);
+        if($extensao == null){
+            return response(view('403'),403);
+        }
+
+        $extensao->alunos()->detach();
+        $result = $extensao->delete($extensao->id);
+
+        if($result){
+            return back()->with('success','Excluido com sucesso');
+        }
+
+        return back()->with('error','Houve um erro ao realizar a operação');
+
+    }
+    
     private function getExtensoes(Request $request,$id)
     {
         $user = Auth::user();
