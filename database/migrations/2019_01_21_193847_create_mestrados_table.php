@@ -57,18 +57,6 @@ class CreateMestradosTable extends Migration
                 ->references('id')
                 ->on('sub_area_pesquisas');
 
-            $table->foreign('orientador_mestrado_id')
-                ->references('id')
-                ->on('professores');
-
-            $table->foreign('coorientador_mestrado_id')
-                ->references('id')
-                ->on('professores');
-
-            $table->foreign('aluno_mestrado_id')
-                ->references('id')
-                ->on('alunos');
-
             $table->foreign('status_mestrado')
                 ->references('id')
                 ->on('status_pesquisas');
