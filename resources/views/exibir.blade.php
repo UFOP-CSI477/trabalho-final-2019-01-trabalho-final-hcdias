@@ -136,20 +136,20 @@
                           <div class="box-body box-profile">
                             <img class="profile-user-img img-responsive img-circle" src="/media/mario.png" alt="User profile picture">
 
-                            <h3 class="profile-username text-center">{{$pesquisa->orientador->name}}</h3>
+                            <h3 class="profile-username text-center">{{$pesquisa->orientador->name ?? ""}}</h3>
 
-                            <p class="text-muted text-center">{{$pesquisa->titulo}}</p>
+                            <p class="text-muted text-center">{{$pesquisa->titulo ?? ""}}</p>
 
                             <ul class="list-group list-group-unbordered">
                               <li class="list-group-item">
-                                 <b>Coorientador : </b>{{$pesquisa->coorientador->name}}
+                                 <b>Coorientador : </b>{{$pesquisa->coorientador->name ?? ""}}
                               </li>
                               <li class="list-group-item">
-                                <b>Resumo : </b> {{$pesquisa->resumo}}
+                                <b>Resumo : </b> {{$pesquisa->resumo ?? ""}}
                               </li>
                             </ul>
 
-                            <a href="mailto:{{$pesquisa->orientador->email}}" class="btn btn-primary btn-block"><b>Entrar em contato</b></a>
+                            <a href="mailto:{{$pesquisa->orientador->email ?? ""}}" class="btn btn-primary btn-block"><b>Entrar em contato</b></a>
                           </div>
                         </div>
                     </div>
