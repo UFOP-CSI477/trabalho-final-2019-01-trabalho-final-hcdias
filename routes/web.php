@@ -19,7 +19,7 @@ Route::group(['prefix' => 'admin'], function () {
 });
 
 Route::get('/', 'HomeController@exibir')->name('index');
-Route::get('/exibir-projetos', 'HomeController@exibir')->name('exibir');
+Route::post('/resultados', 'HomeController@pesquisar')->name('exibir_resultados');
 Route::get('/home', 'HomeController@index')->name('home');
 Route::post('/notification', 'HomeController@notification')->name('not');
 
@@ -31,9 +31,6 @@ Route::post('/login', [
 	'as'=>'minhaufop_login_submit',
 	'uses'=>'Auth\MinhaUfopLoginController@login'
 ]);
-//Route::post('/login', 'Auth\MinhaUfopLoginController@login')->name('admin.login.submit');
-//Route::get('/home', 'MinhaUfopController@index')->name('admin.home');
-
 
 Route::group(['prefix'=>'pesquisa'],function(){
 	Route::get('/visualizar-pesquisa', [
@@ -165,6 +162,13 @@ Route::group(['prefix'=>'usuario'],function(){
 		'middleware'=>'roles'
 		]);
 
+	Route::post('/salvar-perfil', [
+		'as'=>'salvar_perfil',
+		'uses'=>'UserController@storeProfilePicture',
+		'roles'=>['admin','professor', 'aluno'],
+		'middleware'=>'roles'
+		]);
+
 	Route::get('/editar-usuario/{id}', [
 		'as'=>'editar_usuario',
 		'uses'=>'UserController@edit',
@@ -193,27 +197,12 @@ Route::group(['prefix'=>'usuario'],function(){
 		'middleware'=>'roles'
 		]);
 
-	Route::get('/visualizar-usuario-professor/', [
-		'as'=>'visualizar_usuario_professor',
-		'uses'=>'UserController@visualizarProfessor',
-		'roles'=>['professor'],
+	Route::get('/meu-perfil/', [
+		'as'=>'meu_perfil',
+		'uses'=>'UserController@show',
+		'roles'=>['admin', 'professor', 'aluno'],
 		'middleware'=>'roles'
 		]);
-
-	Route::get('/visualizar-usuario-aluno/', [
-		'as'=>'visualizar_usuario_aluno',
-		'uses'=>'UserController@visualizarAluno',
-		'roles'=>['aluno'],
-		'middleware'=>'roles'
-		]);
-
-	Route::get('/visualizar-usuario-admin/', [
-		'as'=>'visualizar_usuario_admin',
-		'uses'=>'UserController@visualizarAdminstrador',
-		'roles'=>['admin'],
-		'middleware'=>'roles'
-		]);
-
 });
 
 Route::group(['prefix'=>'mestrado'],function(){
@@ -310,15 +299,10 @@ Route::group(['prefix'=>'extensao'],function(){
 	]);
 	Route::get('/delete/{id}', [
 		'as'=>'deletar_tcc',
-		'uses'=>'extensaoController@destroy',
+		'uses'=>'ExtensaoController@destroy',
 		'roles'=>['admin','professor','aluno'],
 		'middleware'=>'roles'
 	]);
 });
 
-Route::group(['prefix'=>'exibir'],function(){
-Route::post('/exibir-resultados', [
-		'as'=>'exibir_resultados',
-		'uses'=>'HomeController@pesquisar'
-	]);
-});
+
