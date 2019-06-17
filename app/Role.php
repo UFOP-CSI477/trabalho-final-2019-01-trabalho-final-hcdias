@@ -8,7 +8,7 @@ class Role extends Model
 {
     public function groups()
     {
-    	return $this->hasOne('PesquisaProjeto\Group');
+    	return $this->hasMany('PesquisaProjeto\Group','roles_id');
     }
 
     public function ufopUsers()
