@@ -94,39 +94,14 @@ class UserController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function visualizarProfessor()
-    {
-        $user = Auth::user();     
 
-        $vinculo = $user->vinculo()->first();
-        $id_ator = $vinculo->actor_id;    
-
-        $professorObj = Professor::find($id_ator); 
-        $departamento_id = $professorObj->departamento_id;
-        $departamentoObj = Departamento::find($departamento_id);
-
-        return view('templates.simple_user.detail_professor')->with([
-            'departamentos'=>$departamentoObj,
-            'professores'=>$professorObj
-        ]);
-    }
-
-    public function visualizarAluno(Request $request) 
+    public function show(Request $request) 
     {
         $user = Auth::user();
-        return view('templates.simple_user.detail_aluno')->with([
-            'aluno'=>$user
-        ]);
-    }
-
-    public function visualizarAdminstrador()
-    {
-        $user = Auth::user();
-
-        return view('templates.simple_user.detail_admin')->with([
+        return view('templates.user.detail')->with([
             'user'=>$user
         ]);
     }
@@ -194,9 +169,21 @@ class UserController extends Controller
 
     public function storeProfilePicture(Request $request)
     {
+        $image = request()->validate([
+            'profilePicture' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+        ]);
+
+        $user = Auth::user();
 
         $path = $request->file('profilePicture')->store('pictures');
-        
+        if($path){
+            $user->profile_picture = $path;
+            $user->save();
+
+            return back()->with('success','Usuário alterado com sucesso');
+        }
+
+        return back()->with('error','Houve um erro ao realizar a operação');
     }
     /**
      * Lista os usuarios da api ldapi pelo cpf
