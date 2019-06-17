@@ -18,20 +18,19 @@ class Extensao extends Model
 		'area_id',
 		'sub_area_id',
 		'orientador_id',
-		'coorientador_id',
-		'aluno_id'
+		'coorientador_id'
 		];
 
 	public function orientador(){
-		return $this->belongsTo('PesquisaProjeto\Professor','orientador_id');
+		return $this->belongsTo('PesquisaProjeto\MinhaUfopUser','orientador_id');
 	}
 
 	public function coorientador(){
-		return $this->belongsTo('PesquisaProjeto\Professor','coorientador_id');
+		return $this->belongsTo('PesquisaProjeto\MinhaUfopUser','coorientador_id');
 	}
 
-    public function aluno(){
-    	return $this->belongsTo('PesquisaProjeto\Aluno','aluno_id');
+    public function alunos(){
+    	return $this->belongsToMany('PesquisaProjeto\MinhaUfopUser','vinculo_extensaos','extensao_id','user_id');
     }
 
 	public function abordagem(){
