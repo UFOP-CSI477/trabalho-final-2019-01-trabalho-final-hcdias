@@ -49,10 +49,6 @@
                                                 <i class="fa fa-edit"></i>
                                             </a>
                                             
-                                            &nbsp;&nbsp;
-                                            <a href="/usuario/detalhar-pesquisa/{{ $user->id }}" title='Visualizar'>
-                                                <i class="fa fa-eye"></i>
-                                            </a>
 
                                             &nbsp;&nbsp;
                                             <a href="/usuario/remover-usuario/{{ $user->id }}" title='Apagar'>
