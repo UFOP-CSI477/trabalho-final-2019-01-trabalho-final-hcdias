@@ -182,15 +182,7 @@ class TccController extends Controller
         }
 
         $eventId = $event->save('insertEvent', ['sendUpdates'=>'all']);
-        $event->watch(
-            [
-            'id'=>uniqid(),
-            'type'=>'web_hook',
-            'address'=>'https://188760e0.ngrok.io/notification',
-            'params'=>['ttl'=>3600]
-            ]
-        );
-
+        
         return $eventId;
     }
 
