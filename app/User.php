@@ -101,7 +101,13 @@ class User extends Authenticatable
 
     public function hasRole($role)
     {
-        if($this->group->roles()->where('name',$role)->first()){
+        $extraGroup = Group::find($this->extra_group_id);
+        $extraRole = null;
+        if($extraGroup){
+            $extraRole = $extraGroup->roles->name;
+        }
+
+        if($this->group->roles()->where('name',$role)->first() || $extraRole == $role){
             return true;
         }
 
