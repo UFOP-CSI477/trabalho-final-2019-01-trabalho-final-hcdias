@@ -161,16 +161,16 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $userRole = $this->validate(request(),[
-            'extraRole'=>'required|string|max:1',
-            ]);
 
-        $extraGroup = Role::findorFail($userRole['extraRole'])->groups->first();
+        $extraGroup = null;
+        if($request->input('extraRole')){
+            $extraGroup = Role::find($userRole['extraRole'])->groups->first()->id;
+        }
 
         //procura o usuario
         $updateUser = MinhaUfopUser::findOrFail($id);
 
-        $updateUser->extra_group_id = $extraGroup->id;
+        $updateUser->extra_group_id = $extraGroup;
     
         $updateUser->save();
 
@@ -190,6 +190,7 @@ class UserController extends Controller
 
         return back()->with('success','Usuário removido com sucesso');
     }
+
 
     /**
      * Lista os usuarios da api ldapi pelo cpf
