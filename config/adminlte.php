@@ -225,21 +225,9 @@ return [
         'OPÇÕES DE CONTA',
         [
             'text' => 'Perfil',
-            'url'  => 'usuario/visualizar-usuario-professor',
+            'url'  => 'usuario/meu-perfil',
             'icon' => 'user',
-            'roles'=> ['professor'],
-        ],
-        [
-            'text' => 'Perfil',
-            'url'  => 'usuario/visualizar-usuario-aluno',
-            'icon' => 'user',
-            'roles'=> ['aluno'],
-        ],
-        [
-            'text' => 'Perfil',
-            'url'  => 'usuario/visualizar-usuario-admin',
-            'icon' => 'user',
-            'roles'=> ['admin'],
+            'roles'=> ['admin','professor','aluno'],
         ],
         //[
         //    'text' => 'Alterar Senha',
