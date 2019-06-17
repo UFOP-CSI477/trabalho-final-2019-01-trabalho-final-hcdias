@@ -5,12 +5,13 @@ namespace PesquisaProjeto\Http\Controllers;
 use Illuminate\Http\Request;
 use PesquisaProjeto\User;
 use PesquisaProjeto\Role;
-use PesquisaProjeto\Professor;
+use PesquisaProjeto\Group;
 use PesquisaProjeto\Aluno;
-use PesquisaProjeto\VinculoUser;
+use PesquisaProjeto\MinhaUfopUser;
 use PesquisaProjeto\Departamento;
 use PesquisaProjeto\Curso;
 use Illuminate\Support\Facades\Auth;
+use PesquisaProjeto\LdapiAPI\LdapiAPIFacade;
 
 class UserController extends Controller
 {
@@ -27,7 +28,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::all();
+        $users = MinhaUfopUser::all();
         return view('templates.user.index')->with('users',$users);
     }
 
@@ -38,8 +39,8 @@ class UserController extends Controller
      */
     public function create()
     {
-    	$roles = Role::all();
-        return view('templates.user.create')->with('roles',$roles);
+        $roles = Role::all();
+        return view('templates.user.create')->with('papeis',$roles);
     }
 
 
@@ -51,57 +52,43 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-    	
-        $user = $this->validate(request(),[
-        	'name'=>'required|string|max:255',
-        	'email'=>'required|string|email|max:255|unique:users',
-        	'password'=>'required|string|min:6|confirmed'
-        	]);
-
-        $roles = $request->input('roles');
-        $tipoVinculo = $request->input('tipo_vinculo');
-
-        $resultUser = User::create([
-        	'name'=>$user['name'],
-        	'email'=>$user['email'],
-        	'password'=>password_hash($user['password'],PASSWORD_DEFAULT)
+        
+        $newUser = $this->validate(request(),[
+            'cpf'=>'required|string|max:255',
+            'papel'=>'required|string|max:1'
         ]);
 
-        if($roles){
-            foreach($roles as $role){
-                $resultUser->roles()->attach($role);    
-            }
-        }
+        $role = $newUser['papel'];
+        $extra_group = Role::findOrFail($role)->groups;
         
-        //verifica se ha vinculo do usuario com aluno ou professor
-        if($tipoVinculo !== null){
-        	$vinculoUserId = $request->input('vinculo_user_id');
-            //vinculo tipo 1 - professor
-        	if($tipoVinculo == 1){
-               //busca o professor  
-        		$professor = Professor::find($vinculoUserId);
-        		if($professor !== null){
-                    //se existe o professor, cria o vinculo
-        			$resultVinculo = VinculoUser::create([
-        				'app_user_id'=>$resultUser->id,
-        				'actor_id'=>$vinculoUserId,
-                        'tipo_vinculo'=>$tipoVinculo
-        			]);	
-        		}
-        	}else{
-                //se existe o aluno, cria o vinculo
-				$aluno = Aluno::find($vinculoUserId);
-				if($aluno !== null){
-					$resultVinculo = VinculoUser::create([
-						'app_user_id'=>$resultUser->id,
-						'actor_id'=>$vinculoUserId,
-                        'tipo_vinculo'=>$tipoVinculo
-					]);
-				}
-        	}	
+        $user = MinhaUfopUser::where('cpf',$newUser['cpf'])->get()->first();
+
+        $result = [];
+        if( !is_null($user) ){
+            $user->extra_group_id = $extra_group->id;
+            $user->save();
+
+            $result['status']='success';
+            $result['msg']   ='Usuário registrado!';
+
+        }else if(count($userAPI = LdapiAPIFacade::getUsersAPI($newUser['cpf'])) > 0 ){
+            $resultUser = MinhaUfopUser::create([
+                    'name'=>$userAPI['nomecompleto'],
+                    'email'=>$userAPI['email'],
+                    'cpf'=>$userAPI['cpf'],
+                    'group_id'=>$userAPI['id_grupo'],
+                    'extra_group_id'=>$extra_group->id
+                ]);
+
+            $result['status']='success';
+            $result['msg']   ='Usuário registrado!';
+
+        }else{
+            $result['status']='error';
+            $result['msg']   ='Usuário não encontrado!';
         }
 
-    	return back()->with('success','Usuário registrado com sucesso');
+        return back()->with($result['status'],$result['msg']);
     }
 
     /**
@@ -152,26 +139,14 @@ class UserController extends Controller
      */
     public function edit($id)
     {
-        $user = User::find($id);
+        $user = MinhaUfopUser::findorFail($id);
         $allRoles = Role::all();
-		$userRole = $user->group->roles;
-
-        $vinculo = $user->vinculo()->get()->first();
-        $actors = [];
-        if(!is_null($vinculo)){
-            if($vinculo->tipo_vinculo == 1){
-                $actors = Professor::all();
-            }else{
-                $actors = Aluno::all();
-            }    
-        }
+        $extraGroup = Group::find($user->extra_group_id);
         
         return view('templates.user.edit')->with([
-        	'allRoles'	=> $allRoles,
-        	'userRole'	=> $userRole,
-            'user'		=> $user,
-            'actors'    => $actors,
-            'vinculo'   => $vinculo
+            'allRoles'  => $allRoles,
+            'extraGroup'=>$extraGroup,
+            'user'      => $user
             ]);
     }
 
@@ -184,70 +159,17 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $user = $this->validate(request(),[
-        	'name'=>'required|string|max:255',
-        	'email'=>'required|string|email|max:255|unique:users,email,'.$id,
-        	'password'=>'required|string|min:6|confirmed'
-        	]);
+        $userRole = $this->validate(request(),[
+            'extraRole'=>'required|string|max:1',
+            ]);
 
-        $roles = $request->input('roles');
-        $tipoVinculo = $request->input('tipo_vinculo');
+        $extraGroup = Role::findorFail($userRole['extraRole'])->groups->first();
 
         //procura o usuario
-        $updateUser = User::findOrFail($id);
-        $updateUser->name = $user['name'];
-        $updateUser->email = $user['email'];
-        $updateUser->password = password_hash($user['password'],PASSWORD_DEFAULT);
-        
-        //remove as permissões atuais
-        $updateUser->roles()->detach();
-        if($roles){
-            foreach($roles as $role){
-                $updateUser->roles()->attach($role);        
-            }
-        }
+        $updateUser = MinhaUfopUser::findOrFail($id);
 
-        //existe vinculo do usuario aos atores do sistema?
-        if($tipoVinculo !== null){
-            $vinculoUserId = $request->input('vinculo_user_id');
-            //remove o vinculo atual
-            $updateUser->vinculo()->delete();
-
-            //vinculo tipo 1(professor)
-            if($tipoVinculo == 1){
-               //busca o professor  
-                $professor = Professor::find($vinculoUserId);
-                if($professor !== null){
-
-                    //cria um novo vinculo
-                    $vinculo = new VinculoUser();
-                    $vinculo->actor_id = $vinculoUserId;
-                    $vinculo->tipo_vinculo = $tipoVinculo;
-                    $vinculo->user()->associate($updateUser);
-                    $vinculo->save();
-                    
-                    //se existe o professor, cria o vinculo
-                    // $resultVinculo = VinculoUser::create([
-                    //     'app_user_id'=>$updateUser->id,
-                    //     'actor_id'=>$vinculoUserId,
-                    //     'tipo_vinculo'=>$tipoVinculo
-                    // ]); 
-                }
-            }else{
-                //se existe o aluno, cria o vinculo
-                $aluno = Aluno::find($vinculoUserId);
-                if($aluno !== null){
-                    //cria um novo vinculo
-                    $vinculo = new VinculoUser();
-                    $vinculo->actor_id = $vinculoUserId;
-                    $vinculo->tipo_vinculo = $tipoVinculo;
-                    $vinculo->user()->associate($updateUser);
-                    $vinculo->save();
-                    
-                }
-            }   
-        }
-
+        $updateUser->extra_group_id = $extraGroup->id;
+    
         $updateUser->save();
 
         return back()->with('success','Usuário alterado com sucesso');
@@ -261,32 +183,20 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        $user = User::findOrFail($id);
+        $user = MinhaUfopUser::findOrFail($id);
         $user->delete();
-        $user->roles()->detach();
-        
-        $vinculoUser = VinculoUser::where('app_user_id',$user->id);
-        $vinculoUser->delete();
 
         return back()->with('success','Usuário removido com sucesso');
     }
 
 
     /**
-     * Lista os atores do sistema
-     * @param  int $id 
+     * Lista os usuarios da api ldapi pelo cpf
+     * @param  int $cpf
      * @return array     
      */
-    public function listaAtores($id)
+    public function listaAtores($cpf)
     {
-    	if($id == 1){
-    		return Professor::select('id','nome')
-    		->get()
-    		->toArray();
-    	}elseif($id == 2){
-    		return Aluno::select('id','nome')
-    		->get()
-    		->toArray();
-    	}
+       return LdapiAPIFacade::getUsersAPI($cpf);
     }
 }
