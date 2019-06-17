@@ -16,7 +16,7 @@ class MinhaUfopUser extends User
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'cpf','group_id',
+        'name', 'email', 'cpf','group_id','extra_group_id'
     ];
 
     /**
