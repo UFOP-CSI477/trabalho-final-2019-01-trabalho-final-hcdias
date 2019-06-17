@@ -103,7 +103,7 @@
 										 data-placeholder="Selecione a permissão"">
 											<option></option>
 											@foreach($allRoles as $role)
-											@if($role->id == $extraGroup->roles->id)
+											@if($role->id == $extraGroup)
 												<option value="{{ $role->id }}" title="{{ $role->description }}" selected="selected">{{ $role->name }}</option>
 											@else
 												<option value="{{ $role->id }}" title="{{ $role->description }}">{{ $role->name }}</option>
