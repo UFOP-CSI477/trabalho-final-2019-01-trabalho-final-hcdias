@@ -142,7 +142,9 @@ class UserController extends Controller
         $user = MinhaUfopUser::findorFail($id);
         $allRoles = Role::all();
         $extraGroup = Group::find($user->extra_group_id);
-        
+        if(!is_null($extraGroup)){
+            $extraGroup = $extraGroup->roles->id;
+        }
         return view('templates.user.edit')->with([
             'allRoles'  => $allRoles,
             'extraGroup'=>$extraGroup,
@@ -188,7 +190,6 @@ class UserController extends Controller
 
         return back()->with('success','Usuário removido com sucesso');
     }
-
 
     /**
      * Lista os usuarios da api ldapi pelo cpf
