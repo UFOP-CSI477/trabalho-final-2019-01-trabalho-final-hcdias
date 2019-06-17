@@ -16,7 +16,7 @@
         <form method="post" action="{{ route('salvar_usuario')}}">
         {{ csrf_field() }}
             <div class="row">
-                <div class="col-md-12">
+                <div class="col-md-8">
                     <div class="box box-primary">
                         <div class="box-header">
                           <h3 class="box-title">Dados do usuário</h3>
@@ -29,108 +29,81 @@
                                     {{ Session::get('success') }}
                               </div>
                             </div>
+                        @elseif(Session::has('error'))
+                            <div class="col-md-6 col-md-offset-3">
+                                <div class="alert alert-error alert-dismissible">
+                                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                                    <h4><i class="icon fa fa-check"></i> Erro</h4>
+                                    {{ Session::get('error') }}
+                              </div>
+                            </div>
                         @endif
                         <!-- /.box-header -->
                         <div class="box-body">
                             <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group has-feedback {{ $errors->has('name') ? 'has-error' : '' }}">
-                                        <input type="text" name="name" class="form-control" value="{{ old('name') }}"
-                                               placeholder="Nome do usuário">
+                                <div class="col-md-10">
+                                    <div class="form-group has-feedback {{ $errors->has('cpf') ? 'has-error' : '' }}">
+                                        <label>CPF do usuário</label>
+                                        <input type="text" name="cpf" id="cpf" class="form-control" value="{{ old('cpf') }}"
+                                               placeholder="Ex: 10000058901">
                                         <span class="glyphicon glyphicon-user form-control-feedback"></span>
-                                        @if ($errors->has('name'))
+                                        @if ($errors->has('cpf'))
                                             <span class="help-block">
-                                                <strong>{{ $errors->first('name') }}</strong>
+                                                <strong>{{ $errors->first('cpf') }}</strong>
                                             </span>
                                         @endif
                                     </div>
                                 </div>
+                                <div class="col-md-2">
+                                    <label>&nbsp;</label>
+                                    <div class="form-group">
+                                        <div class="btn-group">
+                                            <button type="button" id="cpfSearch" class="btn btn-primary">Buscar</button>
+                                            <button type="button" id="load_select" class="btn btn-info">
+                                                <i class="fa fa-refresh"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>  
+                            </div>
+                            <div class="row">
+                                 <div class="col-md-6">
+                                    <div class="form-group">
+                                        <input type="text" name="username" id="username" class="form-control" value="{{ old('username') }}" placeholder="nome do usuário" readonly="true">
+                                    </div>
+                                </div>
                                 <div class="col-md-6">
-                                    <div class="form-group has-feedback {{ $errors->has('email') ? 'has-error' : '' }}">
-                                        <input type="email" name="email" class="form-control" value="{{ old('email') }}"
-                                               placeholder="Email do usuário">
-                                        <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
-                                        @if ($errors->has('email'))
+                                    <div class="form-group">
+                                        <input type="text" name="useremail" id="useremail" class="form-control" value="{{ old('useremail') }}" placeholder="email do usuário" readonly="true">
+                                    </div>
+                                </div>
+                            </div> 
+                            <div class="row">
+                                
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group has-feedback {{ $errors->has('papel') ? 'has-error' : '' }}">
+                                        <label>Permissão adicional</label>
+                                        <select id="papel" name="papel" class="form-control select2" 
+                                         data-placeholder="Selecione o papel do usuário" 
+                                         >
+                                         <option></option>
+                                        @foreach($papeis as $papel)
+                                            <option value="{{$papel->id}}" title="{{ $papel->description }}">{{ $papel->name }}</option>
+                                        @endforeach
+                                        </select>
+                                        @if ($errors->has('papel'))
                                             <span class="help-block">
-                                                <strong>{{ $errors->first('email') }}</strong>
+                                                <strong>{{ $errors->first('papel') }}</strong>
                                             </span>
                                         @endif
                                     </div>
                                 </div>
                             </div>
-                            <div class="row">   
-                                <div class="col-md-6">
-                                    <div class="form-group has-feedback {{ $errors->has('password') ? 'has-error' : '' }}">
-                                        <input type="password" name="password" class="form-control"
-                                               placeholder="Digite uma senha">
-                                        <span class="glyphicon glyphicon-lock form-control-feedback"></span>
-                                        @if ($errors->has('password'))
-                                            <span class="help-block">
-                                                <strong>{{ $errors->first('password') }}</strong>
-                                            </span>
-                                        @endif
-                                    </div>
-                                </div>
-
-                                <div class="col-md-6">
-                                    <div class="form-group has-feedback {{ $errors->has('password_confirmation') ? 'has-error' : '' }}">
-                                        <input type="password" name="password_confirmation" class="form-control"
-                                               placeholder="Confirme a senha">
-                                        <span class="glyphicon glyphicon-log-in form-control-feedback"></span>
-                                        @if ($errors->has('password_confirmation'))
-                                            <span class="help-block">
-                                                <strong>{{ $errors->first('password_confirmation') }}</strong>
-                                            </span>
-                                        @endif
-                                    </div>
-                                </div>
-                                <div class="col-md-12">
-                                    <div class="form-group has-feedback {{ $errors->has('roles[]') ? 'has-error' : '' }}">
-                                        <select id="roles" name="roles" class="form-control select2" 
-                                         data-placeholder="Selecione as permissões" 
-                                         >
-                                         <option></option>
-                                        @foreach($roles as $role)
-                                            <option value="{{$role->id}}" title="{{ $role->description }}">{{ $role->name }}</option>
-                                        @endforeach
-                                        </select>
-                                        @if ($errors->has('roles[]'))
-                                            <span class="help-block">
-                                                <strong>{{ $errors->first('roles[]') }}</strong>
-                                            </span>
-                                        @endif
-                                    </div>
-                                </div>
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <!-- <div class="radio"> -->
-                                            <label class="radio-inline">
-                                              <input type="radio" name="tipo_vinculo" value="1">
-                                              Vincular a professor
-                                            </label>
-                                        <!-- </div> -->
-                                        <!-- <div class="radio"> -->
-                                            <label class="radio-inline">
-                                              <input type="radio" name="tipo_vinculo" value="2">
-                                              Vincular a aluno
-                                            </label>
-                                        <!-- </div> -->
-                                    </div>
-                                </div>
-                                <div class="col-md-12 col-md-offset-6" id="load_select" style="display:none">
-                                    <div class="form-group">
-                                        <i class="fa fa-refresh fa-spin"></i>
-                                    </div>
-                                </div>
-                                <div class="col-md-12" style="display:none" id="vinculo_container">
-                                    <div class="form-group">
-                                        <select class="form-control select2" id="vinculo_user_id" name="vinculo_user_id">
-                                            
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-md-6 col-md-offset-3 ">
-                                    <button type="submit" class="btn btn-primary btn-block btn-flat">Cadastrar</button>
+                            <div class="row">
+                                <div class="col-md-4 col-md-offset-4">
+                                    <button type="submit" class="btn btn-primary btn-block">Adicionar Usuário</button>
                                 </div>
                             </div>
                         </div>
@@ -151,8 +124,10 @@
           radioClass   : 'iradio_square-blue'
         });
 
-        $('input[type="radio"]').on('ifChecked',function(event){
-            var value = event.target.defaultValue;
+        $('#cpfSearch').on('click',function(event){
+            var value = $("#cpf").val();
+            if(! value ){ return; }
+
             var url = '/usuario/vinculo-usuario/'+value;
             $.ajax({
                 url:url,
@@ -162,24 +137,27 @@
                     'X-CSRF-Token':'{{ csrf_token() }}'
                 },
                 beforeSend:function(){
-                    $('#vinculo_container').hide();
-                    $('#load_select').show();
+                    $('#load_select').removeClass();
+                    $('#load_select > i').removeClass();
+                    $('#load_select').addClass("btn btn-info");
+                    $('#load_select > i').addClass('fa fa-refresh fa-spin');
                 }
             })
             .done(function(data){
-                var html = "";
-                for(item in data){
-                    html += "<option value="+data[item].id+">"+data[item].nome+"</option>";
-                }
+                $('#load_select').removeClass();
+                $('#load_select > i').removeClass();
 
-                $('#vinculo_user_id').select2('destroy').empty();
-                $('#vinculo_user_id').html(html).promise().done(function(){
-                    $('#vinculo_user_id').select2({
-                        width:'100%'
-                    });
-                });
-                $('#load_select').hide();
-                $('#vinculo_container').show();
+                if(data == ""){
+                    $('#load_select').addClass('btn btn-warning');
+                    $('#load_select > i').addClass('fa fa-exclamation-triangle');
+                }else{
+                    $("#username").val(data.nomecompleto);
+                    $("#useremail").val(data.email);
+
+                    $('#load_select > i').addClass('fa fa-check');
+                    $('#load_select').addClass('btn btn-success');
+
+                }
             })
             .fail(function(jqXHR,textStatus){
 
