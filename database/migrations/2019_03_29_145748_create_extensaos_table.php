@@ -26,7 +26,6 @@ class CreateExtensaosTable extends Migration
             $table->integer('sub_area_id')->unsigned()->default(1);
             $table->integer('orientador_id')->unsigned()->default(null);
             $table->integer('coorientador_id')->unsigned()->default(null);
-            $table->integer('aluno_id')->unsigned()->default(1);
             
             $table->timestamps();
 
@@ -41,18 +40,6 @@ class CreateExtensaosTable extends Migration
             $table->foreign('sub_area_id')
                 ->references('id')
                 ->on('sub_area_pesquisas');
-
-            $table->foreign('orientador_id')
-                ->references('id')
-                ->on('professores');
-
-            $table->foreign('coorientador_id')
-                ->references('id')
-                ->on('professores');
-
-            $table->foreign('aluno_id')
-                ->references('id')
-                ->on('alunos');
 
             $table->foreign('status_id')
                 ->references('id')
