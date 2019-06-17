@@ -9,7 +9,7 @@ use PesquisaProjeto\ObjetivoPesquisa;
 use PesquisaProjeto\ProcedimentosPesquisa;
 use PesquisaProjeto\SubAreaPesquisa;
 use PesquisaProjeto\StatusPesquisa;
-use PesquisaProjeto\Professor;
+use PesquisaProjeto\MinhaUfopUser;
 
 $factory->define(PesquisaProjeto\Pesquisa::class, function (Faker $faker) {
 
@@ -26,7 +26,7 @@ $factory->define(PesquisaProjeto\Pesquisa::class, function (Faker $faker) {
     	'area_id'=>PesquisaProjeto\AreaPesquisa::inRandomOrder()->first()->id,
     	'agencia_id'=>PesquisaProjeto\AgenciaPesquisa::inRandomOrder()->first()->id,
     	'sub_area_id'=>PesquisaProjeto\SubAreaPesquisa::inRandomOrder()->first()->id,
-        'orientador_id'=>PesquisaProjeto\Professor::inRandomOrder()->first()->id,
-        'coorientador_id'=>PesquisaProjeto\Professor::inRandomOrder()->first()->id
+        'orientador_id'=>PesquisaProjeto\MinhaUfopUser::inRandomOrder()->first()->id,
+        'coorientador_id'=>PesquisaProjeto\MinhaUfopUser::inRandomOrder()->first()->id
     ];
 });
