@@ -7,32 +7,32 @@ use Illuminate\Database\Eloquent\Model;
 class Tcc extends Model
 {
     protected $fillable = [
-		'titulo_tcc',
-		'resumo_tcc',
-		'ano_inicio_tcc',
-		'semestre_inicio_tcc',
-		'semestre_defesa_tcc',
-		'status_tcc',
-		'sisbin_tcc',
-		'abordagem_tcc_id',
-		'area_tcc_id',
-		'natureza_tcc_id',
-		'objetivo_tcc_id',
-		'procedimentos_tcc_id',
-		'sub_area_tcc_id',
-		'orientador_tcc_id',
-		'coorientador_tcc_id',
-		'aluno_tcc_id',
+		'titulo',
+		'resumo',
+		'ano_inicio',
+		'semestre_inicio',
+		'semestre_defesa',
+		'status_id',
+		'sisbin',
+		'abordagem_id',
+		'area_id',
+		'natureza_id',
+		'objetivo_id',
+		'procedimentos_id',
+		'sub_area_id',
+		'orientador_id',
+		'coorientador_id',
+		'aluno_id',
 		'banca_data',
         'banca_evento_id'
 		];
 
 	public function orientador(){
-		return $this->belongsTo('PesquisaProjeto\MinhaUfopUser','orientador_tcc_id');
+		return $this->belongsTo('PesquisaProjeto\MinhaUfopUser','orientador_id');
 	}
 
 	public function coorientador(){
-		return $this->belongsTo('PesquisaProjeto\MinhaUfopUser','coorientador_tcc_id');
+		return $this->belongsTo('PesquisaProjeto\MinhaUfopUser','coorientador_id');
 	}
 
 	public function professoresBanca(){
@@ -41,36 +41,36 @@ class Tcc extends Model
     }
 
     public function aluno(){
-    	return $this->belongsTo('PesquisaProjeto\MinhaUfopUser','aluno_tcc_id','id');
+    	return $this->belongsTo('PesquisaProjeto\MinhaUfopUser','aluno_id','id');
     }
 
 	public function abordagem(){
-    	return $this->belongsTo('PesquisaProjeto\AbordagemPesquisa','abordagem_tcc_id');
+    	return $this->belongsTo('PesquisaProjeto\AbordagemPesquisa','abordagem_id');
     }
 
 
     public function area(){
-    	return $this->belongsTo('PesquisaProjeto\AreaPesquisa','area_tcc_id');
+    	return $this->belongsTo('PesquisaProjeto\AreaPesquisa','area_id');
     }
 
     public function natureza(){
-    	return $this->belongsTo('PesquisaProjeto\NaturezaPesquisa','natureza_tcc_id');
+    	return $this->belongsTo('PesquisaProjeto\NaturezaPesquisa','natureza_id');
     }
 
     public function objetivo(){
-    	return $this->belongsTo('PesquisaProjeto\ObjetivoPesquisa','objetivo_tcc_id');
+    	return $this->belongsTo('PesquisaProjeto\ObjetivoPesquisa','objetivo_id');
     }
 
     public function procedimento(){
-    	return $this->belongsTo('PesquisaProjeto\ProcedimentosPesquisa','procedimentos_tcc_id');
+    	return $this->belongsTo('PesquisaProjeto\ProcedimentosPesquisa','procedimentos_id');
     }
 
     public function status(){
-    	return $this->belongsTo('PesquisaProjeto\StatusPesquisa','status_tcc');
+    	return $this->belongsTo('PesquisaProjeto\StatusPesquisa','status_id');
     }
 
     public function subarea(){
-    	return $this->belongsTo('PesquisaProjeto\SubAreaPesquisa','sub_area_tcc_id');
+    	return $this->belongsTo('PesquisaProjeto\SubAreaPesquisa','sub_area_id');
     }
 
 }
