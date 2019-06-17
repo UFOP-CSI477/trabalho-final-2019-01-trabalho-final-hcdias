@@ -4,7 +4,7 @@
     <?php //dd($errors);?>
     <section class="content-header">
       <h1>
-        Teses de conclusão de curso
+        Trabalho de conclusão de curso
         <small>editar tese</small>
       </h1>
       <ol class="breadcrumb">
@@ -43,7 +43,7 @@
                                             <option></option>
                                             @if(Auth::user()->hasRole('admin') || Auth::user()->hasRole('aluno'))
                                                 @foreach($professores as $professor)
-                                                    @if($professor->id == $tcc->orientador_tcc_id)
+                                                    @if($professor->id == $tcc->orientador_id)
                                                         <option value="{{ $professor->id }}" selected="selected">{{ $professor->name }}</option>
                                                     @else
                                                         <option value="{{ $professor->id }}">{{ $professor->name }}</option>
@@ -51,7 +51,7 @@
                                                 @endforeach
                                             @else
                                                 @foreach($professores as $professor)
-                                                    @if($professor->id == $tcc->orientador_tcc_id)
+                                                    @if($professor->id == $tcc->orientador_id)
                                                         <option value="{{ $professor->id }}" selected="selected">{{ $professor->name }}</option>
                                                     @endif
                                                 @endforeach
@@ -71,7 +71,7 @@
                                         data-placeholder="Selecione um professor" >
                                             <option></option>
                                             @foreach($professores as $professor)
-                                                @if($professor->id == $tcc->coorientador_tcc_id)
+                                                @if($professor->id == $tcc->coorientador_id)
                                                     <option value="{{ $professor->id }}" selected="selected">{{ $professor->name }}</option>
                                                 @else
                                                     <option value="{{ $professor->id }}">{{ $professor->name }}</option>
@@ -88,7 +88,7 @@
                                          <option></option>
                                          @if(Auth::user()->hasRole('admin'))
                                             @foreach($alunos as $aluno)
-                                                @if($tcc->aluno_tcc_id == $aluno->id)
+                                                @if($tcc->aluno_id == $aluno->id)
                                                     <option selected="selected" value="{{$aluno->id}}">{{ $aluno->name }}</option>
                                                 @else
                                                 <option value="{{$aluno->id}}">{{ $aluno->name }}</option>
@@ -96,7 +96,7 @@
                                             @endforeach
                                         @else
                                             @foreach($alunos as $aluno)
-                                                @if($aluno->id == $tcc->aluno_tcc_id)
+                                                @if($aluno->id == $tcc->aluno_id)
                                                     <option selected="selected" value="{{$aluno->id}}">{{ $aluno->name }}</option>
                                                 @endif
                                             @endforeach
@@ -125,11 +125,11 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <label for="titulo_tcc">Título</label>
-                                    <div class="form-group has-feedback {{ $errors->has('titulo_tcc') ? 'has-error' : '' }}">
-                                        <input type="text" class="form-control" name="titulo_tcc" id="titulo_tcc" placeholder="" value="{{$tcc->titulo_tcc}}">
-                                        @if ($errors->has('titulo_tcc'))
+                                    <div class="form-group has-feedback {{ $errors->has('titulo') ? 'has-error' : '' }}">
+                                        <input type="text" class="form-control" name="titulo" id="titulo" placeholder="" value="{{$tcc->titulo}}">
+                                        @if ($errors->has('titulo'))
                                             <span class="help-block">
-                                                <strong>{{ $errors->first('titulo_tcc') }}</strong>
+                                                <strong>{{ $errors->first('titulo') }}</strong>
                                             </span>
                                         @endif
                                     </div>
@@ -137,12 +137,12 @@
                                 
                                 <div class="col-md-6">
                                     <label>Semestre de início</label>
-                                    <div class="form-group has-feedback {{ $errors->has('semestre_inicio_tcc') ? 'has-error' : '' }}">
-                                        <select class="form-control" id="semestre_inicio_tcc" name="semestre_inicio_tcc">
+                                    <div class="form-group has-feedback {{ $errors->has('semestre_inicio') ? 'has-error' : '' }}">
+                                        <select class="form-control" id="semestre_inicio" name="semestre_inicio">
                                             <option value="">Selecione</option>
                                             <?php
                                                 for ($semester = 1; $semester < 3; $semester++){
-                                                    if ($semester == $tcc->semestre_inicio_tcc){
+                                                    if ($semester == $tcc->semestre_inicio){
                                                         echo "<option value='" . $semester . "' selected = 'selected'>" . $semester . "º semestre</option>";
                                                     }else{
                                                         echo "<option value='" . $semester . "'>" . $semester . "º semestre</option>";
@@ -150,21 +150,21 @@
                                                 }
                                             ?>
                                         </select>
-                                        @if ($errors->has('semestre_inicio_tcc'))
+                                        @if ($errors->has('semestre_inicio'))
                                             <span class="help-block">
-                                                <strong>{{ $errors->first('semestre_inicio_tcc') }}</strong>
+                                                <strong>{{ $errors->first('semestre_inicio') }}</strong>
                                             </span>
                                         @endif
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <label>Ano de início</label>
-                                    <div class="form-group has-feedback {{ $errors->has('ano_inicio_tcc') ? 'has-error' : '' }}">
-                                        <select class="form-control" id="ano_inicio_tcc" name="ano_inicio_tcc">
+                                    <div class="form-group has-feedback {{ $errors->has('ano_inicio') ? 'has-error' : '' }}">
+                                        <select class="form-control" id="ano_inicio" name="ano_inicio">
                                             <option value="">Selecione</option>
                                             <?php
                                                 for ($year = 2010; $year < 2022; $year++){
-                                                    if ($year == $tcc->ano_inicio_tcc){
+                                                    if ($year == $tcc->ano_inicio){
                                                         echo "<option value='" . $year . "' selected = 'selected'>" . $year . "</option>";
                                                     }else{
                                                         echo "<option value='" . $year . "'>" . $year . "</option>";
@@ -172,29 +172,29 @@
                                                 }
                                             ?>
                                         </select>
-                                        @if ($errors->has('ano_inicio_tcc'))
+                                        @if ($errors->has('ano_inicio'))
                                             <span class="help-block">
-                                                <strong>{{ $errors->first('ano_inicio_tcc') }}</strong>
+                                                <strong>{{ $errors->first('ano_inicio') }}</strong>
                                             </span>
                                         @endif
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <label>Abordagem</label>
-                                    <div class="form-group has-feedback {{ $errors->has('abordagem_tcc') ? 'has-error' : '' }}">
-                                        <select class="form-control" id="abordagem_tcc" name="abordagem_tcc">
+                                    <div class="form-group has-feedback {{ $errors->has('abordagem') ? 'has-error' : '' }}">
+                                        <select class="form-control" id="abordagem" name="abordagem">
                                             <option value="">Selecione</option>
                                             @foreach($abordagem as $item)
-                                                @if($item->id == $tcc->abordagem_tcc_id)
+                                                @if($item->id == $tcc->abordagem_id)
                                                     <option value="{{$item->id}}" selected="selected">{{$item->descricao}}</option>
                                                 @else
                                                     <option value="{{$item->id}}">{{$item->descricao}}</option>
                                                 @endif
                                             @endforeach
                                         </select>
-                                        @if ($errors->has('abordagem_tcc'))
+                                        @if ($errors->has('abordagem'))
                                             <span class="help-block">
-                                                <strong>{{ $errors->first('abordagem_tcc') }}</strong>
+                                                <strong>{{ $errors->first('abordagem') }}</strong>
                                             </span>
                                         @endif
                                     </div>
@@ -202,37 +202,37 @@
 
                                 <div class="col-md-6">
                                     <label>Semestre de defesa</label>
-                                    <div class="form-group has-feedback {{ $errors->has('semestre_defesa_tcc') ? 'has-error' : '' }}">
-                                        <select class="form-control" id="semestre_defesa_tcc" name="semestre_defesa_tcc">
+                                    <div class="form-group has-feedback {{ $errors->has('semestre_defesa') ? 'has-error' : '' }}">
+                                        <select class="form-control" id="semestre_defesa" name="semestre_defesa">
                                             <option value="">Selecione</option>
-                                            <option value="1" {{ $tcc->semestre_defesa_tcc == 1 ? "selected='selected'" : ""}}>ATV29</option>
+                                            <option value="1" {{ $tcc->semestre_defesa == 1 ? "selected='selected'" : ""}}>ATV29</option>
                                             
-                                            <option value="2" {{ $tcc->semestre_defesa_tcc == 2 ? "selected='selected'"  : ""}}>ATV30</option>
+                                            <option value="2" {{ $tcc->semestre_defesa == 2 ? "selected='selected'"  : ""}}>ATV30</option>
                                             
                                         </select>
-                                        @if ($errors->has('semestre_defesa_tcc'))
+                                        @if ($errors->has('semestre_defesa'))
                                             <span class="help-block">
-                                                <strong>{{ $errors->first('semestre_defesa_tcc') }}</strong>
+                                                <strong>{{ $errors->first('semestre_defesa') }}</strong>
                                             </span>
                                         @endif
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <label>Area</label>
-                                    <div class="form-group has-feedback {{ $errors->has('area_tcc') ? 'has-error' : '' }}">
-                                        <select class="form-control" id="area_tcc" name="area_tcc">
+                                    <div class="form-group has-feedback {{ $errors->has('area') ? 'has-error' : '' }}">
+                                        <select class="form-control" id="area" name="area">
                                             <option value="">Selecione</option>
                                             @foreach($area as $item)
-                                                @if($item->id == $tcc->area_tcc_id)
+                                                @if($item->id == $tcc->area_id)
                                                     <option value="{{$item->id}}" selected="selected">{{$item->descricao}}</option>
                                                 @else
                                                     <option value="{{$item->id}}">{{$item->descricao}}</option>
                                                 @endif
                                             @endforeach
                                         </select>
-                                        @if ($errors->has('area_tcc'))
+                                        @if ($errors->has('area'))
                                             <span class="help-block">
-                                                <strong>{{ $errors->first('area_tcc') }}</strong>
+                                                <strong>{{ $errors->first('area') }}</strong>
                                             </span>
                                         @endif
                                     </div>
@@ -240,92 +240,92 @@
 
                                 <div class="col-md-6">
                                     <label>Natureza</label>
-                                    <div class="form-group has-feedback {{ $errors->has('natureza_tcc') ? 'has-error' : '' }}">
-                                        <select class="form-control" id="natureza_tcc" name="natureza_tcc">
+                                    <div class="form-group has-feedback {{ $errors->has('natureza') ? 'has-error' : '' }}">
+                                        <select class="form-control" id="natureza" name="natureza">
                                             <option value="">Selecione</option>
                                             @foreach($natureza as $item)
-                                                @if($item->id == $tcc->natureza_tcc_id)
+                                                @if($item->id == $tcc->natureza_id)
                                                     <option value="{{$item->id}}" selected="selected">{{$item->descricao}}</option>
                                                 @else
                                                     <option value="{{$item->id}}">{{$item->descricao}}</option>
                                                 @endif
                                             @endforeach
                                         </select>
-                                        @if ($errors->has('natureza_tcc'))
+                                        @if ($errors->has('natureza'))
                                             <span class="help-block">
-                                                <strong>{{ $errors->first('natureza_tcc') }}</strong>
+                                                <strong>{{ $errors->first('natureza') }}</strong>
                                             </span>
                                         @endif
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <label>Objetivo</label>
-                                    <div class="form-group has-feedback {{ $errors->has('objetivo_tcc') ? 'has-error' : '' }}">
-                                        <select class="form-control" id="objetivo_tcc" name="objetivo_tcc">
+                                    <div class="form-group has-feedback {{ $errors->has('objetivo') ? 'has-error' : '' }}">
+                                        <select class="form-control" id="objetivo" name="objetivo">
                                             <option value="">Selecione</option>
                                             @foreach($objetivo as $item)
-                                                @if($item->id == $tcc->objetivo_tcc_id)
+                                                @if($item->id == $tcc->objetivo_id)
                                                     <option value="{{$item->id}}" selected="selected">{{$item->descricao}}</option>
                                                 @else
                                                     <option value="{{$item->id}}">{{$item->descricao}}</option>
                                                 @endif
                                             @endforeach
                                         </select>
-                                        @if ($errors->has('objetivo_tcc'))
+                                        @if ($errors->has('objetivo'))
                                             <span class="help-block">
-                                                <strong>{{ $errors->first('objetivo_tcc') }}</strong>
+                                                <strong>{{ $errors->first('objetivo') }}</strong>
                                             </span>
                                         @endif
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <label>Procedimento</label>
-                                    <div class="form-group has-feedback {{ $errors->has('procedimento_tcc') ? 'has-error' : '' }}">
-                                        <select class="form-control" id="procedimento_tcc" name="procedimento_tcc">
+                                    <div class="form-group has-feedback {{ $errors->has('procedimento') ? 'has-error' : '' }}">
+                                        <select class="form-control" id="procedimento" name="procedimento">
                                             <option value="">Selecione</option>
                                             @foreach($procedimento as $item)
-                                                @if($item->id == $tcc->procedimentos_tcc_id)
+                                                @if($item->id == $tcc->procedimentos_id)
                                                     <option value="{{$item->id}}" selected="selected">{{$item->descricao}}</option>
                                                 @else
                                                     <option value="{{$item->id}}">{{$item->descricao}}</option>
                                                 @endif
                                             @endforeach
                                         </select>
-                                        @if ($errors->has('procedimento_tcc'))
+                                        @if ($errors->has('procedimento'))
                                             <span class="help-block">
-                                                <strong>{{ $errors->first('procedimento_tcc') }}</strong>
+                                                <strong>{{ $errors->first('procedimento') }}</strong>
                                             </span>
                                         @endif
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <label>Sub-área</label>
-                                    <div class="form-group has-feedback {{ $errors->has('subarea_tcc') ? 'has-error' : '' }}">
-                                        <select class="form-control" id="subarea_tcc" name="subarea_tcc">
+                                    <div class="form-group has-feedback {{ $errors->has('subarea') ? 'has-error' : '' }}">
+                                        <select class="form-control" id="subarea" name="subarea">
                                             <option value="">Selecione</option>
                                                 @foreach($subarea as $item)
-                                                    @if($item->id == $tcc->sub_area_tcc_id)
+                                                    @if($item->id == $tcc->sub_area_id)
                                                         <option value="{{$item->id}}" selected="selected">{{$item->descricao}}</option>
                                                     @else
                                                         <option value="{{$item->id}}">{{$item->descricao}}</option>
                                                     @endif
                                                 @endforeach
                                         </select>
-                                        @if ($errors->has('subarea_tcc'))
+                                        @if ($errors->has('subarea'))
                                             <span class="help-block">
-                                                <strong>{{ $errors->first('subarea_tcc') }}</strong>
+                                                <strong>{{ $errors->first('subarea') }}</strong>
                                             </span>
                                         @endif
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <label>Link Sisbin</label>
-                                    <div class="form-group has-feedback {{ $errors->has('sisbin_tcc') ? 'has-error' : '' }}">
-                                        <input type='text' class="form-control" id="sisbin_tcc" name="sisbin_tcc" value="{{$tcc->sisbin_tcc}}">
+                                    <div class="form-group has-feedback {{ $errors->has('sisbin') ? 'has-error' : '' }}">
+                                        <input type='text' class="form-control" id="sisbin" name="sisbin" value="{{$tcc->sisbin}}">
                                             
-                                        @if ($errors->has('sisbin_tcc'))
+                                        @if ($errors->has('sisbin'))
                                             <span class="help-block">
-                                                <strong>{{ $errors->first('sisbin_tcc') }}</strong>
+                                                <strong>{{ $errors->first('sisbin') }}</strong>
                                             </span>
                                         @endif
                                     </div>
@@ -334,8 +334,8 @@
                                 <div class="col-md-12">
                                     <div class="form-group">
                                     <label>Resumo do projeto</label>
-                                    <textarea class="form-control" id="resumo_tcc" name="resumo_tcc" rows="5" placeholder=""><?php
-                                            echo $tcc->resumo_tcc;
+                                    <textarea class="form-control" id="resumo" name="resumo" rows="5" placeholder=""><?php
+                                            echo $tcc->resumo;
                                         ?>
                                     </textarea>
                                 </div>
@@ -351,32 +351,22 @@
                         </div>
                         <div class="box-body">
                             <div class="form-group">
-                            <?php
-                                $array = [
-                                    1 => "Projeto em fase de concepção",
-                                    2 => "Projeto em fase de desenvolvimento",
-                                    3 => "Projeto em fase de geração de resultados",
-                                    4 => "Projeto em fase de publicação",
-                                    5 => "Projeto publicado",
-                                    6 => "Projeto cancelado",
-                                ];
-
-                                for ($status = 1; $status < 7; $status++){
-                                    if ($status == $tcc->status_tcc){
-                                        echo "<div class='radio'>
-                                                <label>
-                                                    <input type='radio' name='status_tcc' id='optionsRadios" . $status . "' value='" . $status . "' checked='checked'>" . $array[$status] . "
-                                                </label>
-                                            </div>";
-                                    }else{
-                                        echo "<div class='radio'>
-                                                <label>
-                                                    <input type='radio' name='status_tcc' id='optionsRadios" . $status . "' value='" . $status . "'>" . $array[$status] . "
-                                                </label>
-                                            </div>";
-                                    }
-                                }
-                            ?>
+                                @foreach($status as $statusItem)
+                                    @if($tcc->status_id == $statusItem->id)
+                                        <div class='radio'>
+                                            <label>
+                                                <input type='radio' name='status'  value="{{$statusItem->id}}" checked='checked'> Trabalho {{$statusItem->descricao}}
+                                            </label>
+                                        </div>
+                                    @else
+                                        <div class='radio'>
+                                            <label>
+                                                <input type='radio' name='status'  value="{{$statusItem->id}}"> Trabalho {{$statusItem->descricao}}
+                                            </label>
+                                        </div>
+                                    @endif
+                                @endforeach
+                            
                             </div>
                             <div class="form-group">
                                 <div class="checkbox">
@@ -412,8 +402,8 @@
                                     <div class="col-md-12">
                                         <div class="form-group">
                                         <label>Selecione 5 professores</label>
-                                        <div class="form-group has-feedback {{ $errors->has('banca_tcc') ? 'has-error' : '' }}">
-                                            <select id="banca_tcc" name="banca_tcc[]" class="form-control select2" 
+                                        <div class="form-group has-feedback {{ $errors->has('banca') ? 'has-error' : '' }}">
+                                            <select id="banca" name="banca[]" class="form-control select2" 
                                          data-placeholder="Selecione um professor" multiple="multiple" 
                                          >
                                              <option></option>
@@ -425,9 +415,9 @@
                                                 @endif
                                             @endforeach
                                             </select>
-                                            @if ($errors->has('banca_tcc'))
+                                            @if ($errors->has('banca'))
                                                 <span class="help-block">
-                                                    <strong>{{ $errors->first('banca_tcc') }}</strong>
+                                                    <strong>{{ $errors->first('banca') }}</strong>
                                                 </span>
                                             @endif
                                         </div>

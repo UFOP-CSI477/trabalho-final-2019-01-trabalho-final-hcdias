@@ -40,7 +40,7 @@
 			                <tbody>
 								@foreach($tccs as $tcc)
 									<tr>
-										<td>{{ $tcc->titulo_tcc }}</td>
+										<td>{{ $tcc->titulo }}</td>
 										<td class='text-center'>
 											<span class="label alert-status-{{$tcc->status->id}}">{{$tcc->status->descricao}}</span>
 										</td>

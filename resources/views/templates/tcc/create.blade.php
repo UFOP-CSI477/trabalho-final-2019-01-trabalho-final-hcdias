@@ -128,35 +128,35 @@
 	              		<div class="box-body">
 	              			<div class="row">
 	              				<div class="col-md-12">
-	              					<label for="titulo_tcc">Título</label>
-	              					<div class="form-group has-feedback {{ $errors->has('titulo_tcc') ? 'has-error' : '' }}">
-		              					<input type="text" class="form-control" name="titulo_tcc" id="titulo_tcc" placeholder="Título do trabalho">
-		              					@if ($errors->has('titulo_tcc'))
+	              					<label for="titulo">Título</label>
+	              					<div class="form-group has-feedback {{ $errors->has('titulo') ? 'has-error' : '' }}">
+		              					<input type="text" class="form-control" name="titulo" id="titulo" placeholder="Título do trabalho">
+		              					@if ($errors->has('titulo'))
 					                        <span class="help-block">
-					                            <strong>{{ $errors->first('titulo_tcc') }}</strong>
+					                            <strong>{{ $errors->first('titulo') }}</strong>
 					                        </span>
 					                    @endif
 	          						</div>
 	              				</div>
 	          					<div class="col-md-6">
 	          						<label>Semestre de início</label>
-	          						<div class="form-group has-feedback {{ $errors->has('semestre_inicio_tcc') ? 'has-error' : '' }}">
-		          						<select class="form-control" id="semestre_inicio_tcc" name="semestre_inicio_tcc">
+	          						<div class="form-group has-feedback {{ $errors->has('semestre_inicio') ? 'has-error' : '' }}">
+		          						<select class="form-control" id="semestre_inicio" name="semestre_inicio">
 		          							<option value="">Selecione</option>
 		          							<option value='1'>1º semestre</option>
 						  					<option value='2'>2º semestre</option>
 		          						</select>
-		          						@if ($errors->has('semestre_inicio_tcc'))
+		          						@if ($errors->has('semestre_inicio'))
 					                        <span class="help-block">
-					                            <strong>{{ $errors->first('semestre_inicio_tcc') }}</strong>
+					                            <strong>{{ $errors->first('semestre_inicio') }}</strong>
 					                        </span>
 					                    @endif
 	          						</div>
 	          					</div>
 	          					<div class="col-md-6">
 	          						<label>Ano de início</label>
-	          						<div class="form-group has-feedback {{ $errors->has('ano_inicio_tcc') ? 'has-error' : '' }}">
-		          						<select class="form-control" id="ano_inicio_tcc" name="ano_inicio_tcc">
+	          						<div class="form-group has-feedback {{ $errors->has('ano_inicio') ? 'has-error' : '' }}">
+		          						<select class="form-control" id="ano_inicio" name="ano_inicio">
 		          							<option value="">Selecione</option>
 											<option value='2010'>2010</option>
 											<option value='2011'>2011</option>
@@ -171,25 +171,25 @@
 											<option value='2020'>2020</option>
 											<option value='2021'>2021</option>
 		          						</select>
-		          						@if ($errors->has('ano_inicio_tcc'))
+		          						@if ($errors->has('ano_inicio'))
 					                        <span class="help-block">
-					                            <strong>{{ $errors->first('ano_inicio_tcc') }}</strong>
+					                            <strong>{{ $errors->first('ano_inicio') }}</strong>
 					                        </span>
 					                    @endif
 	          						</div>
 	          					</div>
 	          					<div class="col-md-6">
 	          						<label>Abordagem</label>
-	          						<div class="form-group has-feedback {{ $errors->has('abordagem_tcc') ? 'has-error' : '' }}">
-		          						<select class="form-control" id="abordagem_tcc" name="abordagem_tcc">
+	          						<div class="form-group has-feedback {{ $errors->has('abordagem') ? 'has-error' : '' }}">
+		          						<select class="form-control" id="abordagem" name="abordagem">
 		          							<option value="">Selecione</option>
 		          							@foreach($abordagem as $item)
 		          								<option value="{{$item->id}}">{{$item->descricao}}</option>
 		          							@endforeach
 		          						</select>
-		          						@if ($errors->has('abordagem_tcc'))
+		          						@if ($errors->has('abordagem'))
 					                        <span class="help-block">
-					                            <strong>{{ $errors->first('abordagem_tcc') }}</strong>
+					                            <strong>{{ $errors->first('abordagem') }}</strong>
 					                        </span>
 					                    @endif
 	          						</div>
@@ -197,16 +197,16 @@
 
 	          					<div class="col-md-6">
 	          						<label>Semestre de defesa</label>
-	          						<div class="form-group has-feedback {{ $errors->has('semestre_defesa_tcc') ? 'has-error' : '' }}">
-		          						<select class="form-control" id="semestre_defesa_tcc" name="semestre_defesa_tcc">
+	          						<div class="form-group has-feedback {{ $errors->has('semestre_defesa') ? 'has-error' : '' }}">
+		          						<select class="form-control" id="semestre_defesa" name="semestre_defesa">
 		          							<option value="">Selecione</option>
 		          							<option value="1">ATV29</option>
 		          							<option value="2">ATV30</option>
 		          							
 		          						</select>
-		          						@if ($errors->has('semestre_defesa_tcc'))
+		          						@if ($errors->has('semestre_defesa'))
 					                        <span class="help-block">
-					                            <strong>{{ $errors->first('semestre_defesa_tcc') }}</strong>
+					                            <strong>{{ $errors->first('semestre_defesa') }}</strong>
 					                        </span>
 					                    @endif
 	          						</div>
@@ -214,16 +214,16 @@
 
 	          					<div class="col-md-6">
 	          						<label>Area</label>
-	          						<div class="form-group has-feedback {{ $errors->has('area_tcc') ? 'has-error' : '' }}">
-		          						<select class="form-control" id="area_tcc" name="area_tcc">
+	          						<div class="form-group has-feedback {{ $errors->has('area') ? 'has-error' : '' }}">
+		          						<select class="form-control" id="area" name="area">
 		          							<option value="">Selecione</option>
 		          							@foreach($area as $item)
 		          								<option value="{{$item->id}}">{{$item->descricao}}</option>
 		          							@endforeach
 		          						</select>
-		          						@if ($errors->has('area_tcc'))
+		          						@if ($errors->has('area'))
 					                        <span class="help-block">
-					                            <strong>{{ $errors->first('area_tcc') }}</strong>
+					                            <strong>{{ $errors->first('area') }}</strong>
 					                        </span>
 					                    @endif
 	          						</div>
@@ -231,76 +231,76 @@
 
 	          					<div class="col-md-6">
 	          						<label>Natureza</label>
-	          						<div class="form-group has-feedback {{ $errors->has('natureza_tcc') ? 'has-error' : '' }}">
-		          						<select class="form-control" id="natureza_tcc" name="natureza_tcc">
+	          						<div class="form-group has-feedback {{ $errors->has('natureza') ? 'has-error' : '' }}">
+		          						<select class="form-control" id="natureza" name="natureza">
 		          							<option value="">Selecione</option>
 		          							@foreach($natureza as $item)
 		          								<option value="{{$item->id}}">{{$item->descricao}}</option>
 		          							@endforeach
 		          						</select>
-		          						@if ($errors->has('natureza_tcc'))
+		          						@if ($errors->has('natureza'))
 					                        <span class="help-block">
-					                            <strong>{{ $errors->first('natureza_tcc') }}</strong>
+					                            <strong>{{ $errors->first('natureza') }}</strong>
 					                        </span>
 					                    @endif
 	          						</div>
 	          					</div>
 	          					<div class="col-md-6">
 	          						<label>Objetivo</label>
-	          						<div class="form-group has-feedback {{ $errors->has('objetivo_tcc') ? 'has-error' : '' }}">
-		          						<select class="form-control" id="objetivo_tcc" name="objetivo_tcc">
+	          						<div class="form-group has-feedback {{ $errors->has('objetivo') ? 'has-error' : '' }}">
+		          						<select class="form-control" id="objetivo" name="objetivo">
 		          							<option value="">Selecione</option>
 		          							@foreach($objetivo as $item)
 		          								<option value="{{$item->id}}">{{$item->descricao}}</option>
 		          							@endforeach
 		          						</select>
-		          						@if ($errors->has('objetivo_tcc'))
+		          						@if ($errors->has('objetivo'))
 					                        <span class="help-block">
-					                            <strong>{{ $errors->first('objetivo_tcc') }}</strong>
+					                            <strong>{{ $errors->first('objetivo') }}</strong>
 					                        </span>
 					                    @endif
 	          						</div>
 	          					</div>
 	          					<div class="col-md-6">
 	          						<label>Procedimento</label>
-	          						<div class="form-group has-feedback {{ $errors->has('procedimento_tcc') ? 'has-error' : '' }}">
-		          						<select class="form-control" id="tcc_ano_inicio" name="procedimento_tcc">
+	          						<div class="form-group has-feedback {{ $errors->has('procedimento') ? 'has-error' : '' }}">
+		          						<select class="form-control" id="tcc_ano_inicio" name="procedimento">
 		          							<option value="">Selecione</option>
 		          							@foreach($procedimento as $item)
 		          								<option value="{{$item->id}}">{{$item->descricao}}</option>
 		          							@endforeach
 		          						</select>
-		          						@if ($errors->has('procedimento_tcc'))
+		          						@if ($errors->has('procedimento'))
 					                        <span class="help-block">
-					                            <strong>{{ $errors->first('procedimento_tcc') }}</strong>
+					                            <strong>{{ $errors->first('procedimento') }}</strong>
 					                        </span>
 					                    @endif
 	          						</div>
 	          					</div>
 	          					<div class="col-md-6">
 	          						<label>Sub-área</label>
-	          						<div class="form-group has-feedback {{ $errors->has('subarea_tcc') ? 'has-error' : '' }}">
-		          						<select class="form-control" id="subarea_tcc" name="subarea_tcc">
+	          						<div class="form-group has-feedback {{ $errors->has('subarea') ? 'has-error' : '' }}">
+		          						<select class="form-control" id="subarea" name="subarea">
 		          							<option value="">Selecione</option>
 		          								@foreach($subarea as $item)
 		          								<option value="{{$item->id}}">{{$item->descricao}}</option>
 		          							@endforeach
 		          						</select>
-		          						@if ($errors->has('subarea_tcc'))
+		          						@if ($errors->has('subarea'))
 					                        <span class="help-block">
-					                            <strong>{{ $errors->first('subarea_tcc') }}</strong>
+					                            <strong>{{ $errors->first('subarea') }}</strong>
 					                        </span>
 					                    @endif
 	          						</div>
 	          					</div>
 	          					<div class="col-md-6">
 	          						<label>Link Sisbin</label>
-	          						<div class="form-group has-feedback {{ $errors->has('sisbin_tcc') ? 'has-error' : '' }}">
-		          						<input type='text' class="form-control" id="sisbin_tcc" name="sisbin_tcc">
+	          						<div class="form-group has-feedback {{ $errors->has('sisbin') ? 'has-error' : '' }}">
+		          						<input type='text' class="form-control" id="sisbin" name="sisbin">
 		          							
-		          						@if ($errors->has('sisbin_tcc'))
+		          						@if ($errors->has('sisbin'))
 					                        <span class="help-block">
-					                            <strong>{{ $errors->first('sisbin_tcc') }}</strong>
+					                            <strong>{{ $errors->first('sisbin') }}</strong>
 					                        </span>
 					                    @endif
 	          						</div>
@@ -309,7 +309,7 @@
 	          					<div class="col-md-12">
 	          						<div class="form-group">
 			                  		<label>Resumo do projeto</label>
-			                  		<textarea class="form-control" id="resumo_tcc" name="resumo_tcc" rows="5" placeholder="Resumo do projeto"></textarea>
+			                  		<textarea class="form-control" id="resumo" name="resumo" rows="5" placeholder="Resumo do projeto"></textarea>
 			                	</div>
 	          					</div>
 			                </div>
@@ -325,37 +325,37 @@
 				         	<div class="form-group">
 								<div class="radio">
 									<label>
-									  <input type="radio" name="status_tcc" id="" value="1" checked="">
+									  <input type="radio" name="status" id="" value="1" checked="">
 									  Trabalho em fase de concepção
 									</label>
 								</div>
 								<div class="radio">
 									<label>
-									  <input type="radio" name="status_tcc" id="" value="2" checked="true">
+									  <input type="radio" name="status" id="" value="2" checked="true">
 									  Trabalho em fase de desenvolvimento
 									</label>
 								</div>
 								<div class="radio">
 									<label>
-									  <input type="radio" name="status_tcc" id="" value="3" >
+									  <input type="radio" name="status" id="" value="3" >
 									  Trabalho em fase de geração de resultados
 									</label>
 								</div>
 								<div class="radio">
 									<label>
-									  <input type="radio" name="status_tcc" id="" value="4" >
+									  <input type="radio" name="status" id="" value="4" >
 									  Trabalho em fase de publicação
 									</label>
 								</div>
 								<div class="radio">
 									<label>
-									  <input type="radio" name="status_tcc" id="optionsRadios3" value="5" >
+									  <input type="radio" name="status" id="optionsRadios3" value="5" >
 									  Trabalho publicado
 									</label>
 								</div>
 								<div class="radio">
 									<label>
-									  <input type="radio" name="status_tcc" id="optionsRadios3" value="6">
+									  <input type="radio" name="status" id="optionsRadios3" value="6">
 									  Trabalho cancelado
 									</label>
 								</div>
@@ -393,8 +393,8 @@
 	                			<div class="col-md-9">
 	                				<div class="form-group">
 			              				<label>Selecione até 5 professores</label>
-			              				<div class="form-group has-feedback {{ $errors->has('banca_tcc') ? 'has-error' : '' }}">
-			              					<select id="banca_tcc" name="banca_tcc[]" class="form-control select2" 
+			              				<div class="form-group has-feedback {{ $errors->has('banca') ? 'has-error' : '' }}">
+			              					<select id="banca" name="banca[]" class="form-control select2" 
 			              				 data-placeholder="Selecione um professor" multiple="multiple" 
 			              				 >
 				              				 <option></option>
@@ -402,9 +402,9 @@
 			                        			<option value="{{$professor->id}}">{{ $professor->name }}</option>
 			                        		@endforeach
 			                        		</select>
-			                        		@if ($errors->has('banca_tcc'))
+			                        		@if ($errors->has('banca'))
 						                        <span class="help-block">
-						                            <strong>{{ $errors->first('banca_tcc') }}</strong>
+						                            <strong>{{ $errors->first('banca') }}</strong>
 						                        </span>
 						                    @endif
 						                </div>
