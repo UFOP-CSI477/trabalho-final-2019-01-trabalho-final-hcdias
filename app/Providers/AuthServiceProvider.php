@@ -5,6 +5,7 @@ namespace PesquisaProjeto\Providers;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use \Illuminate\Support\Facades\Auth;
+use PesquisaProjeto\Group;
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -32,7 +33,12 @@ class AuthServiceProvider extends ServiceProvider
 
         Gate::define('show-menu',function($user,$requiredPermission){
            $role = $user->group->roles;
-            if(in_array($role->name,$requiredPermission)){
+           $extraRole = null;
+           if(!is_null($user->extra_group_id)){
+                $extraRole = Group::find($user->extra_group_id)->roles->name;
+           }
+           
+            if(in_array($role->name,$requiredPermission) || in_array($extraRole,$requiredPermission)){
                 return true;
             }
            
