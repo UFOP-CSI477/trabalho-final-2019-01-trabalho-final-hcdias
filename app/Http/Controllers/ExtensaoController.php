@@ -126,7 +126,7 @@ class ExtensaoController extends Controller
             return response(view('403'), 403);
         }
 
-        $aluno = $extensao->alunos()->get()->first();
+        $alunos = $extensao->alunos()->get();
 
         $orientador = $extensao->orientador()->get()->first();
         $coorientador = $extensao->coorientador()->get()->first();
@@ -134,7 +134,7 @@ class ExtensaoController extends Controller
         return view('templates.extensao.detail')->with(
             [
             'extensao'=>$extensao,
-            'aluno'=>$aluno,
+            'alunos'=>$alunos,
             'orientador'=>$orientador,
             'coorientador'=>$coorientador
             ]
@@ -272,7 +272,7 @@ class ExtensaoController extends Controller
         return back()->with('error','Houve um erro ao realizar a operação');
 
     }
-    
+
     private function getExtensoes(Request $request,$id)
     {
         $user = Auth::user();
