@@ -97,11 +97,11 @@
 									</div>
 								</div>
 								<div class="col-md-6">
-									<div class="form-group">
+									<div class="form-group has-feedback {{ $errors->has('extraRole') ? 'has-error' : '' }}"">
 										<label>Permissão adicional</label>
 										<select id="extraRole" name="extraRole" class="form-control" 
 										 data-placeholder="Selecione a permissão"">
-											<option></option>
+											<option value="0">Nenhuma</option>
 											@foreach($allRoles as $role)
 											@if($role->id == $extraGroup)
 												<option value="{{ $role->id }}" title="{{ $role->description }}" selected="selected">{{ $role->name }}</option>
@@ -110,6 +110,11 @@
 											@endif
 										@endforeach
 									</select>
+									 @if ($errors->has('extraRole'))
+					                        <span class="help-block">
+					                            <strong>{{ $errors->first('extraRole') }}</strong>
+					                        </span>
+					                    @endif
 									</div>
 								</div>								
 		              			<div class="col-md-6 col-md-offset-3 ">
