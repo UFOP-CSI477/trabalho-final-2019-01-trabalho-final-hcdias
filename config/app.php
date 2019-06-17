@@ -180,6 +180,7 @@ return [
         PesquisaProjeto\Providers\RouteServiceProvider::class,
         JeroenNoten\LaravelAdminLte\ServiceProvider::class,
         Spatie\GoogleCalendar\GoogleCalendarServiceProvider::class,
+        PesquisaProjeto\Providers\LdapiAPIServiceProvider::class,
     ],
 
     /*
@@ -230,6 +231,7 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
         'ProfessorPapel'=> PesquisaProjeto\ProfessorPapel::class,
         'GoogleCalendar' => Spatie\GoogleCalendar\GoogleCalendarFacade::class,
+        'LdapiAPI'  => PesquisaProjeto\LdapiAPI\LdapiAPIFacade::class
 
     ],
 
