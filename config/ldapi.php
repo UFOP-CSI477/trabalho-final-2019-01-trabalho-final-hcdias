@@ -40,4 +40,6 @@ return [
     |
     */
     'authUrl' => env('LDAPI_AUTH_URL'),
+
+    'searchUrl' => env('LDAPI_SEARCH_URL'),
 ];
