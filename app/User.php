@@ -77,6 +77,17 @@ class User extends Authenticatable
             ->withPivot('professor_id','aluno_id','status');
     }    
 
+    public function alunoExtensoes()
+    {
+        return $this->belongsToMany('PesquisaProjeto\Extensao','vinculo_extensaos', 'user_id', 'extensao_id');
+    }
+
+    public function professorExtensoes()
+    {
+        return $this->hasMany('PesquisaProjeto\Extensao','orientador_id')
+        ->orWhere('coorientador_id',$this->id);
+    }    
+
     public function hasAnyRole($roles)
     {
 
