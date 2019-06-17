@@ -175,7 +175,7 @@ class UserController extends Controller
 
         $user = Auth::user();
 
-        $path = $request->file('profilePicture')->store('pictures');
+        $path = $request->file('profilePicture')->store('profile','public');
         if($path){
             $user->profile_picture = $path;
             $user->save();
