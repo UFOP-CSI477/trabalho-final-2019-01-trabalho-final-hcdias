@@ -211,12 +211,12 @@ class MestradoController extends Controller
             return response(view('403'), 403);
         }
         
-        $professores = MinhaUfopUser::whereHas('roles', function($query){
-            $query->where('name','professor');
+        $professores = MinhaUfopUser::whereHas('group', function($query){
+            $query->where('roles_id',1);
         })->get();
 
-        $alunos = MinhaUfopUser::whereHas('roles', function($query){
-            $query->where('name','aluno');
+        $alunos = MinhaUfopUser::whereHas('group', function($query){
+            $query->where('roles_id',2);
         })->get(); 
 
         $abordagem =  AbordagemPesquisa::get();
