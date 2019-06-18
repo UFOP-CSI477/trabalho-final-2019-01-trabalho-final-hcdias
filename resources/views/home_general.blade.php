@@ -157,10 +157,6 @@
       window.extensoesGrafico = new Chart(ctxExtensoes, config(extensoes));
       window.mestradosGrafico = new Chart(ctxMestrados, config(mestrados));
 
-    };
-
-
-
-       
+    };     
 </script>
 @endsection
