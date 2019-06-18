@@ -48,12 +48,15 @@ class MinhaUfopUserProvider implements UserProvider {
         	$groupUser = $groupModel
         	->where('codigo',$attributes['id_grupo'])
         	->first();
-
-        	$minhaUfopModel->name = $attributes['nome'];
-        	$minhaUfopModel->email = $attributes['email'];
-        	$minhaUfopModel->cpf = $attributes['cpf'];
-        	$minhaUfopModel->group_id = $groupUser->id;
-        	$minhaUfopModel->save();
+            
+            if($groupUser){
+                $minhaUfopModel->name = $attributes['nome'];
+                $minhaUfopModel->email = $attributes['email'];
+                $minhaUfopModel->cpf = $attributes['cpf'];
+                $minhaUfopModel->group_id = $groupUser->id;
+                $minhaUfopModel->save();
+            }
+        	
         }
 
         return $minhaUfopModel;
