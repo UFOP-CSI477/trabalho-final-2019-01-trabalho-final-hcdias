@@ -243,6 +243,28 @@ class MestradoController extends Controller
         );
     }
 
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy(Request $request,$id)
+    {
+        $mestrado = $this->getMestrados($request, $id);
+        if($mestrado == null) {
+            return response(view('403'), 403);
+        }
+
+        $result = $mestrado->delete($mestrado->id);
+
+        if($result) {
+            return back()->with('success', 'Excluido com sucesso');
+        }
+
+        return back()->with('error', 'Houve um erro ao realizar a operação');
+    }    
+
     private function getMestrados(Request $request,$id)
     {
         $user = Auth::user();
