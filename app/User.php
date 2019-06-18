@@ -51,8 +51,8 @@ class User extends Authenticatable
 
     public function professorTccs()
     {
-        return $this->hasMany('PesquisaProjeto\Tcc','orientador_tcc_id')
-        ->orWhere('coorientador_tcc_id',$this->id);
+        return $this->hasMany('PesquisaProjeto\Tcc','orientador_id')
+        ->orWhere('coorientador_id',$this->id);
     }
 
     public function professorMestrados()
@@ -68,7 +68,7 @@ class User extends Authenticatable
     
     public function alunoTccs()
     {
-        return $this->hasOne('PesquisaProjeto\Tcc','aluno_tcc_id','id');
+        return $this->hasOne('PesquisaProjeto\Tcc','aluno_id','id');
     }
 
     public function bancaTccs()
