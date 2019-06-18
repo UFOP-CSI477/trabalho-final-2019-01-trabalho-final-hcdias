@@ -3,11 +3,13 @@
 namespace PesquisaProjeto\Http\Controllers;
 
 use Illuminate\Http\Request;
-use PesquisaProjeto\Professor;
 use PesquisaProjeto\AreaPesquisa;
 use PesquisaProjeto\AbordagemPesquisa;
 use PesquisaProjeto\StatusPesquisa;
 use PesquisaProjeto\Pesquisa;
+use PesquisaProjeto\Tcc;
+use PesquisaProjeto\Mestrado;
+use PesquisaProjeto\Extensao;
 use PesquisaProjeto\MinhaUfopUser;
 use Illuminate\Support\Facades\Auth;
 
@@ -33,7 +35,7 @@ class HomeController extends Controller
     {
         $user = Auth::user();
         if($user->hasRole('admin')){
-            //$this->indexAdmin($user);
+            return $this->indexAdmin($user);
         }elseif($user->hasRole('professor')){
             return $this->indexProfessor($user);
         }elseif($user->hasRole('aluno')){
@@ -43,7 +45,13 @@ class HomeController extends Controller
         return view('home');
     }
 
-    protected function indexAluno(MinhaUfopUser $user){
+ 
+    /**
+     * Realiza a busca e agrupamento de todos os projetos cadastrados
+     * @param  [type] $user usuario autenticado
+     * @return mixed array       array contendo os dados de projeto
+     */
+    protected function indexAluno($user){
         $pesquisas = $user->alunoPesquisas;
 
         if($pesquisas){
@@ -61,6 +69,84 @@ class HomeController extends Controller
         return view('home_aluno')->with(['pesquisas'=>$pesquisasCompact,'tcc'=>$tcc]);
     }
 
+    /**
+     * Realiza a busca e agrupamento de todos os projetos cadastrados
+     * @param  [type] $user usuario autenticado
+     * @return mixed array       array contendo os dados de projeto
+     */
+    protected function indexAdmin($user){
+        $pesquisas = Pesquisa::all()->groupBy('status_id');
+        $tccs = Tcc::all()->groupBy('status_id');
+        $extensoes = Extensao::all()->groupBy('status_id');
+        $mestrados = Mestrado::all()->groupBy('status_mestrado');
+
+        if($pesquisas){
+            $pesquisasCompact = [];
+            $closurePesquisas = function($item,$key) use (&$pesquisasCompact){
+                $pesquisasCompact[$item->first()->status->id] = [
+                    'desc'=> $item->first()->status->descricao, 
+                    'qtd' => $item->count() 
+                ];
+            };
+
+            $pesquisas->each($closurePesquisas);
+        }
+
+        if($tccs){
+            $tccsCompact = [];
+            $closureTccs = function($item,$key) use (&$tccsCompact){
+                $tccsCompact[$item->first()->status->id] = [
+                    'desc'=> $item->first()->status->descricao, 
+                    'qtd' => $item->count() 
+                ];
+            };
+
+            $tccs->each($closureTccs);
+        }   
+
+
+        if($extensoes){
+            $extensoesCompact = [];
+            $closureExtensoes = function($item,$key) use (&$extensoesCompact){
+                $extensoesCompact[$item->first()->status->id] = [
+                    'desc'=> $item->first()->status->descricao, 
+                    'qtd' => $item->count() 
+                ];
+            };
+
+            $extensoes->each($closureExtensoes);
+        }        
+
+        
+        if($mestrados){
+            $mestradosCompact = [];
+            $closureMestrados = function($item,$key) use (&$mestradosCompact){
+                $mestradosCompact[$item->first()->status->id] = [
+                    'desc'=> $item->first()->status->descricao, 
+                    'qtd' => $item->count() 
+                ];
+            };
+
+            $mestrados->each($closureMestrados);
+        }  
+        
+        return view('home_general')->with(
+            [
+                'pesquisas'=>json_encode($pesquisasCompact),
+                'tccs'=>json_encode($tccsCompact),
+                'extensoes'=>json_encode($extensoesCompact),
+                'mestrados'=>json_encode($mestradosCompact)
+            ]
+        );        
+
+    }
+
+
+    /**
+     * Realiza a busca e agrupamento de todos os projetos cadastrados
+     * @param  [type] $user usuario autenticado
+     * @return mixed array       array contendo os dados de projeto
+     */
     protected function indexProfessor( $user){
         $pesquisas = $user->professorPesquisas;
 
@@ -68,7 +154,10 @@ class HomeController extends Controller
             $pesquisas = $pesquisas->groupBy('status_id');
             $pesquisasCompact = [];
             $closurePesquisas = function($item,$key) use (&$pesquisasCompact){
-                $pesquisasCompact[$item->first()->status->descricao] = $item->count();
+                $pesquisasCompact[$item->first()->status->id] = [
+                    'desc'=> $item->first()->status->descricao, 
+                    'qtd' => $item->count() 
+                ];
             };
 
             $pesquisas->each($closurePesquisas);
@@ -77,16 +166,55 @@ class HomeController extends Controller
 
         $tccs = $user->professorTccs;
         if($tccs){
-            $tccs = $tccs->groupBy('status_tcc');
+            $tccs = $tccs->groupBy('status_id');
             $tccsCompact = [];
             $closureTccs = function($item,$key) use (&$tccsCompact){
-                $tccsCompact[$item->first()->status->descricao] = $item->count();
+                $tccsCompact[$item->first()->status->id] = [
+                    'desc'=> $item->first()->status->descricao, 
+                    'qtd' => $item->count() 
+                ];
             };
 
             $tccs->each($closureTccs);
+        }   
+
+        $extensoes = $user->professorExtensoes;
+        if($extensoes){
+            $extensoes = $extensoes->groupBy('status_id');
+            $extensoesCompact = [];
+            $closureExtensoes = function($item,$key) use (&$extensoesCompact){
+                $extensoesCompact[$item->first()->status->id] = [
+                    'desc'=> $item->first()->status->descricao, 
+                    'qtd' => $item->count() 
+                ];
+            };
+
+            $extensoes->each($closureExtensoes);
         }        
 
-        return view('home');
+        $mestrados = $user->professorMestrados;
+        
+        if($mestrados){
+            $mestrados = $mestrados->groupBy('status_mestrado');
+            $mestradosCompact = [];
+            $closureMestrados = function($item,$key) use (&$mestradosCompact){
+                $mestradosCompact[$item->first()->status->id] = [
+                    'desc'=> $item->first()->status->descricao, 
+                    'qtd' => $item->count() 
+                ];
+            };
+
+            $mestrados->each($closureMestrados);
+        }  
+
+        return view('home_general')->with(
+            [
+                'pesquisas'=>json_encode($pesquisasCompact),
+                'tccs'=>json_encode($tccsCompact),
+                'extensoes'=>json_encode($extensoesCompact),
+                'mestrados'=>json_encode($mestradosCompact)
+            ]
+        );
     }
 
     public function exibir()
