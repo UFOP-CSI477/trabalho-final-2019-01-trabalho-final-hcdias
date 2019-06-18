@@ -98,7 +98,7 @@ class ExtensaoController extends Controller
             'resumo'=>$extensao['resumo'],
             'ano_inicio'=>$extensao['ano_inicio'],
             'semestre_inicio'=>$extensao['semestre_inicio'],
-            'status'=>$extensao['status'],
+            'status_id'=>$extensao['status'],
             'sisbin'=>$sisbin,
             'orientador_id'=>$extensao['orientador'],
             'coorientador_id'=>$coorientador,
