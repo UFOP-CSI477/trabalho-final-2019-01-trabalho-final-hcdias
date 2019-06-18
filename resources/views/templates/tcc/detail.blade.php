@@ -90,14 +90,14 @@
                 <div class="box-body">
                   <div class="row">
                     <div class="col-md-6">
-                      <p class="lead text-muted"> Título: {{$tcc->titulo_tcc}}</p>
+                      <p class="lead text-muted"> Título: {{$tcc->titulo}}</p>
                     </div>
                     <div class="col-md-6">
                       <p class="lead text-status-{{$tcc->status()->get()->first()->id}}">Status: {{$tcc->status()->get()->first()->descricao}}</p>
                     </div>
                     <div class="col-md-6">
-                      <p class="text-muted">Semestre de início: {{$tcc->semestre_inicio_tcc}}</p>
-                      <p class="text-muted">Ano de início: {{$tcc->ano_inicio_tcc}}</p>
+                      <p class="text-muted">Semestre de início: {{$tcc->semestre_inicio}}</p>
+                      <p class="text-muted">Ano de início: {{$tcc->ano_inicio}}</p>
                       <p class="text-muted">Abordagem: {{$tcc->abordagem()->get()->first()->descricao}}</p>
                       <p class="text-muted">Semestre de Defesa: {{$tcc->semestre_defesa == 1 ? "ATV29" : "ATV30"}}</p>
                       
@@ -108,14 +108,14 @@
                       <p class="text-muted">Objetivo: {{$tcc->objetivo()->get()->first()->descricao}}</p>
                       <p class="text-muted">Procedimento: {{$tcc->procedimento()->get()->first()->descricao}}</p>
                       <p class="text-muted">Sub-área: {{$tcc->subarea()->get()->first()->descricao}}</p>
-                      <p class="text-muted">Sisbin: {{$tcc->sisbin_tcc}}</p>
+                      <p class="text-muted">Sisbin: {{$tcc->sisbin}}</p>
                       
                     </div>
                   </div>
                   <div class="row">
                     <div class="col-md-12">
                       <p class="text-muted">Descrição: </p>
-                      <p class="text-muted"> {{$tcc->resumo_tcc}}</p>
+                      <p class="text-muted"> {{$tcc->resumo}}</p>
                     </div>
                   </div>
                 </div>
