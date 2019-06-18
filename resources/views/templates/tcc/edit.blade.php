@@ -5,11 +5,11 @@
     <section class="content-header">
       <h1>
         Trabalho de conclusão de curso
-        <small>editar tese</small>
+        <small>editar trabalho</small>
       </h1>
       <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-        <li><a href="#">Teses de conclusão de curso</a></li>
+        <li><a href="#">Trabalho de conclusão de curso</a></li>
         <li class="active">Editar</li>
       </ol>
     </section>

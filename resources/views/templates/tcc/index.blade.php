@@ -3,12 +3,12 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        Teses de conclusão de curso
-        <small>pesquisar teses</small>
+        Trabalho de conclusão de curso
+        <small>pesquisar trabalhos</small>
       </h1>
       <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-        <li><a href="#">Teses de conclusão de curso</a></li>
+        <li><a href="#">Trabalho de conclusão de curso</a></li>
         <li class="active">Busca</li>
       </ol>
     </section>
