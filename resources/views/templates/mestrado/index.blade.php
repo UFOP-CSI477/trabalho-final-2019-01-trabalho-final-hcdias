@@ -40,7 +40,7 @@
 			                <tbody>
 								@foreach($mestrados as $mestrado)
 									<tr>
-										<td>{{ $mestrado->titulo_mestrado }}</td>
+										<td>{{ $mestrado->titulo }}</td>
 										<td class='text-center'>
 											<span class="label alert-status-{{$mestrado->status->id}}">{{$mestrado->status->descricao}}</span>
 										</td>
