@@ -53,14 +53,14 @@
             <div class="box-body">
               <div class="row">
                 <div class="col-md-6">
-                  <p class="lead text-muted"> Título: {{$mestrado->titulo_mestrado}}</p>
+                  <p class="lead text-muted"> Título: {{$mestrado->titulo}}</p>
                 </div>
                 <div class="col-md-6">
                   <p class="lead text-status-{{$mestrado->status()->get()->first()->id}}">Status: {{$mestrado->status()->get()->first()->descricao}}</p>
                 </div>
                 <div class="col-md-6">
-                  <p class="text-muted">Semestre de início: {{$mestrado->semestre_inicio_mestrado}}</p>
-                  <p class="text-muted">Ano de início: {{$mestrado->ano_inicio_mestrado}}</p>
+                  <p class="text-muted">Semestre de início: {{$mestrado->semestre_inicio}}</p>
+                  <p class="text-muted">Ano de início: {{$mestrado->ano_inicio}}</p>
                   <p class="text-muted">Abordagem: {{$mestrado->abordagem()->get()->first()->descricao}}</p>
                   
                   <p class="text-muted">Área: {{$mestrado->area()->get()->first()->descricao}}</p>
@@ -70,14 +70,14 @@
                   <p class="text-muted">Objetivo: {{$mestrado->objetivo()->get()->first()->descricao}}</p>
                   <p class="text-muted">Procedimento: {{$mestrado->procedimento()->get()->first()->descricao}}</p>
                   <p class="text-muted">Sub-área: {{$mestrado->subarea()->get()->first()->descricao}}</p>
-                  <p class="text-muted">Sisbin: {{$mestrado->sisbin_mestrado}}</p>
+                  <p class="text-muted">Sisbin: {{$mestrado->sisbin}}</p>
                   
                 </div>
               </div>
               <div class="row">
                 <div class="col-md-12">
                   <p class="text-muted">Descrição: </p>
-                  <p class="text-muted"> {{$mestrado->resumo_mestrado}}</p>
+                  <p class="text-muted"> {{$mestrado->resumo}}</p>
                 </div>
               </div>
             </div>
