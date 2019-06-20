@@ -131,35 +131,35 @@
 	              		<div class="box-body">
 	              			<div class="row">
 	              				<div class="col-md-12">
-	              					<label for="titulo_mestrado">Título</label>
-	              					<div class="form-group has-feedback {{ $errors->has('titulo_mestrado') ? 'has-error' : '' }}">
-		              					<input type="text" class="form-control" name="titulo_mestrado" id="titulo_mestrado" placeholder="Título da Tese">
-		              					@if ($errors->has('titulo_mestrado'))
+	              					<label for="titulo">Título</label>
+	              					<div class="form-group has-feedback {{ $errors->has('titulo') ? 'has-error' : '' }}">
+		              					<input type="text" class="form-control" name="titulo" id="titulo" placeholder="Título da Tese">
+		              					@if ($errors->has('titulo'))
 					                        <span class="help-block">
-					                            <strong>{{ $errors->first('titulo_mestrado') }}</strong>
+					                            <strong>{{ $errors->first('titulo') }}</strong>
 					                        </span>
 					                    @endif
 	          						</div>
 	              				</div>
 	          					<div class="col-md-6">
 	          						<label>Semestre de início</label>
-	          						<div class="form-group has-feedback {{ $errors->has('semestre_inicio_mestrado') ? 'has-error' : '' }}">
-		          						<select class="form-control" id="semestre_inicio_mestrado" name="semestre_inicio_mestrado">
+	          						<div class="form-group has-feedback {{ $errors->has('semestre_inicio') ? 'has-error' : '' }}">
+		          						<select class="form-control" id="semestre_inicio" name="semestre_inicio">
 		          							<option value="">Selecione</option>
 		          							<option value='1'>1º semestre</option>
 						  					<option value='2'>2º semestre</option>
 		          						</select>
-		          						@if ($errors->has('semestre_inicio_mestrado'))
+		          						@if ($errors->has('semestre_inicio'))
 					                        <span class="help-block">
-					                            <strong>{{ $errors->first('semestre_inicio_mestrado') }}</strong>
+					                            <strong>{{ $errors->first('semestre_inicio') }}</strong>
 					                        </span>
 					                    @endif
 	          						</div>
 	          					</div>
 	          					<div class="col-md-6">
 	          						<label>Ano de início</label>
-	          						<div class="form-group has-feedback {{ $errors->has('ano_inicio_mestrado') ? 'has-error' : '' }}">
-		          						<select class="form-control" id="ano_inicio_mestrado" name="ano_inicio_mestrado">
+	          						<div class="form-group has-feedback {{ $errors->has('ano_inicio') ? 'has-error' : '' }}">
+		          						<select class="form-control" id="ano_inicio" name="ano_inicio">
 		          							<option value="">Selecione</option>
 											<option value='2010'>2010</option>
 											<option value='2011'>2011</option>
@@ -174,25 +174,25 @@
 											<option value='2020'>2020</option>
 											<option value='2021'>2021</option>
 		          						</select>
-		          						@if ($errors->has('ano_inicio_mestrado'))
+		          						@if ($errors->has('ano_inicio'))
 					                        <span class="help-block">
-					                            <strong>{{ $errors->first('ano_inicio_mestrado') }}</strong>
+					                            <strong>{{ $errors->first('ano_inicio') }}</strong>
 					                        </span>
 					                    @endif
 	          						</div>
 	          					</div>
 	          					<div class="col-md-6">
 	          						<label>Abordagem</label>
-	          						<div class="form-group has-feedback {{ $errors->has('abordagem_mestrado') ? 'has-error' : '' }}">
-		          						<select class="form-control" id="abordagem_mestrado" name="abordagem_mestrado">
+	          						<div class="form-group has-feedback {{ $errors->has('abordagem') ? 'has-error' : '' }}">
+		          						<select class="form-control" id="abordagem" name="abordagem">
 		          							<option value="">Selecione</option>
 		          							@foreach($abordagem as $item)
 		          								<option value="{{$item->id}}">{{$item->descricao}}</option>
 		          							@endforeach
 		          						</select>
-		          						@if ($errors->has('abordagem_mestrado'))
+		          						@if ($errors->has('abordagem'))
 					                        <span class="help-block">
-					                            <strong>{{ $errors->first('abordagem_mestrado') }}</strong>
+					                            <strong>{{ $errors->first('abordagem') }}</strong>
 					                        </span>
 					                    @endif
 	          						</div>
@@ -200,16 +200,16 @@
 
 	          					<div class="col-md-6">
 	          						<label>Area</label>
-	          						<div class="form-group has-feedback {{ $errors->has('area_mestrado') ? 'has-error' : '' }}">
-		          						<select class="form-control" id="area_mestrado" name="area_mestrado">
+	          						<div class="form-group has-feedback {{ $errors->has('area') ? 'has-error' : '' }}">
+		          						<select class="form-control" id="area" name="area">
 		          							<option value="">Selecione</option>
 		          							@foreach($area as $item)
 		          								<option value="{{$item->id}}">{{$item->descricao}}</option>
 		          							@endforeach
 		          						</select>
-		          						@if ($errors->has('area_mestrado'))
+		          						@if ($errors->has('area'))
 					                        <span class="help-block">
-					                            <strong>{{ $errors->first('area_mestrado') }}</strong>
+					                            <strong>{{ $errors->first('area') }}</strong>
 					                        </span>
 					                    @endif
 	          						</div>
@@ -217,76 +217,76 @@
 
 	          					<div class="col-md-6">
 	          						<label>Natureza</label>
-	          						<div class="form-group has-feedback {{ $errors->has('natureza_mestrado') ? 'has-error' : '' }}">
-		          						<select class="form-control" id="natureza_mestrado" name="natureza_mestrado">
+	          						<div class="form-group has-feedback {{ $errors->has('natureza') ? 'has-error' : '' }}">
+		          						<select class="form-control" id="natureza" name="natureza">
 		          							<option value="">Selecione</option>
 		          							@foreach($natureza as $item)
 		          								<option value="{{$item->id}}">{{$item->descricao}}</option>
 		          							@endforeach
 		          						</select>
-		          						@if ($errors->has('natureza_mestrado'))
+		          						@if ($errors->has('natureza'))
 					                        <span class="help-block">
-					                            <strong>{{ $errors->first('natureza_mestrado') }}</strong>
+					                            <strong>{{ $errors->first('natureza') }}</strong>
 					                        </span>
 					                    @endif
 	          						</div>
 	          					</div>
 	          					<div class="col-md-6">
 	          						<label>Objetivo</label>
-	          						<div class="form-group has-feedback {{ $errors->has('objetivo_mestrado') ? 'has-error' : '' }}">
-		          						<select class="form-control" id="objetivo_mestrado" name="objetivo_mestrado">
+	          						<div class="form-group has-feedback {{ $errors->has('objetivo') ? 'has-error' : '' }}">
+		          						<select class="form-control" id="objetivo" name="objetivo">
 		          							<option value="">Selecione</option>
 		          							@foreach($objetivo as $item)
 		          								<option value="{{$item->id}}">{{$item->descricao}}</option>
 		          							@endforeach
 		          						</select>
-		          						@if ($errors->has('objetivo_mestrado'))
+		          						@if ($errors->has('objetivo'))
 					                        <span class="help-block">
-					                            <strong>{{ $errors->first('objetivo_mestrado') }}</strong>
+					                            <strong>{{ $errors->first('objetivo') }}</strong>
 					                        </span>
 					                    @endif
 	          						</div>
 	          					</div>
 	          					<div class="col-md-6">
 	          						<label>Procedimento</label>
-	          						<div class="form-group has-feedback {{ $errors->has('procedimento_mestrado') ? 'has-error' : '' }}">
-		          						<select class="form-control" id="tcc_ano_inicio" name="procedimento_mestrado">
+	          						<div class="form-group has-feedback {{ $errors->has('procedimento') ? 'has-error' : '' }}">
+		          						<select class="form-control" id="procedimento" name="procedimento">
 		          							<option value="">Selecione</option>
 		          							@foreach($procedimento as $item)
 		          								<option value="{{$item->id}}">{{$item->descricao}}</option>
 		          							@endforeach
 		          						</select>
-		          						@if ($errors->has('procedimento_mestrado'))
+		          						@if ($errors->has('procedimento'))
 					                        <span class="help-block">
-					                            <strong>{{ $errors->first('procedimento_mestrado') }}</strong>
+					                            <strong>{{ $errors->first('procedimento') }}</strong>
 					                        </span>
 					                    @endif
 	          						</div>
 	          					</div>
 	          					<div class="col-md-6">
 	          						<label>Sub-área</label>
-	          						<div class="form-group has-feedback {{ $errors->has('subarea_mestrado') ? 'has-error' : '' }}">
-		          						<select class="form-control" id="subarea_mestrado" name="subarea_mestrado">
+	          						<div class="form-group has-feedback {{ $errors->has('subarea') ? 'has-error' : '' }}">
+		          						<select class="form-control" id="subarea" name="subarea">
 		          							<option value="">Selecione</option>
 		          								@foreach($subarea as $item)
 		          								<option value="{{$item->id}}">{{$item->descricao}}</option>
 		          							@endforeach
 		          						</select>
-		          						@if ($errors->has('subarea_mestrado'))
+		          						@if ($errors->has('subarea'))
 					                        <span class="help-block">
-					                            <strong>{{ $errors->first('subarea_mestrado') }}</strong>
+					                            <strong>{{ $errors->first('subarea') }}</strong>
 					                        </span>
 					                    @endif
 	          						</div>
 	          					</div>
 	          					<div class="col-md-6">
 	          						<label>Link Sisbin</label>
-	          						<div class="form-group has-feedback {{ $errors->has('sisbin_mestrado') ? 'has-error' : '' }}">
-		          						<input type='text' class="form-control" id="sisbin_mestrado" name="sisbin_mestrado">
+	          						<div class="form-group has-feedback {{ $errors->has('sisbin') ? 'has-error' : '' }}">
+		          						<input type='text' class="form-control" id="sisbin" name="sisbin">
 		          							
-		          						@if ($errors->has('sisbin_mestrado'))
+		          						@if ($errors->has('sisbin'))
 					                        <span class="help-block">
-					                            <strong>{{ $errors->first('sisbin_mestrado') }}</strong>
+					                            <strong>{{ $errors->first('sisbin') }}</strong>
 					                        </span>
 					                    @endif
 	          						</div>
@@ -295,7 +295,7 @@
 	          					<div class="col-md-12">
 	          						<div class="form-group">
 			                  		<label>Resumo do projeto</label>
-			                  		<textarea class="form-control" id="resumo_mestrado" name="resumo_mestrado" rows="5" placeholder="Resumo do projeto"></textarea>
+			                  		<textarea class="form-control" id="resumo" name="resumo" rows="5" placeholder="Resumo do projeto"></textarea>
 			                	</div>
 	          					</div>
 			                </div>
@@ -311,37 +311,37 @@
 				         	<div class="form-group">
 								<div class="radio">
 									<label>
-									  <input type="radio" name="status_mestrado" id="" value="1" checked="">
+									  <input type="radio" name="status"  value="1" checked="">
 									  Tese em fase de concepção
 									</label>
 								</div>
 								<div class="radio">
 									<label>
-									  <input type="radio" name="status_mestrado" id="" value="2" checked="true">
+									  <input type="radio" name="status"  value="2" checked="true">
 									  Tese em fase de desenvolvimento
 									</label>
 								</div>
 								<div class="radio">
 									<label>
-									  <input type="radio" name="status_mestrado" id="" value="3" >
+									  <input type="radio" name="status"  value="3" >
 									  Tese em fase de geração de resultados
 									</label>
 								</div>
 								<div class="radio">
 									<label>
-									  <input type="radio" name="status_mestrado" id="" value="4" >
+									  <input type="radio" name="status"  value="4" >
 									  Tese em fase de publicação
 									</label>
 								</div>
 								<div class="radio">
 									<label>
-									  <input type="radio" name="status_mestrado" id="optionsRadios3" value="5" >
+									  <input type="radio" name="status" value="5" >
 									  Tese publicada
 									</label>
 								</div>
 								<div class="radio">
 									<label>
-									  <input type="radio" name="status_mestrado" id="optionsRadios3" value="6">
+									  <input type="radio" name="status" value="6">
 									  Tese Cancelada
 									</label>
 								</div>
