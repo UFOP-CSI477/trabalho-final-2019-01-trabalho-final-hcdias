@@ -7,22 +7,22 @@ use Illuminate\Database\Eloquent\Model;
 class Mestrado extends Model
 {
     protected $fillable = [
-		'titulo_mestrado',
-		'resumo_mestrado',
-		'ano_inicio_mestrado',
-		'semestre_inicio_mestrado',
-		'semestre_defesa_mestrado',
-		'status_mestrado',
-		'sisbin_mestrado',
-		'abordagem_mestrado_id',
-		'area_mestrado_id',
-		'natureza_mestrado_id',
-		'objetivo_mestrado_id',
-		'procedimentos_mestrado_id',
-		'sub_area_mestrado_id',
-		'orientador_mestrado_id',
-		'coorientador_mestrado_id',
-		'aluno_mestrado_id'
+		'titulo',
+		'resumo',
+		'ano_inicio',
+		'semestre_inicio',
+		'semestre_defesa',
+		'status_id',
+		'sisbin',
+		'abordagem_id',
+		'area_id',
+		'natureza_id',
+		'objetivo_id',
+		'procedimentos_id',
+		'sub_area_id',
+		'orientador_id',
+		'coorientador_id',
+		'aluno_id'
 		];
 
 	public function orientador(){
