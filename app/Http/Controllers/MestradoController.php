@@ -82,20 +82,20 @@ class MestradoController extends Controller
     {
     	 $mestrado = $this->validate(
             request(), [
-            'titulo_mestrado'=>'required',
-            'resumo_mestrado'=>'required',
-            'ano_inicio_mestrado'=>'required',
-            'semestre_inicio_mestrado'=>'required',
-            'status_mestrado'=>'required',
+            'titulo'=>'required',
+            'resumo'=>'required',
+            'ano_inicio'=>'required',
+            'semestre_inicio'=>'required',
+            'status'=>'required',
             'orientador'=>'required',
             'coorientador'=>'required',
             'discente'=>'required',
-            'abordagem_mestrado'=>'required',
-            'area_mestrado'=>'required',
-            'natureza_mestrado'=>'required',
-            'objetivo_mestrado'=>'required',
-            'procedimento_mestrado'=>'required',
-            'subarea_mestrado'=>'required'
+            'abordagem'=>'required',
+            'area'=>'required',
+            'natureza'=>'required',
+            'objetivo'=>'required',
+            'procedimento'=>'required',
+            'subarea'=>'required'
             ]
         );
         
@@ -104,21 +104,21 @@ class MestradoController extends Controller
 
         $resultMestrado = Mestrado::create(
             [
-            'titulo_mestrado'=>$mestrado['titulo_mestrado'],
-            'resumo_mestrado'=>$mestrado['resumo_mestrado'],
-            'ano_inicio_mestrado'=>$mestrado['ano_inicio_mestrado'],
-            'semestre_inicio_mestrado'=>$mestrado['semestre_inicio_mestrado'],
-            'status_mestrado'=>$mestrado['status_mestrado'],
-            'sisbin_mestrado'=>$sisbin,
-            'orientador_mestrado_id'=>$mestrado['orientador'],
-            'coorientador_mestrado_id'=>$mestrado['coorientador'],
-            'aluno_mestrado_id'=>$mestrado['discente'],
-            'abordagem_mestrado_id'=>$mestrado['abordagem_mestrado'],
-            'area_mestrado_id'=>$mestrado['area_mestrado'],
-            'natureza_mestrado_id'=>$mestrado['natureza_mestrado'],
-            'objetivo_mestrado_id'=>$mestrado['objetivo_mestrado'],
-            'procedimentos_mestrado_id'=>$mestrado['procedimento_mestrado'],
-            'sub_area_mestrado_id'=>$mestrado['subarea_mestrado']
+            'titulo'=>$mestrado['titulo'],
+            'resumo'=>$mestrado['resumo'],
+            'ano_inicio'=>$mestrado['ano_inicio'],
+            'semestre_inicio'=>$mestrado['semestre_inicio'],
+            'status_id'=>$mestrado['status'],
+            'sisbin'=>$sisbin,
+            'orientador_id'=>$mestrado['orientador'],
+            'coorientador_id'=>$mestrado['coorientador'],
+            'aluno_id'=>$mestrado['discente'],
+            'abordagem_id'=>$mestrado['abordagem'],
+            'area_id'=>$mestrado['area'],
+            'natureza_id'=>$mestrado['natureza'],
+            'objetivo_id'=>$mestrado['objetivo'],
+            'procedimentos_id'=>$mestrado['procedimento'],
+            'sub_area_id'=>$mestrado['subarea']
             ]
         );
 
@@ -157,40 +157,40 @@ class MestradoController extends Controller
 
         $validation = $this->validate(
             request(), [
-            'titulo_mestrado'=>'required',
-            'resumo_mestrado'=>'required',
-            'ano_inicio_mestrado'=>'required',
-            'semestre_inicio_mestrado'=>'required',
-            'status_mestrado'=>'required',
+            'titulo'=>'required',
+            'resumo'=>'required',
+            'ano_inicio'=>'required',
+            'semestre_inicio'=>'required',
+            'status'=>'required',
             'orientador'=>'required',
             'coorientador'=>'required',
             'discente'=>'required',
-            'abordagem_mestrado'=>'required',
-            'area_mestrado'=>'required',
-            'natureza_mestrado'=>'required',
-            'objetivo_mestrado'=>'required',
-            'procedimento_mestrado'=>'required',
-            'subarea_mestrado'=>'required',
+            'abordagem'=>'required',
+            'area'=>'required',
+            'natureza'=>'required',
+            'objetivo'=>'required',
+            'procedimento'=>'required',
+            'subarea'=>'required',
             ]
         );
 
         $sisbin = $request->input('sisbin_mestrado');
 
-        $mestrado->titulo_mestrado = $validation['titulo_mestrado'];
-        $mestrado->resumo_mestrado = $validation['resumo_mestrado'];
-        $mestrado->ano_inicio_mestrado = $validation['ano_inicio_mestrado'];
-        $mestrado->semestre_inicio_mestrado = $validation['semestre_inicio_mestrado'];
-        $mestrado->status_mestrado = $validation['status_mestrado'];
-        $mestrado->sisbin_mestrado = $sisbin;
-        $mestrado->abordagem_mestrado_id = $validation['abordagem_mestrado'];
-        $mestrado->area_mestrado_id = $validation['area_mestrado'];
-        $mestrado->natureza_mestrado_id = $validation['natureza_mestrado'];
-        $mestrado->objetivo_mestrado_id = $validation['objetivo_mestrado'];
-        $mestrado->procedimentos_mestrado_id = $validation['procedimento_mestrado'];
-        $mestrado->sub_area_mestrado_id = $validation['subarea_mestrado'];
-        $mestrado->orientador_mestrado_id = $validation['orientador'];
-        $mestrado->coorientador_mestrado_id = $validation['coorientador'];
-        $mestrado->aluno_mestrado_id = $validation['discente'];
+        $mestrado->titulo = $validation['titulo'];
+        $mestrado->resumo = $validation['resumo'];
+        $mestrado->ano_inicio = $validation['ano_inicio'];
+        $mestrado->semestre_inicio = $validation['semestre_inicio'];
+        $mestrado->status_id = $validation['status'];
+        $mestrado->sisbin = $sisbin;
+        $mestrado->abordagem_id = $validation['abordagem'];
+        $mestrado->area_id = $validation['area'];
+        $mestrado->natureza_id = $validation['natureza'];
+        $mestrado->objetivo_id = $validation['objetivo'];
+        $mestrado->procedimentos_id = $validation['procedimento'];
+        $mestrado->sub_area_id = $validation['subarea'];
+        $mestrado->orientador_id = $validation['orientador'];
+        $mestrado->coorientador_id = $validation['coorientador'];
+        $mestrado->aluno_id = $validation['discente'];
 
         $mestrado->save();
 
@@ -226,7 +226,7 @@ class MestradoController extends Controller
         $procedimento =  ProcedimentosPesquisa::get();
         $subarea =  SubAreaPesquisa::get();
         $status = StatusPesquisa::get();
-        
+
         return view('templates.mestrado.edit')->with(
             [
             'professores'=>$professores,
