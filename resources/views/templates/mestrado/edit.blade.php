@@ -345,7 +345,7 @@
 				         		];
 
 		          				for ($status = 1; $status < 7; $status++){
-		          					if ($status == $mestrado->status){
+		          					if ($status == $mestrado->status->id){
 		          						echo "<div class='radio'>
 												<label>
 									  				<input type='radio' name='status' id='optionsRadios" . $status . "' value='" . $status . "' checked='checked'>" . $array[$status] . "
