@@ -15,49 +15,49 @@ class CreateMestradosTable extends Migration
     {
         Schema::create('mestrados', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('titulo_mestrado');
-            $table->string('resumo_mestrado');
-            $table->integer('ano_inicio_mestrado');
-            $table->integer('semestre_inicio_mestrado');
-            $table->string('sisbin_mestrado')->nullable();
-            $table->integer('status_mestrado')->unsigned()->default(1);
-            $table->integer('natureza_mestrado_id')->unsigned()->default(1);
-            $table->integer('abordagem_mestrado_id')->unsigned()->default(1);
-            $table->integer('objetivo_mestrado_id')->unsigned()->default(1);
-            $table->integer('procedimentos_mestrado_id')->unsigned()->default(1);
-            $table->integer('area_mestrado_id')->unsigned()->default(1);
-            $table->integer('sub_area_mestrado_id')->unsigned()->default(1);
-            $table->integer('orientador_mestrado_id')->unsigned()->default(null);
-            $table->integer('coorientador_mestrado_id')->unsigned()->default(null);
-            $table->integer('aluno_mestrado_id')->unsigned()->default(1);
+            $table->string('titulo');
+            $table->string('resumo');
+            $table->integer('ano_inicio');
+            $table->integer('semestre_inicio');
+            $table->string('sisbin')->nullable();
+            $table->integer('status_id')->unsigned()->default(1);
+            $table->integer('natureza_id')->unsigned()->default(1);
+            $table->integer('abordagem_id')->unsigned()->default(1);
+            $table->integer('objetivo_id')->unsigned()->default(1);
+            $table->integer('procedimentos_id')->unsigned()->default(1);
+            $table->integer('area_id')->unsigned()->default(1);
+            $table->integer('sub_area_id')->unsigned()->default(1);
+            $table->integer('orientador_id')->unsigned()->default(null);
+            $table->integer('coorientador_id')->unsigned()->default(null);
+            $table->integer('aluno_id')->unsigned()->default(1);
             
             $table->timestamps();
 
-             $table->foreign('natureza_mestrado_id')
+             $table->foreign('natureza_id')
                 ->references('id')
                 ->on('natureza_pesquisas');
 
-            $table->foreign('abordagem_mestrado_id')
+            $table->foreign('abordagem_id')
                 ->references('id')
                 ->on('abordagem_pesquisas');
 
-            $table->foreign('objetivo_mestrado_id')
+            $table->foreign('objetivo_id')
                 ->references('id')
                 ->on('objetivo_pesquisas');
 
-            $table->foreign('procedimentos_mestrado_id')
+            $table->foreign('procedimentos_id')
                 ->references('id')
                 ->on('procedimentos_pesquisas');
 
-            $table->foreign('area_mestrado_id')
+            $table->foreign('area_id')
                 ->references('id')
                 ->on('area_pesquisas');
 
-            $table->foreign('sub_area_mestrado_id')
+            $table->foreign('sub_area_id')
                 ->references('id')
                 ->on('sub_area_pesquisas');
 
-            $table->foreign('status_mestrado')
+            $table->foreign('status_id')
                 ->references('id')
                 ->on('status_pesquisas');
         });
