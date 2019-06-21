@@ -20,6 +20,7 @@ Route::group(['prefix' => 'admin'], function () {
 
 Route::get('/', 'HomeController@exibir')->name('index');
 Route::post('/resultados', 'HomeController@pesquisar')->name('exibir_resultados');
+Route::get('/resultados', 'HomeController@exibir');
 Route::get('/home', 'HomeController@index')->name('home');
 Route::post('/notification', 'HomeController@notification')->name('not');
 
