@@ -41,20 +41,23 @@ class LdapiAPI{
         }
         catch (ClientException $ex) { 
 
-            return null;
+            throw $ex;
         }catch(RequestException $ex){
 
             throw $ex;
         }
         
+        $attributes = null;
         $data = json_decode($response->getBody()->getContents());
-        $attributes = array (
-            'cpf' => $data->cpf,
-            'nome' => $data->nomecompleto,
-            'email'=> $data->email,
-            'id_grupo'=>$data->id_grupo,
-            'grupo'=>$data->grupo
-        );     
+        if($data){
+            $attributes = array (
+                'cpf' => $data->cpf,
+                'nome' => $data->nomecompleto,
+                'email'=> $data->email,
+                'id_grupo'=>$data->id_grupo,
+                'grupo'=>$data->grupo
+            );     
+        }
 
         return $attributes;
     }
