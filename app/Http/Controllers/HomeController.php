@@ -76,7 +76,7 @@ class HomeController extends Controller
      */
     protected function indexAdmin($user){
         $pesquisas = Pesquisa::all()->groupBy('status_id');
-        $tccs = Tcc::all()->groupBy('status_id');
+        $tccs      = Tcc::all()->groupBy('status_id');
         $extensoes = Extensao::all()->groupBy('status_id');
         $mestrados = Mestrado::all()->groupBy('status_mestrado');
 
@@ -223,78 +223,101 @@ class HomeController extends Controller
             $query->where('roles_id',1);
         })->get();
         
-        $areasPesquisa = AreaPesquisa::all();
-        $status = StatusPesquisa::all();
+        $areas      = AreaPesquisa::all();
+        $status     = StatusPesquisa::all();
         $abordagens = AbordagemPesquisa::all();
-        $pesquisas = Pesquisa::all();
+        $pesquisas  = Pesquisa::all();
+
+        $tipoProjeto = [
+            1=>"Projeto de pesquisa",
+            2=>"Trabalho de conclusão de curso",
+            3=>"Projeto de extensão",
+            4=>"Mestrado"
+        ];
 
         return view('exibir')->with([
             'professores' => $professores,
-            'areasPesquisa' => $areasPesquisa,
-            'status' => $status,
-            'abordagens' => $abordagens,
-            'pesquisas' => $pesquisas
+            'areas'       => $areas,
+            'status'      => $status,
+            'abordagens'  => $abordagens,
+            'pesquisas'   => $pesquisas,
+            'tipoProjeto' => $tipoProjeto
         ]);
     }
 
     public function pesquisar(Request $request)
     {
+        $result = $this->validate(request(),[
+            'tipo_projeto_id'  =>'required',
+        ]);
         
-        $id_professor = $request->input("professor_id");
-        $id_status = $request->input("status_id");
-        $id_areaPesquisa = $request->input("areaPesquisa_id");
-        $id_abordagem = $request->input("abordagem_id");
+        $professorSearch  = $request->input("professor_id");
+        $statusSearch     = $request->input("status_id");
+        $areaSearch       = $request->input("area_id");
+        $abordagemSearch  = $request->input("abordagem_id");        
 
-
-        if( isset($id_professor) ){
-            $professorObj = MinhaUfopUser::find($id_professor);
-            $query = $professorObj->professorPesquisas();
-
-            if(isset($id_status)){ 
-                $query->where('status_id','=',$id_status);
-            }
-
-            if( isset($id_areaPesquisa) ){
-                $query->where('agencia_id','=',$id_areaPesquisa);   
-            }
-
-            if( isset($id_abordagem) ){
-                $query->where('abordagem_id','=',$id_abordagem);
-            }
-
-            $pesquisas = $query->get();
-        }else{
-
-           $query = Pesquisa::query();
-            if(isset($id_status)){ 
-                $query->where('status_id','=',$id_status);
-            }
-
-            if(isset($id_areaPesquisa)){
-                $query->where('agencia_id','=',$id_areaPesquisa);   
-            }
-
-            if(isset($id_abordagem)){
-                $query->where('abordagem_id','=',$id_abordagem);
-            }
-
-            $pesquisas = $query->get();
+        $class = '';
+        switch($result['tipo_projeto_id']){
+            case 1:
+                $class = \PesquisaProjeto\Pesquisa::class;
+                break;
+            case 2:
+                $class = \PesquisaProjeto\Tcc::class;
+                break;
+            case 3:
+                $class = \PesquisaProjeto\Extensao::class;
+                break;
+            case 4:
+                $class = \PesquisaProjeto\Mestrado::class;
+                break;
+            default:
+                $class = \PesquisaProjeto\Pesquisa::class;
+                break;
         }
+
+        $result = $this->getData($class,$professorSearch,$statusSearch,$areaSearch,$abordagemSearch);
 
         $professores = MinhaUfopUser::whereHas('group', function($query){
             $query->where('roles_id',1);
         })->get();
         
-        $status = StatusPesquisa::all();
-        $areasPesquisa = AreaPesquisa::all();
-        $abordagens = AbordagemPesquisa::all();
+        $status      = StatusPesquisa::all();
+        $areas       = AreaPesquisa::all();
+        $abordagens  = AbordagemPesquisa::all();
+        $tipoProjeto = [
+            1=>"Projeto de pesquisa",
+            2=>"Trabalho de conclusão de curso",
+            3=>"Projeto de extensão",
+            4=>"Mestrado"
+        ];
 
+        $request->flash();
         return view('exibir')->with([
             'professores' => $professores,
-            'pesquisas' => $pesquisas,
-            'areasPesquisa' => $areasPesquisa,
-            'status' => $status,
-            'abordagens' => $abordagens,
+            'areas'       => $areas,
+            'status'      => $status,
+            'abordagens'  => $abordagens,
+            'tipoProjeto' => $tipoProjeto,
+            'pesquisas'   => $result
         ]);          
+    }
+
+    private function getData($class, $professor = '', $status = '', $area = '', $abordagem = '')
+    {
+        $query = $class::query();
+        $query->when($status, function($query) use ($status){
+            return $query->where('status_id',$status);
+        })
+        ->when($area,function($query) use ($area){
+            return $query->where('area_id',$area);
+        })
+        ->when($abordagem,function($query) use ($abordagem){
+            return $query->where('abordagem_id',$abordagem);
+        })
+        ->when($professor,function($query) use ($professor){
+            return $query->where('orientador_id',$professor);
+        });
+
+        return $query->get();
     }
 }
