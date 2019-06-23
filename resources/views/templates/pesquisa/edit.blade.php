@@ -139,15 +139,13 @@
                                     <div class="form-group has-feedback {{ $errors->has('semestre_inicio') ? 'has-error' : '' }}">
                                         <select class="form-control" id="semestre_inicio" name="semestre_inicio">
                                             <option value="">Selecione</option>
-                                            <?php
-                                                for ($semester = 1; $semester < 3; $semester++){
-                                                    if ($semester == $pesquisa->semestre_inicio){
-                                                        echo "<option value='" . $semester . "' selected = 'selected'>" . $semester . "º semestre</option>";
-                                                    }else{
-                                                        echo "<option value='" . $semester . "'>" . $semester . "º semestre</option>";
-                                                    }
-                                                }
-                                            ?>
+                                                @for($semester = 1; $semester < 3; $semester++)
+                                                    @if ($semester == $pesquisa->semestre_inicio){
+                                                        <option value="{{$semester}}" selected = 'selected'>{{$semester}}º semestre</option>";
+                                                    @else
+                                                        <option value="{{$semester}}">{{$semester}}º semestre</option>";
+                                                    @endif
+                                                @endfor
                                         </select>
                                         @if ($errors->has('semestre_inicio'))
                                             <span class="help-block">
