@@ -34,16 +34,16 @@ class MinhaUfopUserProvider implements UserProvider {
         
         $attributes = LdapiAPIFacade::authUserAPI($credentials);
    		
-   		if(is_null($attributes)) return null;
+   		if( $attributes === null) return null;
 
         $minhaUfopModel = $this->createDynamicModel(\PesquisaProjeto\MinhaUfopUser::class);
 
         $query = $minhaUfopModel->newQuery();
         $result = $query->where('cpf',$credentials['email'])->first();
         
-        if( !is_null($result) ) return $result;
+        if( !($result === null) ) return $result;
 
-        if( is_null($result) ){
+        if( $result === null ){
         	$groupModel = $this->createDynamicModel(\PesquisaProjeto\Group::class);
         	$groupUser = $groupModel
         	->where('codigo',$attributes['id_grupo'])
