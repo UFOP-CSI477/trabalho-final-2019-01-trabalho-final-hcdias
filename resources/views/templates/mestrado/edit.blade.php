@@ -313,9 +313,8 @@
 	          					<div class="col-md-12">
 	          						<div class="form-group">
 			                  		<label>Resumo do projeto</label>
-			                  		<textarea class="form-control" id="resumo" name="resumo" rows="5" placeholder=""><?php
-		              						echo $mestrado->resumo;
-										?>
+			                  		<textarea class="form-control" id="resumo" name="resumo" rows="5" placeholder="">
+		              						{{$mestrado->resumo}}
 			                  		</textarea>
 			                	</div>
 	          					</div>
@@ -330,32 +329,21 @@
 			            </div>
 			            <div class="box-body">
 				         	<div class="form-group">
-				         	<?php
-				         		$array = [
-				         			1 => "Projeto em fase de concepção",
-				         			2 => "Projeto em fase de desenvolvimento",
-				         			3 => "Projeto em fase de geração de resultados",
-				         			4 => "Projeto em fase de publicação",
-				         			5 => "Projeto publicado",
-				         			6 => "Projeto cancelado",
-				         		];
-
-		          				for ($status = 1; $status < 7; $status++){
-		          					if ($status == $mestrado->status->id){
-		          						echo "<div class='radio'>
-												<label>
-									  				<input type='radio' name='status' id='optionsRadios" . $status . "' value='" . $status . "' checked='checked'>" . $array[$status] . "
-												</label>
-											</div>";
-		          					}else{
-		          						echo "<div class='radio'>
-												<label>
-									  				<input type='radio' name='status' id='optionsRadios" . $status . "' value='" . $status . "'>" . $array[$status] . "
-												</label>
-											</div>";
-		          					}
-		          				}
-				         	?>
+				         	@foreach($status as $statusItem)
+                                    @if($mestrado->status_id == $statusItem->id)
+                                        <div class='radio'>
+                                            <label>
+                                                <input type='radio' name='status'  value="{{$statusItem->id}}" checked='checked'> Projeto {{$statusItem->descricao}}
+                                            </label>
+                                        </div>
+                                    @else
+                                        <div class='radio'>
+                                            <label>
+                                                <input type='radio' name='status'  value="{{$statusItem->id}}"> Projeto {{$statusItem->descricao}}
+                                            </label>
+                                        </div>
+                                    @endif
+                                @endforeach
 	                		</div>
 	                		<div class="form-group">
 	                			<div class="checkbox">

@@ -238,6 +238,7 @@ class MestradoController extends Controller
             'objetivo'=>$objetivo,
             'procedimento'=>$procedimento,
             'subarea'=>$subarea,
+            'status'=>$status,
             'professores'=>$professores
             ]
         );
