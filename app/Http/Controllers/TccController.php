@@ -121,7 +121,7 @@ class TccController extends Controller
         $sisbin = $request->input('sisbin');
         $bancaData = $request->input('banca_data');
         
-        if(!is_null($bancaData)) {
+        if(!($bancaData === null)) {
             $bancaData = substr($bancaData, 6, 4)."-".substr($bancaData, 3, 2)."-".substr($bancaData, 0, 2)." ".substr($bancaData, 10);
         }
 
