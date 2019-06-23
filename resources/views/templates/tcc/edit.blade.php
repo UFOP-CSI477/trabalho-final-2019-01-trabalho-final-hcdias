@@ -330,9 +330,7 @@
                                 <div class="col-md-12">
                                     <div class="form-group">
                                     <label>Resumo do projeto</label>
-                                    <textarea class="form-control" id="resumo" name="resumo" rows="5" placeholder=""><?php
-                                            echo $tcc->resumo;
-                                        ?>
+                                    <textarea class="form-control" id="resumo" name="resumo" rows="5" placeholder="">{{$tcc->resumo}}
                                     </textarea>
                                 </div>
                                 </div>
