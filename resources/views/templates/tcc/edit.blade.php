@@ -161,7 +161,7 @@
                                         <select class="form-control" id="ano_inicio" name="ano_inicio">
                                             <option value="">Selecione</option>
                                                 @for ($year = 2010; $year < 2022; $year++)
-                                                    @if ($year == $pesquisa->ano_inicio)
+                                                    @if ($year == $tcc->ano_inicio)
                                                         <option value="{{$year}}" selected = 'selected'>{{$year}}</option>
                                                     @else
                                                         <option value="{{$year}}"> {{$year}} </option>
