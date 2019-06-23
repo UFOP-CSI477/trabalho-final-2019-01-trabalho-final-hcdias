@@ -140,15 +140,13 @@
 	          						<div class="form-group has-feedback {{ $errors->has('semestre_inicio') ? 'has-error' : '' }}">
 		          						<select class="form-control" id="semestre_inicio" name="semestre_inicio">
 		          							<option value="">Selecione</option>
-		          							<?php
-		          								for ($semester = 1; $semester < 3; $semester++){
-		          									if ($semester == $mestrado->semestre_inicio){
-		          										echo "<option value='" . $semester . "' selected = 'selected'>" . $semester . "º semestre</option>";
-		          									}else{
-		          										echo "<option value='" . $semester . "'>" . $semester . "º semestre</option>";
-		          									}
-		          								}
-		          							?>
+		          								@for($semester = 1; $semester < 3; $semester++)
+		          									@if ($semester == $mestrado->semestre_inicio){
+		          										<option value="{{$semester}}" selected = 'selected'>{{$semester}}º semestre</option>";
+		          									@else
+		          										<option value="{{$semester}}">{{$semester}}º semestre</option>";
+		          									@endif
+		          								@endfor
 		          						</select>
 		          						@if ($errors->has('semestre_inicio'))
 					                        <span class="help-block">
@@ -162,15 +160,13 @@
 	          						<div class="form-group has-feedback {{ $errors->has('ano_inicio') ? 'has-error' : '' }}">
 		          						<select class="form-control" id="ano_inicio" name="ano_inicio">
 		          							<option value="">Selecione</option>
-		          							<?php
-		          								for ($year = 2010; $year < 2022; $year++){
-		          									if ($year == $mestrado->ano_inicio){
-		          										echo "<option value='" . $year . "' selected = 'selected'>" . $year . "</option>";
-		          									}else{
-		          										echo "<option value='" . $year . "'>" . $year . "</option>";
-		          									}
-		          								}
-		          							?>
+		          								@for ($year = 2010; $year < 2022; $year++)
+		          									@if ($year == $mestrado->ano_inicio)
+		          										<option value="{{$year}}" selected = 'selected'>{{$year}}</option>
+		          									@else
+		          										<option value="{{$year}}"> {{$year}} </option>
+		          									@endif
+		          								@endfor
 		          						</select>
 		          						@if ($errors->has('ano_inicio'))
 					                        <span class="help-block">
@@ -317,9 +313,8 @@
 	          					<div class="col-md-12">
 	          						<div class="form-group">
 			                  		<label>Resumo do projeto</label>
-			                  		<textarea class="form-control" id="resumo" name="resumo" rows="5" placeholder=""><?php
-		              						echo $mestrado->resumo;
-										?>
+			                  		<textarea class="form-control" id="resumo" name="resumo" rows="5" placeholder="">
+		              						{{$mestrado->resumo}}
 			                  		</textarea>
 			                	</div>
 	          					</div>
@@ -334,32 +329,21 @@
 			            </div>
 			            <div class="box-body">
 				         	<div class="form-group">
-				         	<?php
-				         		$array = [
-				         			1 => "Projeto em fase de concepção",
-				         			2 => "Projeto em fase de desenvolvimento",
-				         			3 => "Projeto em fase de geração de resultados",
-				         			4 => "Projeto em fase de publicação",
-				         			5 => "Projeto publicado",
-				         			6 => "Projeto cancelado",
-				         		];
-
-		          				for ($status = 1; $status < 7; $status++){
-		          					if ($status == $mestrado->status->id){
-		          						echo "<div class='radio'>
-												<label>
-									  				<input type='radio' name='status' id='optionsRadios" . $status . "' value='" . $status . "' checked='checked'>" . $array[$status] . "
-												</label>
-											</div>";
-		          					}else{
-		          						echo "<div class='radio'>
-												<label>
-									  				<input type='radio' name='status' id='optionsRadios" . $status . "' value='" . $status . "'>" . $array[$status] . "
-												</label>
-											</div>";
-		          					}
-		          				}
-				         	?>
+				         	@foreach($status as $statusItem)
+                                    @if($mestrado->status_id == $statusItem->id)
+                                        <div class='radio'>
+                                            <label>
+                                                <input type='radio' name='status'  value="{{$statusItem->id}}" checked='checked'> Projeto {{$statusItem->descricao}}
+                                            </label>
+                                        </div>
+                                    @else
+                                        <div class='radio'>
+                                            <label>
+                                                <input type='radio' name='status'  value="{{$statusItem->id}}"> Projeto {{$statusItem->descricao}}
+                                            </label>
+                                        </div>
+                                    @endif
+                                @endforeach
 	                		</div>
 	                		<div class="form-group">
 	                			<div class="checkbox">

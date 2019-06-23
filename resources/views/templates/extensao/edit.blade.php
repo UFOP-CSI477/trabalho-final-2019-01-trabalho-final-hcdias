@@ -131,15 +131,13 @@
 	          						<div class="form-group has-feedback {{ $errors->has('semestre_inicio') ? 'has-error' : '' }}">
 		          						<select class="form-control" id="semestre_inicio" name="semestre_inicio">
 		          							<option value="">Selecione</option>
-		          							<?php
-		          								for ($semester = 1; $semester < 3; $semester++){
-		          									if ($semester == $extensao->semestre_inicio){
-		          										echo "<option value='" . $semester . "' selected = 'selected'>" . $semester . "º semestre</option>";
-		          									}else{
-		          										echo "<option value='" . $semester . "'>" . $semester . "º semestre</option>";
-		          									}
-		          								}
-		          							?>
+		          								@for($semester = 1; $semester < 3; $semester++)
+		          									@if ($semester == $extensao->semestre_inicio){
+		          										<option value="{{$semester}}" selected = 'selected'>{{$semester}}º semestre</option>";
+		          									@else
+		          										<option value="{{$semester}}">{{$semester}}º semestre</option>";
+		          									@endif
+		          								@endfor
 		          						</select>
 		          						@if ($errors->has('semestre_inicio'))
 					                        <span class="help-block">
@@ -153,15 +151,14 @@
 	          						<div class="form-group has-feedback {{ $errors->has('ano_inicio') ? 'has-error' : '' }}">
 		          						<select class="form-control" id="ano_inicio" name="ano_inicio">
 		          							<option value="">Selecione</option>
-		          							<?php
-		          								for ($year = 2010; $year < 2022; $year++){
-		          									if ($year == $extensao->ano_inicio){
-		          										echo "<option value='" . $year . "' selected = 'selected'>" . $year . "</option>";
-		          									}else{
-		          										echo "<option value='" . $year . "'>" . $year . "</option>";
-		          									}
-		          								}
-		          							?>
+		          								@for ($year = 2010; $year < 2022; $year++)
+		          									@if ($year == $extensao->ano_inicio)
+		          										<option value="{{$year}}" selected = 'selected'>{{$year}}</option>
+		          									@else
+		          										<option value="{{$year}}"> {{$year}} </option>
+		          									@endif
+		          								@endfor
+		          							
 		          						</select>
 		          						@if ($errors->has('ano_inicio'))
 					                        <span class="help-block">
@@ -248,7 +245,7 @@
 	          					<div class="col-md-12">
 	          						<div class="form-group">
 			                  		<label>Resumo do projeto</label>
-			                  		<textarea class="form-control" id="resumo" name="resumo" rows="5" placeholder=""><?=$extensao->resumo?>
+			                  		<textarea class="form-control" id="resumo" name="resumo" rows="5" placeholder="">{{$extensao->resumo}}
 			                  		</textarea>
 			                	</div>
 	          					</div>
