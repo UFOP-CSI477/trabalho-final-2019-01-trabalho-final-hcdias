@@ -398,7 +398,7 @@ class TccController extends Controller
         $discente = $validation['discente'];
         $idEvento = $tcc->banca_evento_id;
 
-        if(!is_null($bancaData)) {
+        if(!($bancaData === null)) {
             $bancaData = substr($bancaData, 6, 4)."-".substr($bancaData, 3, 2)."-".substr($bancaData, 0, 2)." ".substr($bancaData, 10);
         }
 
