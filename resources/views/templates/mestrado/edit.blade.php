@@ -140,7 +140,7 @@
 	          						<div class="form-group has-feedback {{ $errors->has('semestre_inicio') ? 'has-error' : '' }}">
 		          						<select class="form-control" id="semestre_inicio" name="semestre_inicio">
 		          							<option value="">Selecione</option>
-		          							@for($semester = 1; $semester < 3; $semester++)
+		          								@for($semester = 1; $semester < 3; $semester++)
 		          									@if ($semester == $mestrado->semestre_inicio){
 		          										<option value="{{$semester}}" selected = 'selected'>{{$semester}}º semestre</option>";
 		          									@else
@@ -160,7 +160,7 @@
 	          						<div class="form-group has-feedback {{ $errors->has('ano_inicio') ? 'has-error' : '' }}">
 		          						<select class="form-control" id="ano_inicio" name="ano_inicio">
 		          							<option value="">Selecione</option>
-		          							@for ($year = 2010; $year < 2022; $year++)
+		          								@for ($year = 2010; $year < 2022; $year++)
 		          									@if ($year == $mestrado->ano_inicio)
 		          										<option value="{{$year}}" selected = 'selected'>{{$year}}</option>
 		          									@else
