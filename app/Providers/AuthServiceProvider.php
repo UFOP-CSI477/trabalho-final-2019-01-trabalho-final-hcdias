@@ -34,7 +34,7 @@ class AuthServiceProvider extends ServiceProvider
         Gate::define('show-menu',function($user,$requiredPermission){
            $role = $user->group->roles;
            $extraRole = null;
-           if(!is_null($user->extra_group_id)){
+           if(!($user->extra_group_id === null)){
                 $extraRole = Group::find($user->extra_group_id)->roles->name;
            }
            
