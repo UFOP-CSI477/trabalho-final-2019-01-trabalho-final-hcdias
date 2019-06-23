@@ -162,7 +162,7 @@
 		          							<option value="">Selecione</option>
 		          							@for ($year = 2010; $year < 2022; $year++)
 		          									@if ($year == $mestrado->ano_inicio)
-		          										<option value="{{@year}}" selected = 'selected'>{{$year}}</option>
+		          										<option value="{{$year}}" selected = 'selected'>{{$year}}</option>
 		          									@else
 		          										<option value="{{$year}}"> {{$year}} </option>
 		          									@endif
