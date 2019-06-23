@@ -64,7 +64,7 @@ class UserController extends Controller
         $user = MinhaUfopUser::where('cpf',$newUser['cpf'])->get()->first();
 
         $result = [];
-        if( !is_null($user) ){
+        if(!($user === null) ){
             $user->extra_group_id = $extra_group->id;
             $user->save();
 
