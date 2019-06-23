@@ -159,7 +159,7 @@
                                     <div class="form-group has-feedback {{ $errors->has('ano_inicio') ? 'has-error' : '' }}">
                                         <select class="form-control" id="ano_inicio" name="ano_inicio">
                                             <option value="">Selecione</option>
-                                            @for ($year = 2010; $year < 2022; $year++)
+                                                @for ($year = 2010; $year < 2022; $year++)
                                                     @if ($year == $pesquisa->ano_inicio)
                                                         <option value="{{$year}}" selected = 'selected'>{{$year}}</option>
                                                     @else
