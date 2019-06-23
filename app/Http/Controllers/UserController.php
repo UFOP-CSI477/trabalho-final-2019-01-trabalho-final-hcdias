@@ -117,7 +117,7 @@ class UserController extends Controller
         $user = MinhaUfopUser::findorFail($id);
         $allRoles = Role::all();
         $extraGroup = Group::find($user->extra_group_id);
-        if(!is_null($extraGroup)){
+        if( !($extraGroup === null) ){
             $extraGroup = $extraGroup->roles->id;
         }
         return view('templates.user.edit')->with([
