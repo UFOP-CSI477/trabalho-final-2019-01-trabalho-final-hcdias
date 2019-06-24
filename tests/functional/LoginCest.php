@@ -2,17 +2,14 @@
 
 class LoginCest
 {
-    public function _before(FunctionalTester $I)
-    {
-    }
 
     // tests
-    public function tryLogin(FunctionalTester $I)
+    public function tryLogin(FunctionalTester $functionalI)
     {
-    	$I->amOnPage('/admin/login');
-    	$I->fillField('email','admin@admin.com');
-    	$I->fillField('password','admin');
-    	$I->click('Entrar');
-    	$I->see('Bem vindo');
+    	$functionalI->amOnPage('/admin/login');
+    	$functionalI->fillField('email','admin@admin.com');
+    	$functionalI->fillField('password','admin');
+    	$functionalI->click('Entrar');
+    	$functionalI->see('Bem vindo');
     }
 }
