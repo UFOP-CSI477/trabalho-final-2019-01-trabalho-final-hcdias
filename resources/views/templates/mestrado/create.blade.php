@@ -123,8 +123,8 @@
 			</div>
 			<div class="row">
 		        <div class="col-md-6">
-		          	<div class="box">
-			            <div class="box-header">
+		          	<div class="box box-primary">
+			            <div class="box-header ">
 			              <h3 class="box-title">Dados sobre a tese</h3>
 			            </div>
 			            <!-- /.box-header -->
@@ -303,7 +303,7 @@
 	              	</div>
 	            </div>
 	            <div class="col-md-6">
-		          	<div class="box">
+		          	<div class="box box-primary">
 			            <div class="box-header">
 			              <h3 class="box-title">Status da tese</h3>
 			            </div>
