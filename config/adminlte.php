@@ -198,7 +198,7 @@ return [
                     'text'  => 'Cadastrar novo',
                     'url'   => 'extensao/criar-extensao',
                     'icon'  => 'plus',
-                    'roles' => ['admin','professor','aluno'],
+                    'roles' => ['admin','professor'],
                 ]
             ]
         ],
