@@ -30,15 +30,6 @@
                               </div>
                             </div>
                         @endif
-                       @if ($errors->any())
-                            <div class="alert alert-danger">
-                                <ul>
-                                    @foreach ($errors->all() as $error)
-                                        <li>{{ $error }}</li>
-                                    @endforeach
-                                </ul>
-                            </div>
-                        @endif
                         @if(Session::has('error'))
                             <div class="col-md-6 col-md-offset-3">
                                 <div class="alert alert-error alert-dismissible">
@@ -100,7 +91,7 @@
                                 </div>
                                 <div class="col-md-4">
                                     <label>Alunos envolvidos</label>
-                                    <div class="form-group has-feedback {{ $errors->has('discente') ? 'has-error' : '' }}">
+                                    <div class="form-group has-feedback {{ $errors->has('discentes') ? 'has-error' : '' }}">
                                         <select id="discente" name="discentes[]" class="form-control select2" 
                                          data-placeholder="Selecione os alunos envolvidos" multiple="multiple" 
                                          >
@@ -118,9 +109,9 @@
                                         @endif
                                         
                                         </select>
-                                        @if ($errors->has('discente'))
+                                        @if ($errors->has('discentes'))
                                             <span class="help-block">
-                                                <strong>{{ $errors->first('discente') }}</strong>
+                                                <strong>{{ $errors->first('discentes') }}</strong>
                                             </span>
                                         @endif
                                     </div>

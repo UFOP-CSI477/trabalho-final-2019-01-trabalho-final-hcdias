@@ -106,6 +106,7 @@ class LdapiAPI{
             $result['nomecompleto'] = $data->result[0]->nomecompleto;
             $result['grupo'] = $data->result[0]->id_grupo;
             $result['email'] = $data->result[0]->email;
+            $result['cpf'] = $data->result[0]->cpf;
         }
         
         return $result;

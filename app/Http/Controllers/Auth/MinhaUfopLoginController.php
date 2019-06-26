@@ -43,4 +43,13 @@ class MinhaUfopLoginController extends Controller
     {
         $this->middleware('guest:minhaufop-guard')->except('logout');
     }
+
+    public function logout(Request $request)
+    {
+        $this->guard()->logout();
+
+        $request->session()->invalidate();
+
+        return redirect('/');
+    }
 }

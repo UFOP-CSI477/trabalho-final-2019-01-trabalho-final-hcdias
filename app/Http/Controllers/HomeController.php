@@ -193,9 +193,8 @@ class HomeController extends Controller
         }        
 
         $mestrados = $user->professorMestrados;
-        
         if($mestrados){
-            $mestrados = $mestrados->groupBy('status_mestrado');
+            $mestrados = $mestrados->groupBy('status_id');
             $mestradosCompact = [];
             $closureMestrados = function($item,$key) use (&$mestradosCompact){
                 $mestradosCompact[$item->first()->status->id] = [

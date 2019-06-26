@@ -1,14 +1,13 @@
 @extends('adminlte::page')
 @section('css')
-  <link rel="stylesheet"
-          href="{{ asset('css/particleConfig.css')}} ">
+  <link rel="stylesheet" href="{{ asset('css/particleConfig.css')}} ">
 @endsection
 @section('content')
 <div class="permission_denied">
   <div id="particles-js"></div>
   <div class="denied__wrapper">
     <h1>{{$title}}</h1>
-    <h3>PERDIDO NO  <span>ESPAÇO</span> Gerenciador de atividades? Primeiro, você precisa criar seu {{$tcc}}.</h3>
+    <h3>PERDIDO NO  <span>ESPAÇO</span> Gerenciador de atividades? Primeiro você precisa criar seu {{$tcc}}.</h3>
      <a href="{{$link}}"><button class="denied__link">Criar {{$tcc}}</button></a>
     <svg id="astronaut" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
       <style>

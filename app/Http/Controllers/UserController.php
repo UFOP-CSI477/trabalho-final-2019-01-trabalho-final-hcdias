@@ -29,6 +29,10 @@ class UserController extends Controller
     public function index()
     {
         $users = MinhaUfopUser::all();
+        // foreach($users as $user){
+        //     var_dump($user);
+        // }
+        // die();
         return view('templates.user.index')->with('users',$users);
     }
 
@@ -59,10 +63,8 @@ class UserController extends Controller
         ]);
 
         $role = $newUser['papel'];
-        $extra_group = Role::findOrFail($role)->groups;
-        
+        $extra_group = Role::findOrFail($role)->groups->first();
         $user = MinhaUfopUser::where('cpf',$newUser['cpf'])->get()->first();
-
         $result = [];
         if(!($user === null) ){
             $user->extra_group_id = $extra_group->id;
@@ -72,16 +74,22 @@ class UserController extends Controller
             $result['msg']   ='Usuário registrado!';
 
         }else if(count($userAPI = LdapiAPIFacade::getUsersAPI($newUser['cpf'])) > 0 ){
-            $resultUser = MinhaUfopUser::create([
+            $group = Group::where('codigo',$userAPI['grupo'])->get()->first();
+            if(!($group === null)){
+                $resultUser = MinhaUfopUser::create([
                     'name'=>$userAPI['nomecompleto'],
                     'email'=>$userAPI['email'],
                     'cpf'=>$userAPI['cpf'],
-                    'group_id'=>$userAPI['id_grupo'],
+                    'group_id'=>$group->id,
                     'extra_group_id'=>$extra_group->id
                 ]);
 
-            $result['status']='success';
-            $result['msg']   ='Usuário registrado!';
+                $result['status']='success';
+                $result['msg']   ='Usuário registrado!';
+            }else{
+                $result['status']='error';
+                $result['msg']   ='Grupo não encontrado!';                
+            }
 
         }else{
             $result['status']='error';

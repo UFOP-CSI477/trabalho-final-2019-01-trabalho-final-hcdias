@@ -57,13 +57,13 @@ class User extends Authenticatable
 
     public function professorMestrados()
     {
-        return $this->hasMany('PesquisaProjeto\Mestrado','orientador_mestrado_id')
-        ->orWhere('coorientador_mestrado_id',$this->id);
+        return $this->hasMany('PesquisaProjeto\Mestrado','orientador_id')
+        ->orWhere('coorientador_id',$this->id);
     }
 
     public function alunoMestrados()
     {
-        return $this->hasMany('PesquisaProjeto\Mestrado','aluno_mestrado_id');
+        return $this->hasMany('PesquisaProjeto\Mestrado','aluno_id');
     }    
     
     public function alunoTccs()

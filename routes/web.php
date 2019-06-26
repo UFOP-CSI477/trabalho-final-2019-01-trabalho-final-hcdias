@@ -12,11 +12,9 @@
 */
 
 
-Route::group(['prefix' => 'admin'], function () {
-
-    Auth::routes();
-
-});
+Route::get('/admin/login','Auth\LoginController@showLoginForm')->name('admin_login');
+Route::post('/admin/login','Auth\LoginController@login')->name('admin_login_submit');
+Route::post('/admin/logout','Auth\LoginController@logout')->name('admin_logout');
 
 Route::get('/', 'HomeController@exibir')->name('index');
 Route::post('/resultados', 'HomeController@pesquisar')->name('exibir_resultados');
@@ -25,12 +23,17 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::post('/notification', 'HomeController@notification')->name('not');
 
 Route::get('/login', [
-	'as'=>'minhaufop_login',
+	'as'=>'login',
 	'uses'=>'Auth\MinhaUfopLoginController@showLoginUfop'
 ]);
 Route::post('/login', [
 	'as'=>'minhaufop_login_submit',
 	'uses'=>'Auth\MinhaUfopLoginController@login'
+]);
+
+Route::post('/logout', [
+	'as'=>'minhaufop_logout_submit',
+	'uses'=>'Auth\MinhaUfopLoginController@logout'
 ]);
 
 Route::group(['prefix'=>'pesquisa'],function(){

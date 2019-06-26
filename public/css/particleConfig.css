@@ -1,7 +1,5 @@
 @import url("https://fonts.googleapis.com/css?family=Dosis:300,400,700,800");
 
-/** Styles for the 403 Page **/
-
 h1{
   margin-top: 0px !important;
 }
@@ -19,6 +17,10 @@ h1{
 #particles-js {
   position: fixed !important;
   opacity: 0.23;
+}
+
+.content-wrapper{
+  background-color:#24344c !important;
 }
 
 .permission_denied {
