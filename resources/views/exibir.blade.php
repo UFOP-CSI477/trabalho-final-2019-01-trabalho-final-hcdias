@@ -49,6 +49,10 @@
             <!-- Header Navbar -->
             <nav class="navbar navbar-static-top" role="navigation">
                 <div class="navbar-custom-menu">
+                  <ul class="nav navbar-nav">
+                    <li><a href="/login" title="Entrar"><i class="fa fa-users"></i></a>
+                    </li>
+                  </ul>
                 </div>
               </nav>
         </header>
