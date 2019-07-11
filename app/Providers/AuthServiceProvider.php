@@ -45,8 +45,8 @@ class AuthServiceProvider extends ServiceProvider
            return false;
         });
 
-        Gate::define('has-actor',function($user){
-            return $user->vinculo()->first() !== null;
+        Gate::define('receive-notifications',function($user){
+            return auth()->check();
         });
 
         Gate::define('admin',function($user){
