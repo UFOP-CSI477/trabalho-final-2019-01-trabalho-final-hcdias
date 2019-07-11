@@ -3,9 +3,12 @@
 namespace PesquisaProjeto;
 
 use Illuminate\Database\Eloquent\Model;
+use PesquisaProjeto\Traits\MestradoEventsTrait;
 
 class Mestrado extends Model
 {
+    use MestradoEventsTrait;
+    
     protected $fillable = [
 		'titulo',
 		'resumo',

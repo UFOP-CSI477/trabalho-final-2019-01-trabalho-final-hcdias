@@ -3,9 +3,12 @@
 namespace PesquisaProjeto;
 
 use Illuminate\Database\Eloquent\Model;
+use PesquisaProjeto\Traits\TccEventsTrait;
 
 class Tcc extends Model
 {
+    use TccEventsTrait;
+
     protected $fillable = [
 		'titulo',
 		'resumo',
