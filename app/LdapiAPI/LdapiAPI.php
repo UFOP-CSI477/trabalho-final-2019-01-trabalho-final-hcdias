@@ -41,10 +41,10 @@ class LdapiAPI{
         }
         catch (ClientException $ex) { 
 
-            throw $ex;
+            return null;
         }catch(RequestException $ex){
 
-            throw $ex;
+            return null;
         }
         
         $attributes = null;
