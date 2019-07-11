@@ -29,40 +29,42 @@
 			           	</div>
 		            @endif
 		            <div class="box-body">
-		              	<table id="extensao" class="table table-bordered table-hover">
-			              <thead>
-			                <tr>
-			                  <th>Título</th>
-			                  <th class='text-center'>Status</th>
-			                  <th class='text-center'>Opções</th>
-			                </tr>
-			                </thead>
-			                <tbody>
-								@foreach($extensoes as $extensao)
-									<tr>
-										<td>{{ $extensao->titulo }}</td>
-										<td class='text-center'>
-											<span class="label alert-status-{{$extensao->status->id}}">{{$extensao->status->descricao}}</span>
-										</td>
-										<td class='text-center'>
-											<a href="/extensao/editar-extensao/{{ $extensao->id }}" title='Editar'>
-			                  					<i class="fa fa-edit"></i>
-			                  				</a>
-			                  				
-			                  				&nbsp;&nbsp;
-			                  				<a href="/extensao/detalhar-extensao/{{ $extensao->id }}" title='Visualizar'>
-			                  					<i class="fa fa-eye"></i>
-			                  				</a>
+		            	<div class="table-responsive">
+			              	<table id="extensao" class="table table-bordered table-hover">
+				              <thead>
+				                <tr>
+				                  <th>Título</th>
+				                  <th class='text-center'>Status</th>
+				                  <th class='text-center'>Opções</th>
+				                </tr>
+				                </thead>
+				                <tbody>
+									@foreach($extensoes as $extensao)
+										<tr>
+											<td>{{ $extensao->titulo }}</td>
+											<td class='text-center'>
+												<span class="label alert-status-{{$extensao->status->id}}">{{$extensao->status->descricao}}</span>
+											</td>
+											<td class='text-center'>
+												<a href="/extensao/editar-extensao/{{ $extensao->id }}" title='Editar'>
+				                  					<i class="fa fa-edit"></i>
+				                  				</a>
+				                  				
+				                  				&nbsp;&nbsp;
+				                  				<a href="/extensao/detalhar-extensao/{{ $extensao->id }}" title='Visualizar'>
+				                  					<i class="fa fa-eye"></i>
+				                  				</a>
 
-			                  				&nbsp;&nbsp;
-											<a href="/extensao/delete/{{ $extensao->id }}" title='Apagar'>
-			                  					<i class="fa fa-trash"></i>
-			                  				</a>
-			                  			</td>
-									</tr>
-								@endforeach
-							</tbody>
-						</table>
+				                  				&nbsp;&nbsp;
+												<a href="/extensao/delete/{{ $extensao->id }}" title='Apagar'>
+				                  					<i class="fa fa-trash"></i>
+				                  				</a>
+				                  			</td>
+										</tr>
+									@endforeach
+								</tbody>
+							</table>
+						</div>
 					</div>
 				</div>
 			</div>

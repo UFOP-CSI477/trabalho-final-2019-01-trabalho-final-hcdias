@@ -29,40 +29,42 @@
 			           	</div>
 		            @endif
 		            <div class="box-body">
-		              	<table id="mestrado" class="table table-bordered table-hover">
-			              <thead>
-			                <tr>
-			                  <th>Título</th>
-			                  <th class='text-center'>Status</th>
-			                  <th class='text-center'>Opções</th>
-			                </tr>
-			                </thead>
-			                <tbody>
-								@foreach($mestrados as $mestrado)
-									<tr>
-										<td>{{ $mestrado->titulo }}</td>
-										<td class='text-center'>
-											<span class="label alert-status-{{$mestrado->status->id}}">{{$mestrado->status->descricao}}</span>
-										</td>
-										<td class='text-center'>
-											<a href="/mestrado/editar-mestrado/{{ $mestrado->id }}" title='Editar'>
-			                  					<i class="fa fa-edit"></i>
-			                  				</a>
-			                  				
-			                  				&nbsp;&nbsp;
-			                  				<a href="/mestrado/detalhar-mestrado/{{ $mestrado->id }}" title='Visualizar'>
-			                  					<i class="fa fa-eye"></i>
-			                  				</a>
+		            	<div class="table-responsive">
+			              	<table id="mestrado" class="table table-bordered table-hover">
+				              <thead>
+				                <tr>
+				                  <th>Título</th>
+				                  <th class='text-center'>Status</th>
+				                  <th class='text-center'>Opções</th>
+				                </tr>
+				                </thead>
+				                <tbody>
+									@foreach($mestrados as $mestrado)
+										<tr>
+											<td>{{ $mestrado->titulo }}</td>
+											<td class='text-center'>
+												<span class="label alert-status-{{$mestrado->status->id}}">{{$mestrado->status->descricao}}</span>
+											</td>
+											<td class='text-center'>
+												<a href="/mestrado/editar-mestrado/{{ $mestrado->id }}" title='Editar'>
+				                  					<i class="fa fa-edit"></i>
+				                  				</a>
+				                  				
+				                  				&nbsp;&nbsp;
+				                  				<a href="/mestrado/detalhar-mestrado/{{ $mestrado->id }}" title='Visualizar'>
+				                  					<i class="fa fa-eye"></i>
+				                  				</a>
 
-			                  				&nbsp;&nbsp;
-											<a href="/mestrado/delete/{{ $mestrado->id }}" title='Apagar'>
-			                  					<i class="fa fa-trash"></i>
-			                  				</a>
-			                  			</td>
-									</tr>
-								@endforeach
-							</tbody>
-						</table>
+				                  				&nbsp;&nbsp;
+												<a href="/mestrado/delete/{{ $mestrado->id }}" title='Apagar'>
+				                  					<i class="fa fa-trash"></i>
+				                  				</a>
+				                  			</td>
+										</tr>
+									@endforeach
+								</tbody>
+							</table>
+						</div>
 					</div>
 				</div>
 			</div>

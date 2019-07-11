@@ -8,6 +8,8 @@
 @yield('title_postfix', config('adminlte.title_postfix', ''))</title>
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+      <meta name="theme-color" content="#962038">
+      <link rel="manifest" href="{{ asset('manifest.json') }} ">    
     <!-- Bootstrap 3.3.7 -->
     <link rel="stylesheet" href="{{ asset('vendor/adminlte/vendor/bootstrap/dist/css/bootstrap.min.css') }}">
     <!-- Font Awesome -->
@@ -26,7 +28,6 @@
     @if(config('adminlte.plugins.datatables'))
         <!-- DataTables -->
         <link rel="stylesheet" href="//cdn.datatables.net/v/bs/dt-1.10.15/datatables.min.css">
-        <!-- <link rel="stylesheet" href="//cdn.datatables.net/1.10.15/css/jquery.dataTables.min.css"> -->
     @endif
 
     @if(config('adminlte.plugins.icheck'))
@@ -55,6 +56,39 @@
 <script src="{{ asset('vendor/adminlte/vendor/jquery/dist/jquery.min.js') }}"></script>
 <script src="{{ asset('vendor/adminlte/vendor/jquery/dist/jquery.slimscroll.min.js') }}"></script>
 <script src="{{ asset('vendor/adminlte/vendor/bootstrap/dist/js/bootstrap.min.js') }}"></script>
+
+<!-- The core Firebase JS SDK is always required and must be listed first -->
+<script src="https://www.gstatic.com/firebasejs/6.2.4/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/6.2.4/firebase-messaging.js"></script>
+<script src="{{ asset('js/app.js') }}"></script>
+@can('receive-notifications')
+<script type="text/javascript">
+    initServiceWorker();
+    initFirebase();  
+    notification()
+    .then(token => {
+        $.ajax({
+            url:'/usuario/store-token/',
+            type:'POST',
+            data:{token:token},
+            dataType:'json',
+            headers:{
+                'X-CSRF-Token':'{{ csrf_token() }}'
+            },
+            beforeSend:function(){
+                console.log('sending..');
+            }
+        })
+        .done(function(data){
+            console.log('done:',data);
+        })
+        .fail(function(jqXHR,textStatus){
+
+        })  
+    });
+    
+</script>
+@endcan
 
 @if(config('adminlte.plugins.select2'))
     <!-- Select2 -->
