@@ -88,7 +88,7 @@ class User extends Authenticatable
         ->orWhere('coorientador_id',$this->id);
     }
 
-    public function areaInteresse()
+    public function areaAtuacao()
     {
         return $this->belongsToMany('PesquisaProjeto\AreaPesquisa','professor_areas');
     }
