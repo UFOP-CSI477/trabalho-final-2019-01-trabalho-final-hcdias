@@ -1,7 +1,8 @@
 const staticCache = 'staticCache';
 const dynamicCache ='dynamicCache';
 const assets = [
-    '/home'
+    '/home',
+    '/'
 ];
 
 self.addEventListener('install',evt => {
