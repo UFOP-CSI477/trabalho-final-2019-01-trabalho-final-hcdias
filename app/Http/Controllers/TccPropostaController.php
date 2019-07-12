@@ -72,7 +72,8 @@ class TccPropostaController extends Controller
     public function show($tccProposta)
     {
         $proposta = TccProposta::findorFail($tccProposta);
-        return view('templates.propostaTcc.detail',['proposta'=>$proposta]);
+        $status = StatusTccProposta::all();
+        return view('templates.propostaTcc.detail',['proposta'=>$proposta,'status'=>$status]);
     }
 
     /**
@@ -107,9 +108,16 @@ class TccPropostaController extends Controller
      * @param  \PesquisaProjeto\TccProposta  $tccProposta
      * @return \Illuminate\Http\Response
      */
-    public function destroy(TccProposta $tccProposta)
+    public function destroy($tccProposta)
     {
-        //
+        $proposta = TccProposta::findOrFail($tccProposta);
+        $result = $proposta->delete($tccProposta);
+
+        if($result) {
+            return back()->with('success', 'Excluido com sucesso');
+        }
+
+        return back()->with('error', 'Houve um erro ao realizar a operação');
     }
 
     /**
@@ -139,18 +147,7 @@ class TccPropostaController extends Controller
         return view('templates.propostaTcc.index',['propostas'=>$propostas]);
     }
 
-    /**
-     * Detalha a proposta de TCC
-     *
-     * @param  \PesquisaProjeto\TccProposta  $tccProposta
-     * @return \Illuminate\Http\Response
-     */
-    public function detailPropostaProfessor($tccProposta)
-    {
-        $proposta = TccProposta::findorFail($tccProposta);
-        $status = StatusTccProposta::all();
-        return view('templates.propostaTcc.detail',['proposta'=>$proposta,'status'=>$status]);
-    }    
+ 
 
     /**
      * Altera o status da proposta
