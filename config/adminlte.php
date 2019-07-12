@@ -159,6 +159,12 @@ return [
                     'url'   => 'tcc/criar-tcc',
                     'icon'  => 'plus',
                     'roles' => ['admin','aluno'],
+                ],
+                [
+                    'text'  => 'Proposta de TCC',
+                    'url'   => 'tcc/criar-proposta-tcc',
+                    'icon'  => 'plus',
+                    'roles' => ['admin','aluno'],
                 ]
             ]
         ],
