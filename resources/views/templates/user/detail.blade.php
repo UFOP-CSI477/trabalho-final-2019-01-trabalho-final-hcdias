@@ -51,7 +51,7 @@
                                   <label>Áreas de atuação</label>
                                   <select class="form-control select2" multiple="multiple" name="atuacao[]" id="atuacao" data-placeholder="Selecione as áreas de atuação">
                                     @foreach($areas as $area)
-                                      @if($user->areaInteresse->contains($area->id))
+                                      @if($user->areaAtuacao->contains($area->id))
                                         <option value="{{ $area->id }}" selected="selected">{{$area->descricao}}</option>
                                       @else
                                         <option value="{{ $area->id }}">{{$area->descricao}}</option>
@@ -64,7 +64,7 @@
                                 <div class="form-group">
                                   <label>Descreva brevemente seus interesses:</label>
                                   <textarea class="form-control" name="interesse" rows="5" placeholder="Resumo dos interesses">
-                                    {{$user->area_interesse}}</textarea>
+                                    {{$user->interest_field}}</textarea>
                                 </div>
                               </div>                              
                             </div>
