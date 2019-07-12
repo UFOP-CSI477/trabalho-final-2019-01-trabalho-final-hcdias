@@ -8,8 +8,7 @@ use PesquisaProjeto\Role;
 use PesquisaProjeto\Group;
 use PesquisaProjeto\Aluno;
 use PesquisaProjeto\MinhaUfopUser;
-use PesquisaProjeto\Departamento;
-use PesquisaProjeto\Curso;
+use PesquisaProjeto\AreaPesquisa;
 use Illuminate\Support\Facades\Auth;
 use PesquisaProjeto\LdapiAPI\LdapiAPIFacade;
 
@@ -29,10 +28,6 @@ class UserController extends Controller
     public function index()
     {
         $users = MinhaUfopUser::all();
-        // foreach($users as $user){
-        //     var_dump($user);
-        // }
-        // die();
         return view('templates.user.index')->with('users',$users);
     }
 
@@ -109,8 +104,11 @@ class UserController extends Controller
     public function show(Request $request) 
     {
         $user = Auth::user();
+        $areas = AreaPesquisa::all();
+        // /dd($user->areaInteresse->all());
         return view('templates.user.detail')->with([
-            'user'=>$user
+            'user'=>$user,
+            'areas'=>$areas
         ]);
     }
 
@@ -178,16 +176,31 @@ class UserController extends Controller
     public function storeProfilePicture(Request $request)
     {
         $image = request()->validate([
-            'profilePicture' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+            'profilePicture' => 'image|mimes:jpeg,png,jpg|max:2048',
         ]);
 
-        $user = Auth::user();
+        $atuacao   = $request->input('atuacao');
+        $interesse = $request->input('interesse');
+        $file      = $request->file('profilePicture');
+        $user      = Auth::user();
 
-        $path = $request->file('profilePicture')->store('profile','public');
-        if($path){
-            $user->profile_picture = $path;
-            $user->save();
+        if($file){
+            $path = $file->store('profile','public');
+            if($path){
+                $user->profile_picture = $path;
+            }
+        }
 
+        $user->areaInteresse()->detach();
+        if($atuacao){
+            foreach($atuacao as $area){
+                $user->areaInteresse()->attach($area);
+            }
+        }
+
+        $user->area_interesse = $interesse;
+
+        if($user->save()){
             return back()->with('success','Usuário alterado com sucesso');
         }
 
