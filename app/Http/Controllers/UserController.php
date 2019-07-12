@@ -11,7 +11,7 @@ use PesquisaProjeto\MinhaUfopUser;
 use PesquisaProjeto\AreaPesquisa;
 use Illuminate\Support\Facades\Auth;
 use PesquisaProjeto\LdapiAPI\LdapiAPIFacade;
-
+use Illuminate\Support\Facades\Gate;
 class UserController extends Controller
 {
 
@@ -190,15 +190,21 @@ class UserController extends Controller
                 $user->profile_picture = $path;
             }
         }
+        
+        if(Gate::allows('professor')){
 
-        $user->areaInteresse()->detach();
-        if($atuacao){
-            foreach($atuacao as $area){
-                $user->areaInteresse()->attach($area);
+            if(count($user->areaAtuacao) > 0){
+                $user->areaAtuacao()->detach();
             }
+            if($atuacao){
+                foreach($atuacao as $areaAtuacao){
+                    $user->areaAtuacao()->attach($areaAtuacao);
+                }
+            }
+
+            $user->interest_field = $interesse;
         }
 
-        $user->area_interesse = $interesse;
 
         if($user->save()){
             return back()->with('success','Usuário alterado com sucesso');
@@ -206,6 +212,7 @@ class UserController extends Controller
 
         return back()->with('error','Houve um erro ao realizar a operação');
     }
+    
     /**
      * Lista os usuarios da api ldapi pelo cpf
      * @param  int $cpf
