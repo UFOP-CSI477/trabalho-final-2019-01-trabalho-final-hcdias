@@ -21,6 +21,8 @@ class CreateMinhaUfopUsersTable extends Migration
             $table->integer('group_id');
             $table->integer('extra_group_id')->nullable();
             $table->string('profile_picture')->nullable();
+            $table->string('interest_field')->nullable();
+            $table->string('token')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

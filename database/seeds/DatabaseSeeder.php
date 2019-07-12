@@ -27,5 +27,6 @@ class DatabaseSeeder extends Seeder
         $this->call(MinhaUfopUserSeeder::class);
         $this->call(PesquisaSeeder::class);        
         $this->call(VinculoPesquisaSeeder::class);
+        $this->call(StatusTccPropostaSeeder::class);
     }
 }

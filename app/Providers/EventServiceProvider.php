@@ -16,6 +16,21 @@ class EventServiceProvider extends ServiceProvider
         'PesquisaProjeto\Events\Event' => [
             'PesquisaProjeto\Listeners\EventListener',
         ],
+        'PesquisaProjeto\Events\PesquisaEvent'=>[
+            'PesquisaProjeto\Listeners\PesquisaListener'
+        ],
+        'PesquisaProjeto\Events\TccEvent'=>[
+            'PesquisaProjeto\Listeners\TccListener'
+        ],
+        'PesquisaProjeto\Events\MestradoEvent'=>[
+            'PesquisaProjeto\Listeners\MestradoListener'
+        ],
+        'PesquisaProjeto\Events\ExtensaoEvent'=>[
+            'PesquisaProjeto\Listeners\ExtensaoListener'
+        ],
+        'PesquisaProjeto\Events\TccPropostaEvent'=>[
+            'PesquisaProjeto\Listeners\TccPropostaListener'
+        ]
     ];
 
     /**

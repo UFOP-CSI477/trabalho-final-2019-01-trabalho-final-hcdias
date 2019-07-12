@@ -7,6 +7,8 @@
     <title>Gerenciamento de Projetos de Pesquisa</title>
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <meta name="theme-color" content="#962038">
+    <link rel="manifest" href="{{ asset('manifest.json') }} ">  
     <!-- Bootstrap 3.3.7 -->
     <link rel="stylesheet" href="{{ asset('vendor/adminlte/vendor/bootstrap/dist/css/bootstrap.min.css') }}">
     <!-- Font Awesome -->
@@ -18,15 +20,15 @@
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.css">
     
     <!-- Theme style -->
-    <link rel="stylesheet" href="{{ asset('/vendor/adminlte/dist/css/AdminLTE.min.css')}}">
+    <link rel="stylesheet" href="{{ asset('vendor/adminlte/dist/css/AdminLTE.min.css')}}">
 
     <!-- DataTables -->
     <link rel="stylesheet" href="//cdn.datatables.net/v/bs/dt-1.10.15/datatables.min.css">
     
     <!-- iCheck -->
-    <link rel="stylesheet" href="{{ asset('/vendor/adminlte/plugins/iCheck/square/blue.css')}}"></script>
+    <link rel="stylesheet" href="{{ asset('vendor/adminlte/plugins/iCheck/square/blue.css')}}"></script>
     
-    <link rel="stylesheet" href="{{ asset('/vendor/adminlte/dist/css/skins/skin-red.min.css')}} ">
+    <link rel="stylesheet" href="{{ asset('vendor/adminlte/dist/css/skins/skin-red.min.css')}} ">
         
     <!--[if lt IE 9]>
     <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
@@ -49,6 +51,10 @@
             <!-- Header Navbar -->
             <nav class="navbar navbar-static-top" role="navigation">
                 <div class="navbar-custom-menu">
+                  <ul class="nav navbar-nav">
+                    <li><a href="/login" title="Entrar"><i class="fa fa-users"></i></a>
+                    </li>
+                  </ul>
                 </div>
               </nav>
         </header>
@@ -145,7 +151,7 @@
                       <div class="col-md-3">
                           <div class="box box-primary">
                             <div class="box-body box-profile">
-                              <img class="profile-user-img img-responsive img-circle" src="{{ $pesquisa->orientador->profile_picture ? asset('storage/'.$pesquisa->orientador->profile_picture): '/media/mario.png' }}" alt="User profile picture">
+                              <img class="profile-user-img img-responsive img-circle" src="{{ $pesquisa->orientador->profile_picture ? asset('storage'.$pesquisa->orientador->profile_picture): '/media/mario.png' }}" alt="User profile picture">
 
                               <h3 class="profile-username text-center">{{$pesquisa->orientador->name ?? ""}}</h3>
 
@@ -174,9 +180,9 @@
 </div>
     <!-- ./wrapper -->
 
-<script src="http://localhost:8000/vendor/adminlte/vendor/jquery/dist/jquery.min.js"></script>
-<script src="http://localhost:8000/vendor/adminlte/vendor/jquery/dist/jquery.slimscroll.min.js"></script>
-<script src="http://localhost:8000/vendor/adminlte/vendor/bootstrap/dist/js/bootstrap.min.js"></script>
+<script src="{{asset('vendor/adminlte/vendor/jquery/dist/jquery.min.js')}}"></script>
+<script src="{{asset('vendor/adminlte/vendor/jquery/dist/jquery.slimscroll.min.js')}}"></script>
+<script src="{{asset('vendor/adminlte/vendor/bootstrap/dist/js/bootstrap.min.js')}}"></script>
 
     <!-- Select2 -->
     <script src="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
@@ -189,10 +195,12 @@
     <script src="//cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.0/Chart.bundle.min.js"></script>
 
     <!-- iCheck -->
-    <script src="http://localhost:8000/vendor/adminlte/plugins/iCheck/icheck.min.js"></script>
+    <script src="{{asset('vendor/adminlte/plugins/iCheck/icheck.min.js')}}"></script>
 
-    <script src="http://localhost:8000/vendor/adminlte/dist/js/adminlte.min.js"></script>
+    <script src="{{asset('vendor/adminlte/dist/js/adminlte.min.js')}}"></script>
+    <script src="{{ asset('js/app.js') }}"></script>
     <script type="text/javascript">
+        initServiceWorker();
         $('.select2').select2({
             width:'100%'
         });

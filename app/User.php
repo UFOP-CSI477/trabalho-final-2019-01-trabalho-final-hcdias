@@ -86,7 +86,12 @@ class User extends Authenticatable
     {
         return $this->hasMany('PesquisaProjeto\Extensao','orientador_id')
         ->orWhere('coorientador_id',$this->id);
-    }    
+    }
+
+    public function areaAtuacao()
+    {
+        return $this->belongsToMany('PesquisaProjeto\AreaPesquisa','professor_areas');
+    }
 
     public function hasAnyRole($roles)
     {

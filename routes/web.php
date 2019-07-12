@@ -20,7 +20,6 @@ Route::get('/', 'HomeController@exibir')->name('index');
 Route::post('/resultados', 'HomeController@pesquisar')->name('exibir_resultados');
 Route::get('/resultados', 'HomeController@exibir');
 Route::get('/home', 'HomeController@index')->name('home');
-Route::post('/notification', 'HomeController@notification')->name('not');
 
 Route::get('/login', [
 	'as'=>'login',
@@ -139,9 +138,82 @@ Route::group(['prefix'=>'tcc'],function(){
 	Route::get('/delete/{id}', [
 		'as'=>'deletar_tcc',
 		'uses'=>'TccController@destroy',
-		'roles'=>['admin','professor','aluno'],
+		'roles'=>['admin','aluno'],
 		'middleware'=>'roles'
 	]);
+});
+
+Route::group(['prefix'=>'proposta-tcc'],function(){
+	Route::get('/visualizar-proposta', [
+		'as'=>'visualizar_proposta',
+		'uses'=>'TccPropostaController@index',
+		'roles'=>['admin','aluno'],
+		'middleware'=>'roles'
+	]);
+
+
+	Route::get('/criar-proposta-tcc', [
+		'as'=>'criar_proposta_tcc',
+		'uses'=>'TccPropostaController@create',
+		'roles'=>['admin','aluno'],
+		'middleware'=>'roles'
+	]);	
+
+	Route::post('/salvar-proposta-tcc', [
+		'as'=>'salvar_proposta_tcc',
+		'uses'=>'TccPropostaController@store',
+		'roles'=>['admin','aluno'],
+		'middleware'=>'roles'
+	]);		
+
+	Route::get('/editar-proposta/{proposta}', [
+		'as'=>'editar_proposta_tcc',
+		'uses'=>'TccPropostaController@edit',
+		'roles'=>['admin','aluno'],
+		'middleware'=>'roles'
+	]);	
+
+	Route::get('/detalhar-proposta/{proposta}', [
+		'as'=>'detalhar_proposta_tcc',
+		'uses'=>'TccPropostaController@show',
+		'roles'=>['admin','aluno','professor'],
+		'middleware'=>'roles'
+	]);	
+
+	Route::get('/visualizar-proposta-professor', [
+		'as'=>'visualizar_proposta_professor',
+		'uses'=>'TccPropostaController@showPropostasProfessor',
+		'roles'=>['admin','professor'],
+		'middleware'=>'roles'
+	]);	
+	
+	Route::post('/atualizar-proposta-professor/{proposta}', [
+		'as'=>'atualizar_proposta_professor',
+		'uses'=>'TccPropostaController@updatePropostaProfessor',
+		'roles'=>['admin','professor'],
+		'middleware'=>'roles'
+	]);	
+
+	Route::post('/atualizar-proposta-tcc/{proposta}', [
+		'as'=>'atualizar_proposta_tcc',
+		'uses'=>'TccPropostaController@update',
+		'roles'=>['admin','aluno'],
+		'middleware'=>'roles'
+	]);		
+
+	Route::get('/area-interesse-professor/{id}', [
+		'as'=>'area_interesse_professor',
+		'uses'=>'TccPropostaController@areaInteresseProfessor',
+		'roles'=>['admin','aluno'],
+		'middleware'=>'roles'
+	]);		
+
+	Route::get('/delete/{id}', [
+		'as'=>'deletar_proposta_tcc',
+		'uses'=>'TccPropostaController@destroy',
+		'roles'=>['admin','aluno'],
+		'middleware'=>'roles'
+	]);		
 });
 
 Route::group(['prefix'=>'usuario'],function(){
@@ -150,7 +222,7 @@ Route::group(['prefix'=>'usuario'],function(){
 		'uses'=>'UserController@index',
 		'roles'=>'admin',
 		'middleware'=>'roles'
-		]);
+	]);
 
 	Route::get('/criar-usuario', [
 		'as'=>'criar_usuario',
@@ -207,6 +279,13 @@ Route::group(['prefix'=>'usuario'],function(){
 		'roles'=>['admin', 'professor', 'aluno'],
 		'middleware'=>'roles'
 		]);
+
+	Route::post('/store-token', [
+		'as'=>'store_token',
+		'uses'=>'UserController@storeProfileToken',
+		'roles'=>['admin','professor', 'aluno'],
+		'middleware'=>'roles'
+		]);	
 });
 
 Route::group(['prefix'=>'mestrado'],function(){

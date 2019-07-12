@@ -159,13 +159,39 @@ return [
                     'url'   => 'tcc/criar-tcc',
                     'icon'  => 'plus',
                     'roles' => ['admin','aluno'],
+                ],
+            ]
+        ],
+        [
+            'text'      => 'Propostas de TCC',
+            'url'       => '#',
+            'icon'      => 'lightbulb-o',
+            'roles'     => ['admin','aluno','professor'],
+            'submenu'   => [
+                [
+                    'text'  =>  'Visualizar',
+                    'url'   => 'proposta-tcc/visualizar-proposta',
+                    'icon'  => 'search',
+                    'roles' => ['admin','aluno']
+                ],
+                [
+                    'text'  => 'Cadastrar proposta',
+                    'url'   => 'proposta-tcc/criar-proposta-tcc',
+                    'icon'  => 'plus',
+                    'roles' => ['admin','aluno'],
+                ],
+                [
+                    'text'  => 'Visualizar propostas',
+                    'url'   => 'proposta-tcc/visualizar-proposta-professor',
+                    'icon'  => 'search',
+                    'roles' => ['admin','professor'],
                 ]
             ]
         ],
         [
             'text'        => 'Mestrado',
             'url'         => '#',
-            'icon'        => 'book',
+            'icon'        => 'mortar-board',
             'roles'       => ['admin','professor','aluno'],
             'submenu'     => [
                 [

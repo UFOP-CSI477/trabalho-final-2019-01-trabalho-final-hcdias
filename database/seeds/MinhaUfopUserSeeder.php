@@ -25,6 +25,7 @@ class MinhaUfopUserSeeder extends Seeder
         $user1->cpf = 1;
         $user1->group_id = $role_user->id;
         $user1->extra_group_id = $role_admin->id;
+        $user1->profile_picture = '/profile/default.png';
         $user1->save();
 
         $user2 = new MinhaUfopUser();
@@ -32,6 +33,7 @@ class MinhaUfopUserSeeder extends Seeder
         $user2->email = "professor2@ufop.br";
         $user2->cpf = 12;
         $user2->group_id = $role_user->id;
+        $user2->profile_picture = '/profile/default.png';
         $user2->save();
 
 
@@ -40,6 +42,7 @@ class MinhaUfopUserSeeder extends Seeder
         $user3->email = "professor3@ufop.br";
         $user3->cpf = 1237;
         $user3->group_id = $role_user->id;;
+        $user3->profile_picture = '/profile/default.png';
         $user3->save();
 
 
@@ -47,7 +50,8 @@ class MinhaUfopUserSeeder extends Seeder
         $user4->name = "professor4";
         $user4->email = "professor4@ufop.com";
         $user4->cpf = 12343;
-        $user4->group_id = $role_user->id;;
+        $user4->group_id = $role_user->id;
+        $user4->profile_picture = '/profile/default.png';
         $user4->save();
 
 
@@ -55,7 +59,8 @@ class MinhaUfopUserSeeder extends Seeder
         $user44->name = "professor5";
         $user44->email = "xixariy@key-mail.net";
         $user44->cpf = 12345678910;
-        $user44->group_id = $role_user->id;;
+        $user44->group_id = $role_user->id;
+        $user44->profile_picture = '/profile/default.png';
         $user44->save();
    
 
@@ -64,6 +69,7 @@ class MinhaUfopUserSeeder extends Seeder
         $user5->email = "aluno@ufop.com";
         $user5->cpf = 123;
         $user5->group_id = $role_aluno->id;
+        $user5->profile_picture = '/profile/default.png';
         $user5->save();
 
 
@@ -72,6 +78,7 @@ class MinhaUfopUserSeeder extends Seeder
         $user6->email = "aluno2@ufop.com";
         $user6->cpf = 1234567891;
         $user6->group_id = $role_aluno->id;;
+        $user6->profile_picture = '/profile/default.png';
         $user6->save();
 
 
@@ -80,6 +87,7 @@ class MinhaUfopUserSeeder extends Seeder
         $user7->email = "aluno1@ufop.com";
         $user7->cpf = 12345678912;
         $user7->group_id = $role_aluno->id;;
+        $user7->profile_picture = '/profile/default.png';
         $user7->save();
 
 

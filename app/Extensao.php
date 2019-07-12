@@ -3,9 +3,12 @@
 namespace PesquisaProjeto;
 
 use Illuminate\Database\Eloquent\Model;
+use PesquisaProjeto\Traits\ExtensaoEventsTrait;
 
 class Extensao extends Model
 {
+    use ExtensaoEventsTrait;
+    
     protected $fillable = [
 		'titulo',
 		'resumo',

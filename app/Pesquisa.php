@@ -4,8 +4,12 @@ namespace PesquisaProjeto;
 
 use Illuminate\Database\Eloquent\Model;
 
+use PesquisaProjeto\Traits\PesquisaEventsTrait;
+
 class Pesquisa extends Model
 {
+    use PesquisaEventsTrait;
+
 	protected $fillable = [
 		'titulo',
 		'resumo',
