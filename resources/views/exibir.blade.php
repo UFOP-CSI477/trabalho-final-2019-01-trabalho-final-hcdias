@@ -178,9 +178,9 @@
 </div>
     <!-- ./wrapper -->
 
-<script src="http://localhost:8000/vendor/adminlte/vendor/jquery/dist/jquery.min.js"></script>
-<script src="http://localhost:8000/vendor/adminlte/vendor/jquery/dist/jquery.slimscroll.min.js"></script>
-<script src="http://localhost:8000/vendor/adminlte/vendor/bootstrap/dist/js/bootstrap.min.js"></script>
+<script src="{{asset('/vendor/adminlte/vendor/jquery/dist/jquery.min.js')}}"></script>
+<script src="{{asset('/vendor/adminlte/vendor/jquery/dist/jquery.slimscroll.min.js')}}"></script>
+<script src="{{asset('/vendor/adminlte/vendor/bootstrap/dist/js/bootstrap.min.js')}}"></script>
 
     <!-- Select2 -->
     <script src="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
@@ -193,10 +193,12 @@
     <script src="//cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.0/Chart.bundle.min.js"></script>
 
     <!-- iCheck -->
-    <script src="http://localhost:8000/vendor/adminlte/plugins/iCheck/icheck.min.js"></script>
+    <script src="{{asset('/vendor/adminlte/plugins/iCheck/icheck.min.js')}}"></script>
 
-    <script src="http://localhost:8000/vendor/adminlte/dist/js/adminlte.min.js"></script>
+    <script src="{{asset('/vendor/adminlte/dist/js/adminlte.min.js')}}"></script>
+    <script src="{{ asset('js/app.js') }}"></script>
     <script type="text/javascript">
+        initServiceWorker();
         $('.select2').select2({
             width:'100%'
         });
