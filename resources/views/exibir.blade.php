@@ -151,7 +151,7 @@
                       <div class="col-md-3">
                           <div class="box box-primary">
                             <div class="box-body box-profile">
-                              <img class="profile-user-img img-responsive img-circle" src="{{ $pesquisa->orientador->profile_picture ? asset('storage/'.$pesquisa->orientador->profile_picture): '/media/mario.png' }}" alt="User profile picture">
+                              <img class="profile-user-img img-responsive img-circle" src="{{ $pesquisa->orientador->profile_picture ? asset('storage'.$pesquisa->orientador->profile_picture): '/media/mario.png' }}" alt="User profile picture">
 
                               <h3 class="profile-username text-center">{{$pesquisa->orientador->name ?? ""}}</h3>
 
