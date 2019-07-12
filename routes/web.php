@@ -180,13 +180,6 @@ Route::group(['prefix'=>'proposta-tcc'],function(){
 		'middleware'=>'roles'
 	]);	
 
-	Route::get('/detalhar-proposta-professor/{proposta}', [
-		'as'=>'detalhar_proposta_tcc_professor',
-		'uses'=>'TccPropostaController@detailPropostaProfessor',
-		'roles'=>['admin','professor'],
-		'middleware'=>'roles'
-	]);	
-
 	Route::get('/visualizar-proposta-professor', [
 		'as'=>'visualizar_proposta_professor',
 		'uses'=>'TccPropostaController@showPropostasProfessor',
@@ -213,7 +206,14 @@ Route::group(['prefix'=>'proposta-tcc'],function(){
 		'uses'=>'TccPropostaController@areaInteresseProfessor',
 		'roles'=>['admin','aluno'],
 		'middleware'=>'roles'
-	]);			
+	]);		
+
+	Route::get('/delete/{id}', [
+		'as'=>'deletar_proposta_tcc',
+		'uses'=>'TccPropostaController@destroy',
+		'roles'=>['admin','aluno'],
+		'middleware'=>'roles'
+	]);		
 });
 
 Route::group(['prefix'=>'usuario'],function(){
