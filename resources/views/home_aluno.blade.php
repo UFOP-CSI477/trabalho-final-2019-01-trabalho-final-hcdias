@@ -18,8 +18,8 @@
           <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
       </div>
         </div>
-        <div class="box-body no-padding">
-          <div class="google-calendar">
+        <div class="box-body no-padding ">
+          <div class="google-calendar responsive-calendar">
             <iframe src="https://calendar.google.com/calendar/embed?src=548rvo9tv5peavk3gqc3gosd6o%40group.calendar.google.com&ctz=America%2FSao_Paulo" style="border: 0" width="800" height="600" frameborder="0" scrolling="no"></iframe>
           </div>
         </div>

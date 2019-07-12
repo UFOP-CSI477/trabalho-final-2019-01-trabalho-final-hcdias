@@ -20,7 +20,6 @@ Route::get('/', 'HomeController@exibir')->name('index');
 Route::post('/resultados', 'HomeController@pesquisar')->name('exibir_resultados');
 Route::get('/resultados', 'HomeController@exibir');
 Route::get('/home', 'HomeController@index')->name('home');
-Route::post('/notification', 'HomeController@notification')->name('not');
 
 Route::get('/login', [
 	'as'=>'login',
@@ -214,6 +213,13 @@ Route::group(['prefix'=>'usuario'],function(){
 		'roles'=>['admin', 'professor', 'aluno'],
 		'middleware'=>'roles'
 		]);
+
+	Route::post('/store-token', [
+		'as'=>'store_token',
+		'uses'=>'UserController@storeProfileToken',
+		'roles'=>['admin','professor', 'aluno'],
+		'middleware'=>'roles'
+		]);	
 });
 
 Route::group(['prefix'=>'mestrado'],function(){

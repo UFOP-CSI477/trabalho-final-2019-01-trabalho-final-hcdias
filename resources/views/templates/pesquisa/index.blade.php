@@ -37,40 +37,42 @@
 		            </div>
 		            <!-- /.box-header -->
 		            <div class="box-body">
-		              	<table id="pesquisa" class="table table-bordered table-hover">
-			              <thead>
-			                <tr>
-			                  <th>Título</th>
-			                  <th class='text-center'>Status</th>
-			                  <th class='text-center'>Opções</th>
-			                </tr>
-			                </thead>
-			                <tbody>
-								@foreach($pesquisas as $pesquisa)
-									<tr>
-										<td>{{ $pesquisa->titulo }}</td>
-										<td class='text-center'>
-											<span class="label alert-status-{{$pesquisa->status->id}}">{{$pesquisa->status->descricao}}</span>
-										</td>
-										<td class='text-center'>
-											<a href="/pesquisa/editar-pesquisa/{{ $pesquisa->id }}" title='Editar'>
-			                  					<i class="fa fa-edit"></i>
-			                  				</a>
-			                  				
-			                  				&nbsp;&nbsp;
-			                  				<a href="/pesquisa/detalhar-pesquisa/{{ $pesquisa->id }}" title='Visualizar'>
-			                  					<i class="fa fa-eye"></i>
-			                  				</a>
+                        <div class="table-responsive">
+    		              	<table id="pesquisa" class="table table-bordered table-hover">
+    			              <thead>
+    			                <tr>
+    			                  <th>Título</th>
+    			                  <th class='text-center'>Status</th>
+    			                  <th class='text-center'>Opções</th>
+    			                </tr>
+    			                </thead>
+    			                <tbody>
+    								@foreach($pesquisas as $pesquisa)
+    									<tr>
+    										<td>{{ $pesquisa->titulo }}</td>
+    										<td class='text-center'>
+    											<span class="label alert-status-{{$pesquisa->status->id}}">{{$pesquisa->status->descricao}}</span>
+    										</td>
+    										<td class='text-center'>
+    											<a href="/pesquisa/editar-pesquisa/{{ $pesquisa->id }}" title='Editar'>
+    			                  					<i class="fa fa-edit"></i>
+    			                  				</a>
+    			                  				
+    			                  				&nbsp;&nbsp;
+    			                  				<a href="/pesquisa/detalhar-pesquisa/{{ $pesquisa->id }}" title='Visualizar'>
+    			                  					<i class="fa fa-eye"></i>
+    			                  				</a>
 
-			                  				&nbsp;&nbsp;
-											<a href="/pesquisa/delete/{{ $pesquisa->id }}" title='Apagar'>
-			                  					<i class="fa fa-trash"></i>
-			                  				</a>
-			                  			</td>
-									</tr>
-								@endforeach
-							</tbody>
-						</table>
+    			                  				&nbsp;&nbsp;
+    											<a href="/pesquisa/delete/{{ $pesquisa->id }}" title='Apagar'>
+    			                  					<i class="fa fa-trash"></i>
+    			                  				</a>
+    			                  			</td>
+    									</tr>
+    								@endforeach
+    							</tbody>
+    						</table>
+                        </div>
 					</div>
 				</div>
 			</div>

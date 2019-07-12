@@ -215,4 +215,17 @@ class UserController extends Controller
     {
        return LdapiAPIFacade::getUsersAPI($cpf);
     }
+
+    public function storeProfileToken(Request $request)
+    {   
+        $user = Auth::user();
+        $result = ['success'=>false];
+        if(($token = $request->get('token')) !== null){
+            $user->token = $token;
+            $user->save();
+            $result['success'] = true;
+        }
+
+        return json_encode($result);
+    }
 }

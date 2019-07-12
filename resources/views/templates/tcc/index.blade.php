@@ -29,40 +29,42 @@
 			           	</div>
 		            @endif
 		            <div class="box-body">
-		              	<table id="tcc" class="table table-bordered table-hover">
-			              <thead>
-			                <tr>
-			                  <th>Título</th>
-			                  <th class='text-center'>Status</th>
-			                  <th class='text-center'>Opções</th>
-			                </tr>
-			                </thead>
-			                <tbody>
-								@foreach($tccs as $tcc)
-									<tr>
-										<td>{{ $tcc->titulo }}</td>
-										<td class='text-center'>
-											<span class="label alert-status-{{$tcc->status->id}}">{{$tcc->status->descricao}}</span>
-										</td>
-										<td class='text-center'>
-											<a href="/tcc/editar-tcc/{{ $tcc->id }}" title='Editar'>
-			                  					<i class="fa fa-edit"></i>
-			                  				</a>
-			                  				
-			                  				&nbsp;&nbsp;
-			                  				<a href="/tcc/detalhar-tcc/{{ $tcc->id }}" title='Visualizar'>
-			                  					<i class="fa fa-eye"></i>
-			                  				</a>
+		            	<div class="table-responsive">
+			              	<table id="tcc" class="table table-bordered table-hover">
+				              <thead>
+				                <tr>
+				                  <th>Título</th>
+				                  <th class='text-center'>Status</th>
+				                  <th class='text-center'>Opções</th>
+				                </tr>
+				                </thead>
+				                <tbody>
+									@foreach($tccs as $tcc)
+										<tr>
+											<td>{{ $tcc->titulo }}</td>
+											<td class='text-center'>
+												<span class="label alert-status-{{$tcc->status->id}}">{{$tcc->status->descricao}}</span>
+											</td>
+											<td class='text-center'>
+												<a href="/tcc/editar-tcc/{{ $tcc->id }}" title='Editar'>
+				                  					<i class="fa fa-edit"></i>
+				                  				</a>
+				                  				
+				                  				&nbsp;&nbsp;
+				                  				<a href="/tcc/detalhar-tcc/{{ $tcc->id }}" title='Visualizar'>
+				                  					<i class="fa fa-eye"></i>
+				                  				</a>
 
-			                  				&nbsp;&nbsp;
-											<a href="/tcc/delete/{{ $tcc->id }}" title='Apagar'>
-			                  					<i class="fa fa-trash"></i>
-			                  				</a>
-			                  			</td>
-									</tr>
-								@endforeach
-							</tbody>
-						</table>
+				                  				&nbsp;&nbsp;
+												<a href="/tcc/delete/{{ $tcc->id }}" title='Apagar'>
+				                  					<i class="fa fa-trash"></i>
+				                  				</a>
+				                  			</td>
+										</tr>
+									@endforeach
+								</tbody>
+							</table>
+						</div>
 					</div>
 				</div>
 			</div>
