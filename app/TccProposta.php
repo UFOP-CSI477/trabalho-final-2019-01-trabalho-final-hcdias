@@ -16,7 +16,7 @@ class TccProposta extends Model
         'area_id',
         'titulo', 
         'descricao',
-        'status'
+        'status_id'
     ];
 
     public function orientador()
