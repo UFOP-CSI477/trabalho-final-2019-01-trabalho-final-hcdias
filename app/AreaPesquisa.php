@@ -6,10 +6,17 @@ use Illuminate\Database\Eloquent\Model;
 
 class AreaPesquisa extends Model
 {
-    public function pesquisas(){
+    public function pesquisas()
+    {
     	return $this->hasMany('PesquisaProjeto\Pesquisa');
     }
-    public function tccs(){
+    public function tccs()
+    {
     	return $this->hasMany('PesquisaProjeto\Tcc');
-    }    
+    }
+
+    public function professores()
+    {
+        return $this->belongsToMany('PesquisaProjeto\MinhaUfopUser','professor_areas');
+    }
 }
