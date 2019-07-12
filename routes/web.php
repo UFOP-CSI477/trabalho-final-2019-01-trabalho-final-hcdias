@@ -139,9 +139,16 @@ Route::group(['prefix'=>'tcc'],function(){
 	Route::get('/delete/{id}', [
 		'as'=>'deletar_tcc',
 		'uses'=>'TccController@destroy',
-		'roles'=>['admin','professor','aluno'],
+		'roles'=>['admin','aluno'],
 		'middleware'=>'roles'
 	]);
+
+	Route::get('/criar-proposta-tcc', [
+		'as'=>'criar_proposta_tcc',
+		'uses'=>'TccPropostaController@create',
+		'roles'=>['admin','aluno'],
+		'middleware'=>'roles'
+	]);	
 });
 
 Route::group(['prefix'=>'usuario'],function(){
