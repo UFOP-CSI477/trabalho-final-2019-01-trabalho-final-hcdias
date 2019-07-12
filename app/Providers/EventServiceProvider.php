@@ -27,6 +27,9 @@ class EventServiceProvider extends ServiceProvider
         ],
         'PesquisaProjeto\Events\ExtensaoEvent'=>[
             'PesquisaProjeto\Listeners\ExtensaoListener'
+        ],
+        'PesquisaProjeto\Events\TccPropostaEvent'=>[
+            'PesquisaProjeto\Listeners\TccPropostaListener'
         ]
     ];
 
